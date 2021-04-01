@@ -1,0 +1,8 @@
+export default COLOR = {
+    main: '#ff9f67',
+    background: '#fff2f2',
+    gray: '#c4c4c4',
+    black: '#bec1d32',
+    default: '#f2f2f2',
+    white: 'white'
+}
