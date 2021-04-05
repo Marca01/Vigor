@@ -6,7 +6,7 @@ export const globalStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		// padding: 24
-		backgroundColor: COLOR.background
+		backgroundColor: COLOR.white
 	}, 
 	subContainer: {
 		flex: 1,
@@ -24,15 +24,21 @@ export const globalStyles = StyleSheet.create({
 
 	// =================================================================
 	// Header.jsx
+	headerDiv: {
+		flex: 0.4,
+		backgroundColor: COLOR.background,
+		paddingBottom: 30,
+		borderBottomLeftRadius: 30,
+		borderBottomRightRadius: 30,
+	},
 	header: {
-		flex: 0.1,
+		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		// backgroundColor: 'red',
 		marginTop: StatusBar.currentHeight || 20,
 		// marginTop: 25
-		paddingHorizontal: 10
+		paddingHorizontal: 20
 	},		
 	header__logo: {
 		width: 120,
@@ -52,13 +58,13 @@ export const globalStyles = StyleSheet.create({
 	home__userMoods: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 		marginTop: 20,
 	},
 	home__userMoods__mood: {
-		width: 60,
-		height: 60,
-		borderRadius: 60 / 2,
+		width: 56,
+		height: 56,
+		borderRadius: 56 / 2,
 		borderWidth: 2.5,
 		borderStyle: 'solid',
 		borderColor: COLOR.main,
@@ -66,9 +72,9 @@ export const globalStyles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	home__userMoods__moodLinearBg: {
-		width: 48,
-		height: 48,
-		borderRadius: 48 / 2,
+		width: 44,
+		height: 44,
+		borderRadius: 44 / 2,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},	
@@ -78,23 +84,21 @@ export const globalStyles = StyleSheet.create({
 	},
 	posts: {
 		flex: 1,
-		// backgroundColor: COLOR.white,
-		// marginTop: 30,
-		// borderTopLeftRadius: 60, 
-		// borderTopRightRadius: 60, 
 	},
 	postDiv: {
 		flex: 1,
-		paddingHorizontal: 10,
+		paddingHorizontal: 20,
 		backgroundColor: COLOR.white,
+	},
+	postTitle: {
+		fontSize: 45,
+		fontWeight: 'bold',
 		marginTop: 30,
-		borderTopLeftRadius: 60, 
-		borderTopRightRadius: 60, 
-		paddingTop: 80,
+		marginBottom: 12,
 	},
 	post: {
+		flex: 1,
 		// backgroundColor: 'red',
-		
 	},
 	post__contentType: {
 
@@ -166,25 +170,116 @@ export const globalStyles = StyleSheet.create({
 		fontSize: 12,
 	},
 
-	// ================================
+	// ===============================================================
 	// new post button - HomeNavigation.js
 	newPostBtn_rout: {
-		width: 55,
-		height: 55,
-		borderRadius: 55 / 2,
-		borderWidth: 1,
-		borderColor: '#ffece3',
+		width: 56,
+		height: 56,
+		borderRadius: 56 / 2,
+		// borderWidth: 1,
+		// borderColor: '#ffece3',
 		backgroundColor: COLOR.white,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 20
+		marginBottom: 20,
+		shadowColor: COLOR.gray,
+		shadowOffset: {
+			width: 0,
+			height: 7,
+		},
+		shadowOpacity: 0.43,
+		shadowRadius: 9.51,
+
+		// elevation: 15,
 	},
 	newPostBtn_rin: {
-		width: 40,
-		height: 40,
-		borderRadius: 40 / 2,
+		width: 44,
+		height: 44,
+		borderRadius: 44 / 2,
 		backgroundColor: COLOR.main,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+
+	// ========================================================================
+	// Notification.jsx
+	notiTitle: {
+		marginTop: 25,
+		paddingHorizontal: 20
+	},
+	notiTitle_title: {
+		fontSize: 39,
+		fontWeight: 'bold',
+	},
+	notiToday: {
+		paddingHorizontal: 20,
+		marginTop: 30,
+		flex: 1,
+		// backgroundColor: 'red'
+	},
+	notiDiv: {
+		// backgroundColor: 'blue'
+	},
+	notiToday_labels: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: 25,
+	},
+	notiToday_labelToday: {
+		fontSize: 22,
+		fontWeight: 'bold'
+	},
+	notiToday_labelClear: {
+		fontSize: 16,
+		fontWeight: '500'
+	},
+	notiToday_notifications: {
+		// marginTop: 20,
+	},
+	notiToday_notiDetail: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 15,
+		// backgroundColor: 'blue'
+	},
+	notiToday_notiInfo: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		// backgroundColor: 'blue',
+		width: '65%',
+	},
+	notiToday_notiInfo_avatar: {
+		width: 42,
+		height: 42,
+		borderRadius: 42 / 2,
+		marginRight: 12,
+	},
+	notiToday_notiInfo_text: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'flex-start',
+		flexWrap: 'wrap',
+		// backgroundColor: 'red'
+	},
+	notiToday_notiInfo_username: {
+		fontWeight: 'bold'
+	},
+	notiToday_notiInfo_content: {
+		fontWeight: '400'
+	},
+	notiDetail_actionBtn: {
+		backgroundColor: COLOR.main,
+		borderRadius: 15,
+		paddingHorizontal: 15,
+		paddingVertical: 7,
+		width: 100,
+		alignItems: 'center',
+	},
+	notiDetail_actionBtn_text: {
+		color: COLOR.white,
+		fontSize: 16,
+		fontWeight: '600'
 	},
 });

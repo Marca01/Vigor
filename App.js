@@ -1,15 +1,22 @@
 import { NavigationContainer } from '@react-navigation/native'
-import { StatusBar } from 'expo-status-bar'
-import React, { useEffect, useState } from 'react'
-import { Alert, Button, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View, Image, ScrollView, FlatList, TouchableOpacity, DevSettings, KeyboardAvoidingView, Platform, Animated } from 'react-native'
-import Home from './src/components/screens/Vigor/Home'
-import SplashScreen from './src/components/screens/Vigor/splashScreen/SplashScreen'
+import React, { useEffect } from 'react'
 import HomeNavigation from './src/navigation/HomeNavigation'
-import { globalStyles } from './src/styles/global'
+import { StatusBar } from 'expo-status-bar'
+import * as SplashScreen from 'expo-splash-screen'
 
 export default function App() {
+
+  // SplashScreen.preventAutoHideAsync()
+
+  // useEffect(() => {
+  //   setTimeout(async () => {
+  //     await SplashScreen.hideAsync()
+  //   }, 5000)
+  // }, [])
+
   return (
-		<NavigationContainer>
+    <NavigationContainer>
+      <StatusBar style='dark' />
       <HomeNavigation />
     </NavigationContainer>
   )

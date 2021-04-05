@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import Home from '../components/screens/Vigor/Home'
 import SplashScreen from '../components/screens/Vigor/splashScreen/SplashScreen'
 import OnboardingScreen from '../components/screens/Vigor/onboardingScreen/OnboardingScreen'
@@ -18,15 +19,25 @@ import COLOR from '../constants/color'
 
 const HomeStack = createStackNavigator()
 const HomeTabs = createBottomTabNavigator()
+const ViewTabs = createMaterialTopTabNavigator()
 
+// Top tabs
+// const viewNavigator = () => {
+// 	return (
+// 		<ViewTabs.Navigator>
+// 			<ViewTabs.Screen  />
+// 		</ViewTabs.Navigator>
+// 	)
+// }
+
+// Bottom tabs
 const postNavigator = ({navigation}) => {
 	return (
 		<HomeTabs.Navigator 
 			initialRouteName='Home'
 			screenOptions={({route}) => ({
 				tabBarIcon: ({focused}) => {
-					const tintColor = focused ? COLOR.main : COLOR.black
-					// const tintColor = focused ? '#ff9f67' : 'grey'
+					const tintColor = focused ? COLOR.main : COLOR.grey
 
 					switch (route.name) {
 						case 'Home':
@@ -144,15 +155,15 @@ const postNavigator = ({navigation}) => {
 export default function HomeNavigation({navigation}) {
 	return (
 		<HomeStack.Navigator
-			initialRouteName='Splash'
+			initialRouteName='Onboarding'
 		>
-			<HomeStack.Screen 
+			{/* <HomeStack.Screen 
 				name='Splash' 
 				component={SplashScreen} 
 				options={{
 					headerShown: false
 				}}
-			/>
+			/> */}
 			<HomeStack.Screen 
 				name='Home' 
 				component={postNavigator} 
