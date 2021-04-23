@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native'
 import { globalStyles } from '../../../../styles/global'
+import NotiType from '../common/NotiCommon/NotiType'
+import Title from '../common/SpecialComponents/Title'
 
 export default function Notification() {
 
@@ -58,111 +60,31 @@ export default function Notification() {
 	return (
 		<View style={globalStyles.container}>
 			<View style={globalStyles.notiTitle}>
-				<Text style={globalStyles.notiTitle_title}>Notifications</Text>
+				<Title title='Notifications' />
 			</View>
 			<View style={globalStyles.notiToday}>
 				<FlatList 
 					data={NOTIFICATION}
 					renderItem={({item}) => (
 						item.id === '0' ? (
-							<View style={globalStyles.notiDiv}>
-								<View style={globalStyles.notiToday_labels}>
-									<Text style={globalStyles.notiToday_labelToday}>Today</Text>
-									<TouchableOpacity>
-										<Text style={globalStyles.notiToday_labelClear}>Clear</Text>
-									</TouchableOpacity>
-								</View>
-								<FlatList 
-									data={DETAIL_NOTIFICATION}
-									renderItem={({item}) => (
-										<View style={globalStyles.notiToday_notifications}>
-											<View style={globalStyles.notiToday_notiDetail}>
-												<View style={globalStyles.notiToday_notiInfo}>
-													<Image 
-														source={{uri: item.noti_avar}}
-														style={globalStyles.notiToday_notiInfo_avatar}
-													/>
-													<View style={globalStyles.notiToday_notiInfo_text}>
-														<Text style={globalStyles.notiToday_notiInfo_username}>
-															{item.noti_user}
-															<Text style={globalStyles.notiToday_notiInfo_content}>{item.noti_content}</Text>
-														</Text>
-													</View>
-												</View>
-												<TouchableOpacity style={globalStyles.notiDetail_actionBtn}>
-													<Text style={globalStyles.notiDetail_actionBtn_text}>Following</Text>
-												</TouchableOpacity>
-											</View>
-										</View>
-									)}
-									keyExtractor={item => item.id}
-								/>
-							</View>
+							<NotiType 
+								notifications={DETAIL_NOTIFICATION}
+								label='Today'
+							/>
 						) : item.id === '1' ? (
-							<View style={globalStyles.notiDiv}>
-								<View style={globalStyles.notiToday_labels}>
-									<Text style={globalStyles.notiToday_labelToday}>This Week</Text>
-								</View>
-								<FlatList 
-									data={DETAIL_NOTIFICATION}
-									renderItem={({item}) => (
-										<View style={globalStyles.notiToday_notifications}>
-											<View style={globalStyles.notiToday_notiDetail}>
-												<View style={globalStyles.notiToday_notiInfo}>
-													<Image 
-														source={{uri: item.noti_avar}}
-														style={globalStyles.notiToday_notiInfo_avatar}
-													/>
-													<View style={globalStyles.notiToday_notiInfo_text}>
-														<Text style={globalStyles.notiToday_notiInfo_username}>
-															{item.noti_user}
-															<Text style={globalStyles.notiToday_notiInfo_content}>{item.noti_content}</Text>
-														</Text>
-													</View>
-												</View>
-												<TouchableOpacity style={globalStyles.notiDetail_actionBtn}>
-													<Text style={globalStyles.notiDetail_actionBtn_text}>Follow</Text>
-												</TouchableOpacity>
-											</View>
-										</View>
-									)}
-									keyExtractor={item => item.id}
-								/>
-							</View>
+							<NotiType
+								notifications={DETAIL_NOTIFICATION}
+								label='This Week'
+							/>
 						) : item.id === '2' && (
-							<View style={globalStyles.notiDiv}>
-								<View style={globalStyles.notiToday_labels}>
-									<Text style={globalStyles.notiToday_labelToday}>Earlier</Text>
-								</View>
-								<FlatList 
-									data={DETAIL_NOTIFICATION}
-									renderItem={({item}) => (
-										<View style={globalStyles.notiToday_notifications}>
-											<View style={globalStyles.notiToday_notiDetail}>
-												<View style={globalStyles.notiToday_notiInfo}>
-													<Image 
-														source={{uri: item.noti_avar}}
-														style={globalStyles.notiToday_notiInfo_avatar}
-													/>
-													<View style={globalStyles.notiToday_notiInfo_text}>
-														<Text style={globalStyles.notiToday_notiInfo_username}>
-															{item.noti_user}
-															<Text style={globalStyles.notiToday_notiInfo_content}>{item.noti_content}</Text>
-														</Text>
-													</View>
-												</View>
-												<TouchableOpacity style={globalStyles.notiDetail_actionBtn}>
-													<Text style={globalStyles.notiDetail_actionBtn_text}>Follow</Text>
-												</TouchableOpacity>
-											</View>
-										</View>
-									)}
-									keyExtractor={item => item.id}
-								/>
-							</View>
+							<NotiType 
+								notifications={DETAIL_NOTIFICATION}
+								label='Earlier'
+							/>
 						) 
 					)}
 					keyExtractor={item => item.id}
+					showsVerticalScrollIndicator={false}
 				/>
 			</View>
 		</View>

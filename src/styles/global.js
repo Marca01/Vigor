@@ -30,6 +30,7 @@ export const globalStyles = StyleSheet.create({
 		paddingBottom: 30,
 		borderBottomLeftRadius: 30,
 		borderBottomRightRadius: 30,
+		marginBottom: 30,
 	},
 	header: {
 		flex: 1,
@@ -90,15 +91,10 @@ export const globalStyles = StyleSheet.create({
 		paddingHorizontal: 20,
 		backgroundColor: COLOR.white,
 	},
-	postTitle: {
-		fontSize: 45,
-		fontWeight: 'bold',
-		marginTop: 30,
-		marginBottom: 12,
-	},
 	post: {
 		flex: 1,
 		// backgroundColor: 'red',
+		marginTop: 12,
 	},
 	post__contentType: {
 
@@ -204,16 +200,13 @@ export const globalStyles = StyleSheet.create({
 	// ========================================================================
 	// Notification.jsx
 	notiTitle: {
-		marginTop: 25,
-		paddingHorizontal: 20
-	},
-	notiTitle_title: {
-		fontSize: 39,
-		fontWeight: 'bold',
+		marginTop: 30,
+		paddingHorizontal: 20,
+		// backgroundColor: 'red'
 	},
 	notiToday: {
 		paddingHorizontal: 20,
-		marginTop: 30,
+		marginTop: 10,
 		flex: 1,
 		// backgroundColor: 'red'
 	},
@@ -282,4 +275,41 @@ export const globalStyles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '600'
 	},
+
+	// =================================================================
+	// Library.jsx
+	libTitle: {
+		marginTop: 30,
+		paddingHorizontal: 20,
+	},
+	libComponents: {
+		marginTop: 50,
+		paddingHorizontal: 20,
+		paddingBottom: 30,
+		flexDirection: 'row',
+		flex: 1,
+		// backgroundColor: 'blue',
+		marginTop: 10,
+	},
+	libComponents__left: {
+		flex: 1,
+		justifyContent: 'space-around',
+	},
+	libComponents__right: {
+		flex: 1,
+		justifyContent: 'space-around',
+	},
+	libComponents__library: {
+		backgroundColor: COLOR.background,
+		padding: 12,
+		borderRadius: 15,
+	},
+	libComponents__label: {
+		fontSize: 30,
+		fontWeight: '600',
+		marginTop: 20,
+	},
+	libComponents__gap: {
+		flex: 0.15
+	}
 });

@@ -16,19 +16,35 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { globalStyles } from '../styles/global'
 import COLOR from '../constants/color'
+import Playlist from '../components/screens/Vigor/common/LibraryCommon/Playlist'
 
 const HomeStack = createStackNavigator()
 const HomeTabs = createBottomTabNavigator()
 const ViewTabs = createMaterialTopTabNavigator()
 
-// Top tabs
-// const viewNavigator = () => {
-// 	return (
-// 		<ViewTabs.Navigator>
-// 			<ViewTabs.Screen  />
-// 		</ViewTabs.Navigator>
-// 	)
-// }
+// Library navigator
+const library = ({navigation}) => {
+	return (
+		<HomeStack.Navigator
+			initialRouteName='Library'
+		>
+			<HomeStack.Screen 
+				name='Library'
+				component={Library} 
+				options={{
+					headerShown: false
+				}}
+			/>
+			<HomeStack.Screen 
+				name='Playlists'
+				component={Playlist} 
+				options={{
+					headerShown: false
+				}}
+			/>
+		</HomeStack.Navigator>
+	)
+}
 
 // Bottom tabs
 const postNavigator = ({navigation}) => {
@@ -143,7 +159,7 @@ const postNavigator = ({navigation}) => {
 			/>
 			<HomeTabs.Screen 
 				name='Library'
-				component={Library}
+				component={library}
 				options={{
 					headerShown: false
 				}}

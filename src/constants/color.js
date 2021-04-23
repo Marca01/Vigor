@@ -6,4 +6,5 @@ export default COLOR = {
     default: '#f2f2f2',
     white: 'white',
     grey: 'grey',
+    border: '#fcdede'
 }
