@@ -311,5 +311,203 @@ export const globalStyles = StyleSheet.create({
 	},
 	libComponents__gap: {
 		flex: 0.15
-	}
+	},
+
+	// =================================
+	// Playlist.jsx
+	playlistTitle: {
+		marginTop: 30,
+		paddingHorizontal: 20,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	playlistTitle__backIcon: {
+		marginRight: 10,
+	},
+	playlists: {
+		paddingHorizontal: 20,
+		flex: 1,
+		marginTop: 10,
+	},
+	playlists__createBtn: {
+		backgroundColor: COLOR.main,
+		borderRadius: 50,
+		paddingHorizontal: 25,
+		paddingVertical: 10,
+		alignSelf: 'flex-start',
+		marginTop: 30,
+		marginBottom: 30,
+	},
+	playlists__createBtn_text: {
+		color: COLOR.white,
+		fontSize: 20,
+		fontWeight: '500',
+	},
+	playlists__playlist: {
+
+	},
+	playlists__list: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 20,
+	},
+	playlists__list_content: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	playlists__list_thumb: {
+		width: 80,
+		height: 80,
+		borderRadius: 15,
+		marginRight: 20,
+	},
+	playlists__list_info: {
+
+	},
+	playlists__list_info_title: {
+		fontSize: 22,
+		fontWeight: '600',
+		marginBottom: 5,
+	},
+	playlists__list_info_user: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	playlists__list_info_creator: {
+		color: COLOR.gray, 
+		fontWeight: '500',
+		marginRight: 5,
+	},
+
+	// =================================
+	// PlaylistDetail.jsx
+	playlistDetail__backBtn: {
+		marginTop: 30,
+		paddingHorizontal: 20,
+		// backgroundColor: 'red'
+	},
+	playlistDetail__content: {
+		marginTop: 10,
+	},
+	playlistDetail: {
+		marginTop: 10,
+		paddingHorizontal: 20,
+	},
+	playlistDetail__intro: {
+		marginBottom: 25,
+	},
+	playlistDetail__info: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 10,
+	},
+	playlistDetail__thumb: {
+		width: 130,
+		height: 130,
+		borderRadius: 20,
+		marginRight: 30,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.00,
+		// elevation: 24,
+	},
+	playlistDetail__general: {
+		flex: 1,
+	},
+	playlistDetail__general_info: {
+
+	},
+	playlistDetail__general_stats: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	playlistDetail__general_stats_quantityNumber: {
+		color: COLOR.gray,
+		fontSize: 14,
+		fontWeight: '500',
+		marginBottom: 2,
+	},
+	playlistDetail__general_title: {
+		fontSize: 38,
+		fontWeight: '800',
+		marginBottom: 5,
+		width: '100%',
+	},
+	playlistDetail__general_creator: {
+		color: COLOR.gray,
+		fontSize: 18,
+		fontWeight: '500',
+		marginBottom: 15,
+	},
+	playlistDetail__general_options: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	playlistDetail__general_optionsImg: {
+		width: 24,
+		height: 24,
+		marginRight: '10%',
+	},
+	playlistDetail__btn: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginBottom: 40,
+	},
+	playlistDetail__playBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLOR.main,
+		flex: 0.7,
+		paddingVertical: 10,
+		borderRadius: 50,
+	},
+	playlistDetail__playBtn_label: {
+		color: COLOR.white,
+		fontSize: 18,
+		fontWeight: '700',
+		marginLeft: 8,
+	},
+	playlistDetail__detail: {
+
+	},
+	playlistDetail__list: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 20,
+	},
+	playlistDetail__list_content: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	playlistDetail__list_thumb: {
+		width: 80,
+		height: 80,
+		borderRadius: 15,
+		marginRight: 20,
+	},
+	playlistDetail__list_info: {
+		flex: 0.9,
+	},
+	playlistDetail__list_info_title: {
+		fontSize: 22,
+		fontWeight: '600',
+		marginBottom: 5,
+	},
+	playlistDetail__list_info_user: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	playlistDetail__list_info_creator: {
+		color: COLOR.gray, 
+		fontWeight: '500',
+		marginRight: 5,
+	},
 });
