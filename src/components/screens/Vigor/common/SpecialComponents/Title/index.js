@@ -4,6 +4,8 @@ import { titleStyle } from './style'
 
 export default function Title({title}) {
 	return (
-		<Text style={titleStyle.title}>{title}</Text>
+		<View style={titleStyle.container}>
+			<Text numberOfLines={1} style={titleStyle.title}>{title}</Text>
+		</View>
 	)
 }

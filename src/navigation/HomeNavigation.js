@@ -18,10 +18,14 @@ import { globalStyles } from '../styles/global'
 import COLOR from '../constants/color'
 import Playlist from '../components/screens/Vigor/common/LibraryCommon/Playlist/Playlist'
 import PlaylistDetail from '../components/screens/Vigor/common/LibraryCommon/Playlist/PlaylistDetail'
+import Artist from '../components/screens/Vigor/common/LibraryCommon/Artist/Artist'
+import ArtistDetail from '../components/screens/Vigor/common/LibraryCommon/Artist/ArtistDetail'
+import { ArtistDetailLayoutArtist, ArtistDetailLayoutContent } from '../components/screens/Vigor/common/LibraryCommon/Artist/ArtistDetailLayout'
+import HomePosts from '../components/screens/Vigor/common/HomeCommon/HomePosts'
 
 const HomeStack = createStackNavigator()
 const HomeTabs = createBottomTabNavigator()
-const ViewTabs = createMaterialTopTabNavigator()
+const TopTab = createMaterialTopTabNavigator()
 
 // Library navigator
 const library = ({navigation}) => {
@@ -39,6 +43,13 @@ const library = ({navigation}) => {
 			<HomeStack.Screen 
 				name='Playlists'
 				component={playlist} 
+				options={{
+					headerShown: false
+				}}
+			/>
+			<HomeStack.Screen 
+				name='Artist'
+				component={artist} 
 				options={{
 					headerShown: false
 				}}
@@ -70,6 +81,79 @@ const playlist = ({navigation}) => {
 		</HomeStack.Navigator>
 	)
 }
+
+// Artist navigator
+const artist = ({navigation}) => {
+	return (
+		<HomeStack.Navigator
+			initialRouteName='Artist'
+		>
+			<HomeStack.Screen 
+				name='Artist'
+				component={Artist}
+				options={{
+					headerShown: false
+				}} 
+			/>
+			<HomeStack.Screen 
+				name='ArtistDetail'
+				component={ArtistDetail}
+				options={{
+					headerShown: false
+				}} 
+			/>
+		</HomeStack.Navigator>
+	)
+}
+
+// ArtistDetail navigator
+// const artistsDetail = ({navigation}) => {
+// 	return (
+// 		<HomeStack.Navigator
+// 			initialRouteName='ArtistDetail'
+// 		>
+// 			<HomeStack.Screen
+// 				name='ArtistDetail'
+// 				component={ArtistDetail}
+// 				options={{
+// 					headerShown: false
+// 				}} 
+// 			/>
+// 			{/* <HomeStack.Screen
+// 				name='ArtistDetailTopTab'
+// 				component={artistDetailTopTab}
+// 				options={{
+// 					headerShown: false
+// 				}} 
+// 			/> */}
+// 			{/* <HomeStack.Screen
+// 				name='ArtistDetailLayoutArtist'
+// 				component={ArtistDetailLayoutArtist}
+// 				options={{
+// 					headerShown: false
+// 				}} 
+// 			/> */}
+// 		</HomeStack.Navigator>
+// 	)
+// }
+// const artistDetailTopTab = ({navigation}) => {
+// 	return (
+// 		<TopTab.Navigator
+// 			initialRouteName='ArtistMusic'
+// 		>
+// 			<TopTab.Screen
+// 				name='ArtistMusic'
+// 				component={ArtistDetailLayoutContent}
+// 			/>
+// 			<TopTab.Screen
+// 				name='ArtistPosts'
+// 				component={HomePosts}
+// 			/>
+// 		</TopTab.Navigator>
+// 	)
+// }
+
+// ======================================================================
 
 // Bottom tabs
 const postNavigator = ({navigation}) => {

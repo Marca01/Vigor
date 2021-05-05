@@ -16,21 +16,18 @@ export default function Playlist({navigation}) {
 			url: 'https://i.pinimg.com/564x/d3/d3/62/d3d362c198d7483aaf3e5852be209526.jpg',
 			title: 'Lofi',
 			creator: 'Marca',
-			createdAt: '2h'
 		},
 		{
 			id: '2', 
 			url: 'https://i.pinimg.com/564x/9a/54/fb/9a54fb3f939fbcd3a79bf1783d4aabaf.jpg',
-			title: 'Best of 2018',
+			title: 'Best of 2018 whfjhweofhjweihijwhejrhweprheo;jik',
 			creator: 'Marca',
-			createdAt: '4h'
 		},
 		{
 			id: '3', 
 			url: 'https://i.pinimg.com/564x/64/63/c4/6463c4f1447a1811eef2413de528c226.jpg',
-			title: 'Best of 2019',
+			title: 'Best of 2019 and to speak of solitude sfsdjfkl aslkdfjlf lhfsd fklgjs gersjf ;lasjdflkjas dfjkw',
 			creator: 'Marca',
-			createdAt: '5h'
 		},
 	]
 

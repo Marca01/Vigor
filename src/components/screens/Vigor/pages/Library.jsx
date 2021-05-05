@@ -38,6 +38,7 @@ export default function Library({navigation}) {
 						component='artists'
 						source={require('../../../../assets/images/artists.png')}
 						label='Artists'
+						onPress={() => navigation.navigate('Artist')}
 					/>
 					
 					{/* Videos */}

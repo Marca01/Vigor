@@ -202,7 +202,7 @@ export const globalStyles = StyleSheet.create({
 	notiTitle: {
 		marginTop: 30,
 		paddingHorizontal: 20,
-		// backgroundColor: 'red'
+		flexDirection: 'row',
 	},
 	notiToday: {
 		paddingHorizontal: 20,
@@ -281,6 +281,7 @@ export const globalStyles = StyleSheet.create({
 	libTitle: {
 		marginTop: 30,
 		paddingHorizontal: 20,
+		flexDirection: 'row',
 	},
 	libComponents: {
 		marginTop: 50,
@@ -317,12 +318,12 @@ export const globalStyles = StyleSheet.create({
 	// Playlist.jsx
 	playlistTitle: {
 		marginTop: 30,
-		paddingHorizontal: 20,
+		paddingHorizontal: 10,
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
 	playlistTitle__backIcon: {
-		marginRight: 10,
+		marginRight: 8,
 	},
 	playlists: {
 		paddingHorizontal: 20,
@@ -363,16 +364,12 @@ export const globalStyles = StyleSheet.create({
 		marginRight: 20,
 	},
 	playlists__list_info: {
-
+		flex: 1,
 	},
 	playlists__list_info_title: {
 		fontSize: 22,
 		fontWeight: '600',
 		marginBottom: 5,
-	},
-	playlists__list_info_user: {
-		flexDirection: 'row',
-		alignItems: 'center',
 	},
 	playlists__list_info_creator: {
 		color: COLOR.gray, 
@@ -384,11 +381,12 @@ export const globalStyles = StyleSheet.create({
 	// PlaylistDetail.jsx
 	playlistDetail__backBtn: {
 		marginTop: 30,
-		paddingHorizontal: 20,
+		paddingHorizontal: 10,
 		// backgroundColor: 'red'
 	},
 	playlistDetail__content: {
 		marginTop: 10,
+		flex: 1,
 	},
 	playlistDetail: {
 		marginTop: 10,
@@ -443,7 +441,7 @@ export const globalStyles = StyleSheet.create({
 		color: COLOR.gray,
 		fontSize: 18,
 		fontWeight: '500',
-		marginBottom: 15,
+		marginBottom: 20,
 	},
 	playlistDetail__general_options: {
 		flexDirection: 'row',
@@ -509,5 +507,385 @@ export const globalStyles = StyleSheet.create({
 		color: COLOR.gray, 
 		fontWeight: '500',
 		marginRight: 5,
+	},
+	playlistDetail__emptyPlaylist: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: '20%',
+	}, 
+	playlistDetail__emptyPlaylist_label: {
+		color: COLOR.gray,
+		fontSize: 45,
+		fontWeight: '700',
+	},
+
+	// =================================
+	// Artist.jsx
+	artistTitle: {
+		marginTop: 30,
+		paddingHorizontal: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	artistTitle__backIcon: {
+		marginRight: 8,
+	},
+	artists: {
+		paddingHorizontal: 20,
+		flex: 1,
+		marginTop: 10,
+	},
+	artists__search: {
+		backgroundColor: COLOR.inputBackground,
+		borderRadius: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingLeft: 15,
+		marginBottom: 30,
+	},
+	artists__searchInput: {
+		color: COLOR.grey,
+		marginLeft: 10,
+		fontSize: 16,
+		fontWeight: '600',
+		flex: 1,
+		paddingVertical: 10,
+	},
+	artists__artist: {
+
+	},
+	artists__list: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 20,
+	},
+	artists__list_content: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	artists__list_avatar: {
+		width: 80,
+		height: 80,
+		borderRadius: 80 / 2,
+		marginRight: 20,
+	},
+	artists__list_info: {
+		flex: 1,
+	},
+	artists__list_info_name: {
+		fontSize: 22,
+		fontWeight: '600',
+		marginBottom: 5,
+	},
+	artists__list_info_followersNumber: {
+		color: COLOR.gray, 
+		fontWeight: '500',
+	},
+
+	// =================================
+	// ArtistDetail.jsx
+	artistDetail__title: {
+		marginTop: 30,
+		paddingHorizontal: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	artistDetail__backIcon: {
+		marginRight: 8,
+	},
+	artistDetail__content: {
+		paddingHorizontal: 20,
+		flex: 1,
+		marginTop: 10,
+		marginBottom: 20,
+	},
+	artistDetail__artist: {
+
+	},
+	artistDetail__intro: {
+		backgroundColor: COLOR.background,
+		marginBottom: 25,
+		borderRadius: 30,
+		paddingHorizontal: 30,
+		paddingTop: 15,
+		paddingBottom: 20,
+		alignItems: 'center',
+		marginTop: 60,
+	},
+	artistDetail__intro_avatar: {
+		width: 100,
+		height: 100,
+		borderRadius: 100 / 2,
+		marginRight: 20,
+		position: 'relative',
+		bottom: 65,
+		marginBottom: -50,
+	},
+	artistDetail__intro_username: {
+		marginBottom: 40,
+	},
+	artistDetail__intro_username_name: {
+		fontSize: 30,
+		fontWeight: '800'
+	},
+	artistDetail__intro_stats: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		// backgroundColor: 'red',
+		width: '100%',
+		paddingTop: 20,
+		paddingHorizontal: 15,
+		borderTopWidth: 1,
+		borderTopColor: COLOR.inputBackground,
+	},
+	artistDetail__intro_stats_songs: {
+		alignItems: 'center',
+	},
+	artistDetail__intro_stats_postsNumber: {
+		fontSize: 18,
+		fontWeight: '700'
+	},
+	artistDetail__intro_stats_postsLabel: {
+
+	},
+	artistDetail__intro_stats_listeners: {
+		alignItems: 'center',
+	},
+	artistDetail__intro_stats_listenersNumber: {
+		fontSize: 18,
+		fontWeight: '700'
+	},
+	artistDetail__intro_stats_listenersLabel: {
+
+	},
+	artistDetail__intro_stats_followers: {
+		alignItems: 'center',
+	},
+	artistDetail__intro_stats_followersNumber: {
+		fontSize: 18,
+		fontWeight: '700'
+	},
+	artistDetail__intro_stats_followersLabel: {
+
+	},
+	artistDetail__btns: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 30,
+	},
+	artistDetail__followBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: COLOR.main,
+		flex: 0.7,
+		paddingVertical: 10,
+		borderRadius: 50,
+		flex: 0.475
+	},
+	artistDetail__followBtn_label: {
+		fontSize: 18,
+		fontWeight: '700',
+		marginLeft: 8,
+	},
+	artistDetail__playBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLOR.main,
+		flex: 0.7,
+		paddingVertical: 10,
+		borderRadius: 50,
+		flex: 0.475
+	},
+	artistDetail__playBtn_label: {
+		color: COLOR.white,
+		fontSize: 18,
+		fontWeight: '700',
+		marginLeft: 8,
+	},
+	artistDetail__body: {
+		// backgroundColor: 'red',
+		flex: 1,
+	},
+	// Song
+	artistDetail__songs: {
+		alignItems: 'center',
+		marginBottom: 25,
+	},
+	artistDetail__songs_title: {
+		fontSize: 22,
+		fontWeight: 'bold'
+	},
+	artistDetail__list: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		borderBottomWidth: 0.5,
+		borderBottomColor: COLOR.inputBackground,
+		paddingVertical: 15,
+	},
+	artistDetail__list_song: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	artistDetail__list_ordinalNumber: {
+		marginRight: 20,
+	},
+	artistDetail__list_ordinalNumber_number: {
+		fontSize: 18,
+		fontWeight: '500'
+	},
+	artistDetail__list_content: {
+		flexDirection: 'row',
+		flex: 0.92,
+	},
+	artistDetail__list_info: {
+		
+	},
+	artistDetail__list_info_title: {
+		fontSize: 20,
+		fontWeight: '600',
+		marginBottom: 5,
+	},
+	artistDetail__list_info_time: {
+
+	},
+	artistDetail__list_info_duration: {
+		color: COLOR.gray, 
+		fontWeight: '500',
+	},
+	artistDetail__list_options: {
+
+	},
+	artistDetail__song_moreBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: COLOR.main,
+		width: '50%',
+		paddingVertical: 10,
+		borderRadius: 50,
+	},
+	artistDetail__song_moreBtn_label: {
+		fontSize: 18,
+		fontWeight: '700',
+		marginLeft: 8,
+	},
+	// Video
+	artistDetail__videos: {
+		// backgroundColor: 'red',
+		flex: 1,
+	},
+	artistDetail__videos_title: {
+		fontSize: 22,
+		fontWeight: 'bold',
+		marginBottom: 15,
+	},
+	artistDetail__list_Vid: {
+		flexDirection: 'row',
+		marginBottom: 25,
+	},
+	artistDetail__list_video: {	
+		marginRight: 20,
+		width: 250,
+	},
+	artistDetail__list_video_thumbVideo: {
+		width: 250,
+		height: 150,
+		borderRadius: 20,
+		marginBottom: 10,
+	}, 
+	artistDetail__list_video_content: {
+		flexDirection: 'row',
+		alignItems: 'baseline',
+		justifyContent: 'space-between',
+	},
+	artistDetail__list_video_info: {
+		// backgroundColor: 'blue',
+		flex: 0.9,
+	}, 
+	artistDetail__list_info_infoTitle: {
+		fontSize: 20,
+		fontWeight: '600',
+		marginBottom: 5,
+		// backgroundColor: 'red'
+	},
+	artistDetail__video_moreBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: COLOR.main,
+		height: 30,
+		width: '20%',
+		paddingHorizontal: 10,
+		borderRadius: 50,
+		marginTop: 60,
+		marginRight: 68,
+	},
+	artistDetail__video_moreBtn_label: {
+		fontSize: 18,
+		fontWeight: '700',
+	},
+	// Playlist
+	artistDetail__playlists: {
+		// backgroundColor: 'red',
+		flex: 1,
+	},
+	artistDetail__playlists_title: {
+		fontSize: 22,
+		fontWeight: 'bold',
+		marginBottom: 15,
+	},
+	artistDetail__list_Pll: {
+		flexDirection: 'row',
+	},
+	artistDetail__list_playlist: {	
+		marginRight: 20,
+		width: 120,
+	},
+	artistDetail__list_playlist_thumbPlaylist: {
+		width: 120,
+		height: 120,
+		borderRadius: 20,
+		marginBottom: 10,
+	}, 
+	artistDetail__list_playlist_content: {
+		flexDirection: 'row',
+		alignItems: 'baseline',
+		justifyContent: 'space-between',
+	},
+	artistDetail__list_playlist_info: {
+		// backgroundColor: 'blue',
+		flex: 0.9,
+	}, 
+	artistDetail__list_info_infoTitle: {
+		fontSize: 20,
+		fontWeight: '600',
+		marginBottom: 5,
+		// backgroundColor: 'red'
+	},
+	artistDetail__playlist_moreBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: COLOR.main,
+		height: 30,
+		width: '20%',
+		paddingHorizontal: 10,
+		borderRadius: 50,
+		marginTop: 60,
+		// marginRight: 2,
+	},
+	artistDetail__playlist_moreBtn_label: {
+		fontSize: 18,
+		fontWeight: '700',
 	},
 });
