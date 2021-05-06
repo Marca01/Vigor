@@ -22,6 +22,8 @@ import Artist from '../components/screens/Vigor/common/LibraryCommon/Artist/Arti
 import ArtistDetail from '../components/screens/Vigor/common/LibraryCommon/Artist/ArtistDetail'
 import { ArtistDetailLayoutArtist, ArtistDetailLayoutContent } from '../components/screens/Vigor/common/LibraryCommon/Artist/ArtistDetailLayout'
 import HomePosts from '../components/screens/Vigor/common/HomeCommon/HomePosts'
+import Album from '../components/screens/Vigor/common/LibraryCommon/Album/Album'
+import AlbumDetail from '../components/screens/Vigor/common/LibraryCommon/Album/AlbumDetail'
 
 const HomeStack = createStackNavigator()
 const HomeTabs = createBottomTabNavigator()
@@ -50,6 +52,13 @@ const library = ({navigation}) => {
 			<HomeStack.Screen 
 				name='Artist'
 				component={artist} 
+				options={{
+					headerShown: false
+				}}
+			/>
+			<HomeStack.Screen 
+				name='Album'
+				component={album} 
 				options={{
 					headerShown: false
 				}}
@@ -101,6 +110,30 @@ const artist = ({navigation}) => {
 				options={{
 					headerShown: false
 				}} 
+			/>
+		</HomeStack.Navigator>
+	)
+}
+
+// Album navigator
+const album = ({navigation}) => {
+	return (
+		<HomeStack.Navigator
+			initialRouteName='Album'
+		>
+			<HomeStack.Screen 
+				name='Album'
+				component={Album}
+				options={{
+					headerShown: false
+				}}
+			/>
+			<HomeStack.Screen 
+				name='AlbumDetail'
+				component={AlbumDetail}
+				options={{
+					headerShown: false
+				}}
 			/>
 		</HomeStack.Navigator>
 	)

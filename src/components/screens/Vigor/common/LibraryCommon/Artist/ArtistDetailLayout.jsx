@@ -34,8 +34,8 @@ export function ArtistDetailLayoutArtist({avatar, artistName, artistPosts, artis
 			</View>
 			<View style={globalStyles.artistDetail__btns}>
 				<TouchableOpacity style={globalStyles.artistDetail__followBtn}>
-					<SimpleLineIcons name="user-follow" size={22} color="black" />
-					<Text style={globalStyles.artistDetail__followBtn_label}>Follow</Text>
+					<SimpleLineIcons name="user-follow" size={21} color="black" />
+					<Text style={globalStyles.artistDetail__followBtn_label}>Following</Text>
 				</TouchableOpacity>
 				<TouchableOpacity style={globalStyles.artistDetail__playBtn}>
 					<Ionicons name="shuffle" size={24} color="white" />
@@ -46,7 +46,7 @@ export function ArtistDetailLayoutArtist({avatar, artistName, artistPosts, artis
 	)
 }
 
-export function ArtistDetailLayoutContent({contentData, songData, videoData, playlistData}) {
+export function ArtistDetailLayoutContent({contentData, songData, videoData, playlistData, albumData}) {
 	return (
 		<View style={globalStyles.artistDetail__body}>
 			<FlatList 
@@ -62,14 +62,20 @@ export function ArtistDetailLayoutContent({contentData, songData, videoData, pla
 							label='Videos'
 							videoData={videoData}
 						/>
-					) : item.id === '2' && (
+					) : item.id === '2' ? (
 						<ArtistDetailLayoutPlaylists 
 							label='Playlists'
 							playlistData={playlistData}
 						/>
+					) : item.id === '3' && (
+						<ArtistDetailLayoutAlbums 
+							label='Albums'
+							albumData={albumData}
+						/>
 					)
 				)}
 				keyExtractor={item => item.id}
+				listKey='fhwioejf'
 			/>
 		</View>
 	)
@@ -232,6 +238,67 @@ export function ArtistDetailLayoutPlaylists({label, playlistData}) {
 									/>
 									<View style={globalStyles.artistDetail__list_playlist_content}>
 										<View style={globalStyles.artistDetail__list_playlist_info}>
+											<Text numberOfLines={1} style={globalStyles.artistDetail__list_info_infoTitle}>{item.title}</Text>
+										</View>
+										<View style={globalStyles.artistDetail__list_options}>
+											<AntDesign name="hearto" size={18} color="#ff9f67" />
+										</View>
+									</View>
+								</View>
+							</TouchableOpacity>
+						)
+					)}
+					keyExtractor={item => item.id}
+					horizontal
+					showsHorizontalScrollIndicator={false}
+				/>
+			</View>
+		</>
+	)
+}
+export function ArtistDetailLayoutAlbums({label, albumData}) {
+	return (
+		<>
+			<Text style={globalStyles.artistDetail__albums_title}>{label}</Text>
+			<View style={globalStyles.artistDetail__albums}>
+				<FlatList 
+					data={albumData}
+					renderItem={({item, index}) => (
+						index >= albumData.length - 1 ? (
+							<>
+								<TouchableOpacity
+									style={globalStyles.artistDetail__list_Pll}
+								>
+									<View style={globalStyles.artistDetail__list_album}>
+										<Image
+											source={{uri: item.url}}
+											style={globalStyles.artistDetail__list_album_thumbAlbum}
+										/>
+										<View style={globalStyles.artistDetail__list_album_content}>
+											<View style={globalStyles.artistDetail__list_album_info}>
+												<Text numberOfLines={2} style={globalStyles.artistDetail__list_info_infoTitle}>{item.title}</Text>
+											</View>
+											<View style={globalStyles.artistDetail__list_options}>
+												<AntDesign name="hearto" size={18} color="#ff9f67" />
+											</View>
+										</View>
+									</View>
+								</TouchableOpacity>
+								<TouchableOpacity style={globalStyles.artistDetail__album_moreBtn}>
+									<Text style={globalStyles.artistDetail__album_moreBtn_label}>More</Text>
+								</TouchableOpacity>
+							</>
+						) : (
+							<TouchableOpacity
+								style={globalStyles.artistDetail__list_Ab}
+							>
+								<View style={globalStyles.artistDetail__list_album}>
+									<Image
+										source={{uri: item.url}}
+										style={globalStyles.artistDetail__list_album_thumbAlbum}
+									/>
+									<View style={globalStyles.artistDetail__list_album_content}>
+										<View style={globalStyles.artistDetail__list_album_info}>
 											<Text numberOfLines={1} style={globalStyles.artistDetail__list_info_infoTitle}>{item.title}</Text>
 										</View>
 										<View style={globalStyles.artistDetail__list_options}>

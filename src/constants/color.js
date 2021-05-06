@@ -7,5 +7,6 @@ export default COLOR = {
     white: 'white',
     grey: 'grey',
     border: '#fcdede',
-    inputBackground: '#e5e5e5'
+    inputBackground: '#e5e5e5',
+    inactive: '#acacac'
 }

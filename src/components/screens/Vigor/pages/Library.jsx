@@ -24,6 +24,7 @@ export default function Library({navigation}) {
 					<LibLayout 
 						source={require('../../../../assets/images/album.png')}
 						label='Albums'
+						onPress={() => navigation.navigate('Album')}
 					/>
 					{/* Songs */}
 					<LibLayout 
@@ -50,7 +51,7 @@ export default function Library({navigation}) {
 					{/* Images */}
 					<LibLayout 
 						source={require('../../../../assets/images/image.png')}
-						label='Images'
+						label='Custom'
 					/>
 				</View>
 			</View>

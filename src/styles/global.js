@@ -674,7 +674,7 @@ export const globalStyles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
-		marginBottom: 30,
+		marginBottom: 15,
 	},
 	artistDetail__followBtn: {
 		flexDirection: 'row',
@@ -712,7 +712,7 @@ export const globalStyles = StyleSheet.create({
 		// backgroundColor: 'red',
 		flex: 1,
 	},
-	// Song
+	// SONG
 	artistDetail__songs: {
 		alignItems: 'center',
 		marginBottom: 25,
@@ -777,7 +777,7 @@ export const globalStyles = StyleSheet.create({
 		fontWeight: '700',
 		marginLeft: 8,
 	},
-	// Video
+	// VIDEO
 	artistDetail__videos: {
 		// backgroundColor: 'red',
 		flex: 1,
@@ -833,10 +833,11 @@ export const globalStyles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: '700',
 	},
-	// Playlist
+	// PLAYLIST
 	artistDetail__playlists: {
 		// backgroundColor: 'red',
 		flex: 1,
+		marginBottom: 15,
 	},
 	artistDetail__playlists_title: {
 		fontSize: 22,
@@ -886,6 +887,267 @@ export const globalStyles = StyleSheet.create({
 	},
 	artistDetail__playlist_moreBtn_label: {
 		fontSize: 18,
+		fontWeight: '700',
+	},
+	// ALBUM
+	artistDetail__albums: {
+		// backgroundColor: 'red',
+		flex: 1,
+	},
+	artistDetail__albums_title: {
+		fontSize: 22,
+		fontWeight: 'bold',
+		marginBottom: 15,
+	},
+	artistDetail__list_Ab: {
+		flexDirection: 'row',
+	},
+	artistDetail__list_album: {	
+		marginRight: 20,
+		width: 120,
+	},
+	artistDetail__list_album_thumbAlbum: {
+		width: 120,
+		height: 120,
+		borderRadius: 20,
+		marginBottom: 10,
+	}, 
+	artistDetail__list_album_content: {
+		flexDirection: 'row',
+		alignItems: 'baseline',
+		justifyContent: 'space-between',
+	},
+	artistDetail__list_album_info: {
+		// backgroundColor: 'blue',
+		flex: 0.9,
+	}, 
+	artistDetail__list_info_infoTitle: {
+		fontSize: 20,
+		fontWeight: '600',
+		marginBottom: 5,
+		// backgroundColor: 'red'
+	},
+	artistDetail__album_moreBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderWidth: 1,
+		borderColor: COLOR.main,
+		height: 30,
+		width: '20%',
+		paddingHorizontal: 10,
+		borderRadius: 50,
+		marginTop: 60,
+		// marginRight: 2,
+	},
+	artistDetail__album_moreBtn_label: {
+		fontSize: 18,
+		fontWeight: '700',
+	},
+
+	// =================================
+	// Album.jsx
+	albumTitle: {
+		marginTop: 30,
+		paddingHorizontal: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	albumTitle__backIcon: {
+		marginRight: 8,
+	},
+	albums: {
+		paddingHorizontal: 20,
+		flex: 1,
+		marginTop: 10,
+	},
+	albums__search: {
+		backgroundColor: COLOR.inputBackground,
+		borderRadius: 10,
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingLeft: 15,
+		marginBottom: 30,
+	},
+	albums__searchInput: {
+		color: COLOR.grey,
+		marginLeft: 10,
+		fontSize: 16,
+		fontWeight: '600',
+		flex: 1,
+		paddingVertical: 10,
+	},
+	albums__album: {
+
+	},
+	albums__list: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 20,
+	},
+	albums__list_content: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	albums__list_avatar: {
+		width: 80,
+		height: 80,
+		borderRadius: 15,
+		marginRight: 20,
+	},
+	albums__list_info: {
+		flex: 1,
+	},
+	albums__list_info_title: {
+		fontSize: 22,
+		fontWeight: '600',
+		marginBottom: 5,
+	},
+	albums__list_info_artist: {
+		color: COLOR.gray, 
+		fontWeight: '500',
+	},
+
+	// =================================
+	// AlbumDetail.jsx
+	albumDetail__backBtn: {
+		marginTop: 30,
+		paddingHorizontal: 10,
+		// backgroundColor: 'red'
+	},
+	albumDetail__content: {
+		marginTop: 10,
+		flex: 1,
+	},
+	albumDetail: {
+		marginTop: 10,
+		paddingHorizontal: 20,
+	},
+	albumDetail__intro: {
+		marginBottom: 25,
+	},
+	albumDetail__info: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 10,
+	},
+	albumDetail__thumb: {
+		width: 130,
+		height: 130,
+		borderRadius: 20,
+		marginRight: 30,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 12,
+		},
+		shadowOpacity: 0.58,
+		shadowRadius: 16.00,
+		// elevation: 24,
+	},
+	albumDetail__general: {
+		flex: 1,
+	},
+	albumDetail__general_info: {
+
+	},
+	albumDetail__general_stats: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+	},
+	albumDetail__general_stats_quantityNumber: {
+		color: COLOR.gray,
+		fontSize: 14,
+		fontWeight: '500',
+		marginBottom: 2,
+	},
+	albumDetail__general_title: {
+		fontSize: 38,
+		fontWeight: '800',
+		marginBottom: 5,
+		width: '100%',
+	},
+	albumDetail__general_creator: {
+		color: COLOR.gray,
+		fontSize: 18,
+		fontWeight: '500',
+		marginBottom: 20,
+	},
+	albumDetail__general_options: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	albumDetail__general_optionsImg: {
+		width: 24,
+		height: 24,
+		marginRight: '10%',
+	},
+	albumDetail__btn: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginBottom: 40,
+	},
+	albumDetail__playBtn: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: COLOR.main,
+		flex: 0.7,
+		paddingVertical: 10,
+		borderRadius: 50,
+	},
+	albumDetail__playBtn_label: {
+		color: COLOR.white,
+		fontSize: 18,
+		fontWeight: '700',
+		marginLeft: 8,
+	},
+	albumDetail__detail: {
+
+	},
+	albumDetail__list: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 20,
+	},
+	albumDetail__list_content: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	albumDetail__list_thumb: {
+		width: 80,
+		height: 80,
+		borderRadius: 15,
+		marginRight: 20,
+	},
+	albumDetail__list_info: {
+		flex: 0.9,
+	},
+	albumDetail__list_info_title: {
+		fontSize: 22,
+		fontWeight: '600',
+		marginBottom: 5,
+	},
+	albumDetail__list_info_user: {
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
+	albumDetail__list_info_creator: {
+		color: COLOR.gray, 
+		fontWeight: '500',
+		marginRight: 5,
+	},
+	albumDetail__emptyAlbum: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: '20%',
+	}, 
+	albumDetail__emptyAlbum_label: {
+		color: COLOR.gray,
+		fontSize: 45,
 		fontWeight: '700',
 	},
 });
