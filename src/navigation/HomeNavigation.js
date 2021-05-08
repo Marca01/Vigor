@@ -24,6 +24,8 @@ import { ArtistDetailLayoutArtist, ArtistDetailLayoutContent } from '../componen
 import HomePosts from '../components/screens/Vigor/common/HomeCommon/HomePosts'
 import Album from '../components/screens/Vigor/common/LibraryCommon/Album/Album'
 import AlbumDetail from '../components/screens/Vigor/common/LibraryCommon/Album/AlbumDetail'
+import Video from '../components/screens/Vigor/common/LibraryCommon/Video/Video'
+import Song from '../components/screens/Vigor/common/LibraryCommon/Song/Song'
 
 const HomeStack = createStackNavigator()
 const HomeTabs = createBottomTabNavigator()
@@ -59,6 +61,20 @@ const library = ({navigation}) => {
 			<HomeStack.Screen 
 				name='Album'
 				component={album} 
+				options={{
+					headerShown: false
+				}}
+			/>
+			<HomeStack.Screen 
+				name='Video'
+				component={video} 
+				options={{
+					headerShown: false
+				}}
+			/>
+			<HomeStack.Screen 
+				name='Song'
+				component={song} 
 				options={{
 					headerShown: false
 				}}
@@ -138,6 +154,38 @@ const album = ({navigation}) => {
 		</HomeStack.Navigator>
 	)
 }
+
+// Video navigator
+const video = ({navigation}) => {
+	return (
+		<HomeStack.Navigator>
+			<HomeStack.Screen 
+				name='Video'
+				component={Video}
+				options={{
+					headerShown: false
+				}}
+			/>
+		</HomeStack.Navigator>
+	)
+} 
+
+// Song navigator
+const song = ({navigation}) => {
+	return (
+		<HomeStack.Navigator>
+			<HomeStack.Screen 
+				name='Song'
+				component={Song}
+				options={{
+					headerShown: false
+				}}
+			/>
+		</HomeStack.Navigator>
+	)
+} 
+
+
 
 // ArtistDetail navigator
 // const artistsDetail = ({navigation}) => {

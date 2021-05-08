@@ -30,6 +30,7 @@ export default function Library({navigation}) {
 					<LibLayout 
 						source={require('../../../../assets/images/song.png')}
 						label='Songs'
+						onPress={() => navigation.navigate('Song')}
 					/>
 				</View>
 				<View style={globalStyles.libComponents__gap}></View>
@@ -46,6 +47,7 @@ export default function Library({navigation}) {
 					<LibLayout 
 						source={require('../../../../assets/images/video.png')}
 						label='Videos'
+						onPress={() => navigation.navigate('Video')}
 					/>
 					
 					{/* Images */}
