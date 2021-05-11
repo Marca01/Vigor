@@ -5,7 +5,7 @@ import HomePosts from "./common/HomeCommon/HomePosts";
 import Title from "./common/SpecialComponents/Title";
 import Header from "./header/Header";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const ORDER = [{ id: "0" }, { id: "1" }];
 
   const POSTS = [
@@ -29,6 +29,16 @@ export default function Home() {
       createdAt: "10 hours",
       comments: "1k",
     },
+    {
+      id: "3",
+      creator: "Marca",
+      avatar: require("../../../assets/images/avatar.jpg"),
+      audContent: require("../../../assets/audio/demo.mp3"),
+      title: "Cover Lorem Ipsum is simply dummy text of",
+      likes: "10k",
+      createdAt: "10 hours",
+      comments: "1k",
+    },
   ];
 
   return (
@@ -45,7 +55,7 @@ export default function Home() {
               item.id === "0" ? (
                 <Title title="Posts" />
               ) : (
-                <HomePosts posts={POSTS} />
+                <HomePosts posts={POSTS} navigation={navigation} />
               )
             }
             keyExtractor={(item) => item.id}

@@ -1,13 +1,37 @@
-import React, { useRef } from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, FlatList, Image, Button } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Avatar } from "react-native-paper";
 import { globalStyles } from "../../../../../styles/global";
 import { Video } from "expo-av";
+import { Audio } from "expo-av";
 
-export default function HomePosts({ posts }) {
+export default function HomePosts({ posts, navigation }) {
   const video = useRef(null);
+
+  const [sound, setSound] = useState();
+
+  async function playSound(aud) {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      // require("../../../../../assets/audio/demo.mp3")
+      aud
+    );
+    setSound(sound);
+
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   return (
     <View>
@@ -28,6 +52,15 @@ export default function HomePosts({ posts }) {
                     isLooping
                     // onPlaybackStatusUpdate={status => setStatus(() => status)}
                   />
+                )}
+                {item.audContent && (
+                  // <View>
+                  <Button
+                    title="Play Sound"
+                    // onPress={() => playSound(item.audContent)}
+                    onPress={() => navigation.navigate("Player")}
+                  />
+                  // {/* </View> */}
                 )}
               </View>
               <View style={globalStyles.post__contentTitle}>

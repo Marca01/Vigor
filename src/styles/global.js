@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, StyleSheet } from "react-native";
+import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import COLOR from "../constants/color";
 
 export const globalStyles = StyleSheet.create({
@@ -1301,4 +1301,173 @@ export const globalStyles = StyleSheet.create({
   // 	fontSize: 18,
   // 	fontWeight: '700',
   // },
+
+  // =================================
+  // Explore.jsx
+  exploreTitle: {
+    marginTop: 30,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+  },
+  explore: {
+    flex: 1,
+    marginTop: 10,
+  },
+  explore__search: {
+    backgroundColor: COLOR.inputBackground,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 15,
+    marginBottom: 30,
+    marginHorizontal: 20,
+  },
+  explore__searchInput: {
+    color: COLOR.grey,
+    marginLeft: 10,
+    fontSize: 16,
+    fontWeight: "600",
+    flex: 1,
+    paddingVertical: 10,
+  },
+  explore__explore: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  explore__row: {
+    width: "100%",
+    // backgroundColor: "blue",
+    marginBottom: 20,
+  },
+
+  explore__rowRight: {
+    flex: 0.5,
+    marginBottom: 20,
+  },
+  explore__genreAvatar: {
+    width: 150,
+    height: 150,
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    // backgroundColor: "yellow",
+  },
+  explore__genre: {
+    color: COLOR.white,
+    fontSize: 22,
+    fontWeight: "600",
+  },
+
+  // =================================
+  // Player.jsx
+  playerHeader: {
+    marginTop: 30,
+    paddingHorizontal: 20,
+    // backgroundColor: COLOR.background,
+  },
+  playerContent: {
+    paddingHorizontal: 20,
+    // backgroundColor: COLOR.background,
+  },
+  playerThumbnail: {
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: COLOR.inactive,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.7,
+    shadowRadius: 16.0,
+    marginTop: 30,
+  },
+  playerThumbnail__thumb: {
+    width: 280,
+    height: 280,
+    borderRadius: 30,
+  },
+  playerInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    marginTop: 30,
+    marginBottom: 40,
+  },
+  playerInfo__details: {
+    alignItems: "center",
+    flex: 1,
+  },
+  playerInfo__heart: {
+    backgroundColor: COLOR.white,
+    shadowColor: COLOR.white,
+    shadowOffset: {
+      width: 15,
+      height: -3,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 2.5,
+    position: "relative",
+    zIndex: 10,
+    height: 30,
+  },
+  playerInfo__details_shadowName: {},
+  playerInfo__details_name: {
+    fontSize: 39,
+    fontWeight: "800",
+  },
+  playerInfo__details_artist: {
+    color: COLOR.gray,
+    fontSize: 23,
+    fontWeight: "600",
+  },
+  playerInfo__option: {
+    backgroundColor: COLOR.white,
+    shadowColor: COLOR.white,
+    shadowOffset: {
+      width: -15,
+      height: -3,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 2.5,
+    position: "relative",
+    zIndex: 10,
+    height: 33,
+  },
+  playerControl: {},
+  playerControl__track: {},
+  playerControl__control: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  playerControl__control_controller: {
+    flexDirection: "row",
+    flex: 0.7,
+    justifyContent: "space-between",
+    alignItems: "center",
+    // backgroundColor: "red",
+  },
+  playerControl__control_prev: {},
+  playerControl__control_prevIcon_disabled: {
+    color: COLOR.gray,
+  },
+  playerControl__control_prevIcon: {
+    color: COLOR.main,
+  },
+  playerControl__control_playPause: {
+    backgroundColor: COLOR.main,
+    width: 72,
+    height: 72,
+    borderRadius: 72 / 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  playerControl__control_next: {},
+  playerControl__control_nextIcon_disabled: {
+    color: COLOR.gray,
+  },
+  playerControl__control_nextIcon: {
+    color: COLOR.main,
+  },
 });
