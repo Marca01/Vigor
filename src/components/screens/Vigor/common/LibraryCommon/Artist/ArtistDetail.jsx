@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -21,9 +21,25 @@ import ArtistLayout from "./ArtistLayout";
 import { Ionicons } from "@expo/vector-icons";
 import Title from "../../SpecialComponents/Title";
 import COLOR from "../../../../../../constants/color";
+import { getFollowPosts, getUserPosts } from "../../../../../../api";
 
 export default function ArtistDetail({ navigation, route }) {
   const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }, { id: "2" }, { id: "3" }];
+
+  const [posts, setPosts] = useState([]);
+
+  const [followUserId, setFollowUserId] = useState(null);
+
+  //
+  useEffect(() => {
+    getUserPosts(route.params?.item._id)
+      .then((res) => {
+        setPosts(res.data);
+        // console.log(posts);
+        console.log(posts);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const ARTIST_SONGS = [
     {
@@ -177,28 +193,28 @@ export default function ArtistDetail({ navigation, route }) {
     },
   ];
 
-  const POSTS = [
-    {
-      id: "1",
-      creator: "KHale",
-      avatar: require("../../../../../../assets/images/avatar.jpg"),
-      vidContent: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-      title: "Cover Lorem Ipsum is simply dummy text of",
-      likes: "10k",
-      createdAt: "10 hours",
-      comments: "1k",
-    },
-    {
-      id: "2",
-      creator: "Marca",
-      avatar: require("../../../../../../assets/images/avatar.jpg"),
-      vidContent: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-      title: "Cover Lorem Ipsum is simply dummy text of",
-      likes: "10k",
-      createdAt: "10 hours",
-      comments: "1k",
-    },
-  ];
+  // const POSTS = [
+  //   {
+  //     id: "1",
+  //     creator: "KHale",
+  //     avatar: require("../../../../../../assets/images/avatar.jpg"),
+  //     vidContent: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //     title: "Cover Lorem Ipsum is simply dummy text of",
+  //     likes: "10k",
+  //     createdAt: "10 hours",
+  //     comments: "1k",
+  //   },
+  //   {
+  //     id: "2",
+  //     creator: "Marca",
+  //     avatar: require("../../../../../../assets/images/avatar.jpg"),
+  //     vidContent: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //     title: "Cover Lorem Ipsum is simply dummy text of",
+  //     likes: "10k",
+  //     createdAt: "10 hours",
+  //     comments: "1k",
+  //   },
+  // ];
 
   function ArtistDetailLayoutContentt() {
     return (
@@ -213,7 +229,13 @@ export default function ArtistDetail({ navigation, route }) {
   }
 
   function ArtistDetailPosts() {
-    return <HomePosts posts={POSTS} />;
+    return (
+      // <HomePosts
+      //   posts={posts}
+      //   getUserFollowId={(userFollowId) => setFollowUserId(userFollowId)}
+      // />
+      <Text>sdfsd</Text>
+    );
   }
 
   // Tab view
@@ -228,7 +250,7 @@ export default function ArtistDetail({ navigation, route }) {
     { key: "first", title: "Music" },
     { key: "second", title: "Posts" },
   ]);
-
+  console.log("render artist");
   return (
     // <ArtistLayout
     // 	artistName={route.params?.item.artist}
@@ -247,7 +269,7 @@ export default function ArtistDetail({ navigation, route }) {
           onPress={() => navigation.goBack()}
           style={globalStyles.artistDetail__backIcon}
         />
-        <Title title={route.params?.item?.artist} />
+        <Title title={route.params?.item?.username} />
       </View>
       <View style={globalStyles.artistDetail__content}>
         <FlatList
@@ -255,11 +277,14 @@ export default function ArtistDetail({ navigation, route }) {
           renderItem={({ item }) => (
             <>
               <ArtistDetailLayoutArtist
-                avatar={{ uri: item.url }}
-                artistName={item.artist}
-                artistPosts={ARTIST_SONGS.length}
-                artistListeners={item.listeners}
-                artistFollowers={item.followers}
+                avatar={{ uri: item.profilePicture }}
+                artistName={item.username}
+                artistPosts={posts.length}
+                // artistListeners={item.listeners}
+                // artistFollowers={[posts].map(
+                //   (follower) => follower.creator.followers.length
+                // )}
+                userId={item._id}
               />
               {/* <ArtistDetailLayoutContent 
 								contentData={ARTIST_LAYOUT}
@@ -309,7 +334,7 @@ export default function ArtistDetail({ navigation, route }) {
               />
             </>
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
         />
       </View>

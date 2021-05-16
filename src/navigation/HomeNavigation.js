@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
@@ -30,10 +30,45 @@ import AlbumDetail from "../components/screens/Vigor/common/LibraryCommon/Album/
 import Video from "../components/screens/Vigor/common/LibraryCommon/Video/Video";
 import Song from "../components/screens/Vigor/common/LibraryCommon/Song/Song";
 import Player from "../components/screens/Vigor/pages/Player";
+import Login from "../components/screens/Vigor/features/Login";
+import Signup from "../components/screens/Vigor/features/Signup";
+import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Profile from "../components/screens/Vigor/profile/Profile";
+import UserProfile from "../components/screens/Vigor/profile/UserProfile";
 
 const HomeStack = createStackNavigator();
 const HomeTabs = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
+
+// Home navigator
+const home = ({ navigation }) => {
+  return (
+    <HomeStack.Navigator initialRouteName="Home">
+      <HomeStack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Profile"
+        component={profile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="UserProfile"
+        component={userProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+};
 
 // Library navigator
 const library = ({ navigation }) => {
@@ -196,6 +231,36 @@ const player = ({ navigation }) => {
   );
 };
 
+// Profile navigator
+const profile = ({ navigation }) => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+};
+
+// User profile navigator
+const userProfile = ({ navigation }) => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+};
+
 // ArtistDetail navigator
 // const artistsDetail = ({navigation}) => {
 // 	return (
@@ -244,6 +309,28 @@ const player = ({ navigation }) => {
 // }
 
 // ======================================================================
+
+// Auth
+const auth = ({ navigation }) => {
+  return (
+    <HomeStack.Navigator initialRouteName="Login">
+      <HomeStack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Signup"
+        component={Signup}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+};
 
 // Bottom tabs
 const postNavigator = ({ navigation }) => {
@@ -330,7 +417,7 @@ const postNavigator = ({ navigation }) => {
     >
       <HomeTabs.Screen
         name="Home"
-        component={Home}
+        component={home}
         options={{
           headerShown: false,
         }}
@@ -367,9 +454,29 @@ const postNavigator = ({ navigation }) => {
   );
 };
 
+// ================================
+
 export default function HomeNavigation({ navigation }) {
+  const [userToken, setUserToken] = useState("");
+
+  useEffect(() => {
+    const getUserToken = async () => {
+      try {
+        const token = await SecureStore.getItemAsync("jwt");
+        return token;
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    getUserToken().then((token) => {
+      setUserToken(token);
+    });
+  }, []);
+  console.log("====================================");
+  console.log("render 1");
+  console.log("====================================");
   return (
-    <HomeStack.Navigator initialRouteName="Onboarding" mode="modal">
+    <HomeStack.Navigator initialRouteName={!userToken ? "Login" : "Home"}>
       {/* <HomeStack.Screen 
 				name='Splash' 
 				component={SplashScreen} 
@@ -377,30 +484,51 @@ export default function HomeNavigation({ navigation }) {
 					headerShown: false
 				}}
 			/> */}
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="Onboarding"
         component={OnboardingScreen}
         options={{
           headerShown: false,
           gestureEnabled: false,
         }}
-      />
-      <HomeStack.Screen
-        name="Home"
-        component={postNavigator}
+      /> */}
+      {/* <HomeStack.Screen
+        name={userToken ? "Home" : "Login"}
+        component={userToken ? postNavigator : auth}
         options={{
           headerShown: false,
           gestureEnabled: false,
         }}
-      />
-      <HomeStack.Screen
-        name="Player"
-        component={player}
-        options={{
-          headerShown: false,
-          //   gestureEnabled: false,
-        }}
-      />
+      /> */}
+      {!userToken ? (
+        <HomeStack.Screen
+          name="Login"
+          component={auth}
+          options={{
+            headerShown: false,
+            //   gestureEnabled: false,
+          }}
+        />
+      ) : (
+        <>
+          <HomeStack.Screen
+            name="Home"
+            component={postNavigator}
+            options={{
+              headerShown: false,
+              //   gestureEnabled: false,
+            }}
+          />
+          <HomeStack.Screen
+            name="Player"
+            component={player}
+            options={{
+              headerShown: false,
+              //   gestureEnabled: false,
+            }}
+          />
+        </>
+      )}
     </HomeStack.Navigator>
   );
 }

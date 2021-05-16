@@ -8,5 +8,6 @@ export default COLOR = {
     grey: 'grey',
     border: '#fcdede',
     inputBackground: '#e5e5e5',
-    inactive: '#acacac'
+    inactive: '#acacac',
+    sheetHandle: '#00000040'
 }

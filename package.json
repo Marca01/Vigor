@@ -8,7 +8,7 @@
         "eject": "expo eject"
     },
     "dependencies": {
-        "@react-native-async-storage/async-storage": "^1.13.0",
+        "@react-native-async-storage/async-storage": "^1.15.4",
         "@react-native-community/hooks": "^2.6.0",
         "@react-native-community/masked-view": "0.1.10",
         "@react-native-community/slider": "^3.0.3",
@@ -23,8 +23,10 @@
         "expo-app-loading": "^1.0.1",
         "expo-av": "~9.1.2",
         "expo-cli": "^4.4.4",
+        "expo-image-picker": "^10.1.4",
         "expo-linear-gradient": "~9.1.0",
         "expo-media-library": "~12.0.2",
+        "expo-secure-store": "^10.1.0",
         "expo-splash-screen": "~0.10.2",
         "expo-status-bar": "~1.0.4",
         "moment": "^2.29.1",
@@ -42,7 +44,10 @@
         "react-native-screens": "~3.0.0",
         "react-native-tab-view": "^2.16.0",
         "react-native-text-ticker": "^1.12.0",
+        "react-native-video": "^5.1.1",
+        "react-native-view-more-text": "^2.1.0",
         "react-native-web": "~0.13.12",
+        "reanimated-bottom-sheet": "^1.0.0-alpha.22",
         "rn-fetch-blob": "^0.12.0",
         "uuid": "^3.4.0",
         "yarn": "^1.22.10"

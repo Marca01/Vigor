@@ -21,16 +21,58 @@ export const globalStyles = StyleSheet.create({
     marginVertical: 8,
     lineHeight: 2,
   },
+  viewMoreText: {
+    color: COLOR.gray,
+  },
+
+  bottomSheet: {},
+  bottomSheetHeader: {
+    backgroundColor: "transparent",
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  bottomSheetHeader__panel: {
+    alignItems: "center",
+  },
+  bottomSheetHeader__panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: COLOR.sheetHandle,
+    marginBottom: 10,
+  },
+  bottomSheetContent: {
+    backgroundColor: COLOR.inputBackground,
+    padding: 16,
+    height: 450,
+  },
+  bottomSheetContent__btn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLOR.main,
+    // flex: 0.7,
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  bottomSheetContent__label: {
+    color: COLOR.white,
+    fontSize: 18,
+    fontWeight: "700",
+    marginLeft: 8,
+  },
 
   // =================================================================
   // Header.jsx
   headerDiv: {
-    flex: 0.4,
+    flex: 0.2,
     backgroundColor: COLOR.background,
-    paddingBottom: 30,
+    // paddingBottom: 30,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    marginBottom: 30,
+    // marginBottom: 30,
   },
   header: {
     flex: 1,
@@ -110,7 +152,7 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 10,
   },
   post__contentTitleDiv: {
-    width: "80%",
+    flex: 0.9,
   },
   post__contentTitle_title: {
     fontSize: 20,
@@ -1392,7 +1434,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "baseline",
     marginTop: 30,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   playerInfo__details: {
     alignItems: "center",
@@ -1436,6 +1478,23 @@ export const globalStyles = StyleSheet.create({
   },
   playerControl: {},
   playerControl__track: {},
+  playerControl__track_time: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: -10,
+    marginBottom: 5,
+  },
+  playerControl__track_timeElapsed: {
+    color: COLOR.gray,
+    fontSize: 11,
+    fontWeight: "500",
+  },
+  playerControl__track_duration: {
+    color: COLOR.gray,
+    fontSize: 11,
+    fontWeight: "500",
+  },
+
   playerControl__control: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -1462,6 +1521,13 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 72 / 2,
     justifyContent: "center",
     alignItems: "center",
+    shadowColor: COLOR.inputBackground,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.7,
+    shadowRadius: 16.0,
   },
   playerControl__control_next: {},
   playerControl__control_nextIcon_disabled: {

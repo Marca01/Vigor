@@ -11,9 +11,10 @@ import COLOR from "../../../../constants/color";
 import TextTicker from "react-native-text-ticker";
 import { Audio } from "expo-av";
 import AudioRecorderPlayer from "react-native-audio-recorder-player";
+import Slider from "@react-native-community/slider";
 // import RNFetchBlob from "rn-fetch-blob";
 
-export default function Player({ navigation }) {
+export default function Player({ navigation, route }) {
   const PLAYERS = [
     {
       id: "1",
@@ -111,6 +112,13 @@ export default function Player({ navigation }) {
 
   // let dirs = RNFetchBlob.fs.dirs.DocumentDir;
 
+  const changeTime = async () => {
+    // 50 / duration
+    let seektime = (seconds / 100) * duration;
+    setTimeElapsed(seektime);
+    audioRecorderPlayer.seekToPlayer(seektime);
+  };
+
   const handleStart = async (aud) => {
     setIsAlreadyPlay(true);
     // setInprogress(true);
@@ -156,12 +164,12 @@ export default function Player({ navigation }) {
     await sound.pauseAsync();
   };
 
-  const handleResume = async (aud) => {
-    setIsAlreadyPlay(true);
-    handlePause().then(async () => {
-      await sound.playAsync();
-    });
-  };
+  // const handleResume = async (aud) => {
+  //   setIsAlreadyPlay(true);
+  //   handlePause().then(async () => {
+  //     await sound.playAsync();
+  //   });
+  // };
 
   const handleStop = async (aud) => {
     // setIsAlreadyPlay(true);
@@ -169,9 +177,9 @@ export default function Player({ navigation }) {
   };
 
   const handleNext = async (audStart) => {
-    let curr_track = PLAYERS[current_track];
-    let current_index = PLAYERS.indexOf(curr_track) + 1;
-    if (current_index === PLAYERS.length) {
+    let curr_track = route.params?.playerData[current_track];
+    let current_index = route.params?.playerData.indexOf(curr_track) + 1;
+    if (current_index === route.params?.playerData.length) {
       setCurrentTrack(1);
     } else {
       setCurrentTrack((current_track) => current_track + 1);
@@ -183,16 +191,17 @@ export default function Player({ navigation }) {
   };
 
   const handlePrev = async (audStart) => {
-    let curr_track = PLAYERS[current_track];
-    let current_index = PLAYERS.indexOf(curr_track);
+    let curr_track = route.params?.playerData[current_track];
+    let current_index = route.params?.playerData.indexOf(curr_track);
     if (current_index === 0) {
-      setCurrentTrack(2);
+      setCurrentTrack(route.params?.playerData.length - 1);
     } else {
       setCurrentTrack((current_track) => current_track - 1);
     }
     handleStop().then(async () => {
       await handleStart(audStart);
     });
+    console.log(current_index);
   };
 
   return (
@@ -206,7 +215,10 @@ export default function Player({ navigation }) {
       <View style={globalStyles.playerContent}>
         <View style={globalStyles.playerThumbnail}>
           <Image
-            source={{ uri: PLAYERS[current_track].url }}
+            source={{
+              uri:
+                route.params?.playerData[current_track].creator.profilePicture,
+            }}
             style={globalStyles.playerThumbnail__thumb}
           />
         </View>
@@ -230,10 +242,10 @@ export default function Player({ navigation }) {
               marqueeDelay={500}
               useNativeDriver={true}
             >
-              {PLAYERS[current_track].name}
+              {route.params?.playerData.title}
             </TextTicker>
             <Text style={globalStyles.playerInfo__details_artist}>
-              {PLAYERS[current_track].artist}
+              {route.params?.playerData[current_track].creator.username}
             </Text>
           </View>
           <View style={globalStyles.playerInfo__option}>
@@ -246,14 +258,40 @@ export default function Player({ navigation }) {
           </View>
         </View>
         <View style={globalStyles.playerControl}>
-          <View style={globalStyles.playerControl__track}></View>
+          <View style={globalStyles.playerControl__track}>
+            <Slider
+              minimumValue={-8}
+              maximumValue={100}
+              thumbStyle={{ width: 2, height: 2 }}
+              value={percent}
+              minimumTrackTintColor={COLOR.main}
+              maximumTrackTintColor={COLOR.inputBackground}
+              thumbImage={require("../../../../assets/images/thumbImage_slider.png")}
+              onValueChange={(seconds) => changeTime(seconds)}
+            />
+            <View style={globalStyles.playerControl__track_time}>
+              <Text style={globalStyles.playerControl__track_timeElapsed}>
+                {!inprogress
+                  ? timeElapsed
+                  : audioRecorderPlayer.mmssss(Math.floor(timeElapsed))}
+              </Text>
+              <Text style={globalStyles.playerControl__track_duration}>
+                {!inprogress
+                  ? duration
+                  : // : audioRecorderPlayer.mmssss(Math.floor(duration))}
+                    sound.getStatusAsync().then((time) => time.durationMillis)}
+              </Text>
+            </View>
+          </View>
           <View style={globalStyles.playerControl__control}>
-            <Ionicons name="shuffle" size={28} color="black" />
+            <Ionicons name="shuffle" size={28} color={COLOR.gray} />
             <View style={globalStyles.playerControl__control_controller}>
-              {PLAYERS.indexOf(PLAYERS[current_track]) === 0 ? (
+              {route.params?.playerData.indexOf(
+                route.params?.playerData[current_track]
+              ) === 0 ? (
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_prev}
-                  // onPress={() => handlePrev(PLAYERS[current_track].songUrl)}
+                  // onPress={() => handlePrev(route.params?.playerData[current_track].songUrl)}
                   disabled
                 >
                   <MaterialIcons
@@ -267,7 +305,9 @@ export default function Player({ navigation }) {
               ) : (
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_prev}
-                  onPress={() => handlePrev(PLAYERS[current_track].songUrl)}
+                  onPress={() =>
+                    handlePrev(route.params?.playerData[current_track].songUrl)
+                  }
                 >
                   <MaterialIcons
                     name="skip-previous"
@@ -279,23 +319,37 @@ export default function Player({ navigation }) {
               {!isAlreadyPlay ? (
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_playPause}
-                  onPress={() => handleStart(PLAYERS[current_track].songUrl)}
+                  onPress={() =>
+                    handleStart(
+                      route.params?.playerData[current_track].selectedAudFile
+                    )
+                  }
                 >
-                  <FontAwesome5 name="play" size={24} color="white" />
+                  <FontAwesome5 name="play" size={24} color={COLOR.white} />
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_playPause}
-                  onPress={() => handlePause(PLAYERS[current_track].songUrl)}
+                  onPress={() =>
+                    handlePause(
+                      route.params?.playerData[current_track].selectedAudFile
+                    )
+                  }
                 >
-                  <FontAwesome5 name="pause" size={24} color="white" />
+                  <FontAwesome5 name="pause" size={24} color={COLOR.white} />
                 </TouchableOpacity>
               )}
-              {PLAYERS.indexOf(PLAYERS[current_track]) ===
-              PLAYERS.length - 1 ? (
+              {route.params?.playerData.indexOf(
+                route.params?.playerData[current_track]
+              ) ===
+              route.params?.playerData.length - 1 ? (
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_next}
-                  onPress={() => handleNext(PLAYERS[current_track].songUrl)}
+                  onPress={() =>
+                    handleNext(
+                      route.params?.playerData[current_track].selectedAudFile
+                    )
+                  }
                   disabled
                 >
                   <MaterialIcons
@@ -309,7 +363,11 @@ export default function Player({ navigation }) {
               ) : (
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_next}
-                  onPress={() => handleNext(PLAYERS[current_track].songUrl)}
+                  onPress={() =>
+                    handleNext(
+                      route.params?.playerData[current_track].selectedAudFile
+                    )
+                  }
                 >
                   <MaterialIcons
                     name="skip-next"
@@ -319,7 +377,7 @@ export default function Player({ navigation }) {
                 </TouchableOpacity>
               )}
             </View>
-            <Ionicons name="repeat" size={30} color="black" />
+            <Ionicons name="repeat" size={30} color={COLOR.gray} />
           </View>
         </View>
       </View>

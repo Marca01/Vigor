@@ -1,26 +1,37 @@
-import React from 'react'
-import { View, Text, Image } from 'react-native'
-import { Feather } from '@expo/vector-icons'
-import { Avatar } from 'react-native-paper'
-import { globalStyles } from '../../../../styles/global'
-import { LinearGradient } from 'expo-linear-gradient'
+import React from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { Avatar } from "react-native-paper";
+import { globalStyles } from "../../../../styles/global";
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function Header() {
-	return (
-		<View style={globalStyles.headerDiv}>
-			<View style={globalStyles.header}>
-				<Image  
-					source={require('../../../../assets/images/logo.png')}
-					resizeMode='contain'
-					style={globalStyles.header__logo}
-				/>
-				<View style={globalStyles.header__user}>
-					<Feather name="search" size={30} color="black" />
-					<Avatar.Image size={42} source={require('../../../../assets/images/avatar.jpg')} />
-				</View>
-			</View>
-			{/* My mood */}
-			<View style={globalStyles.home__userMoods}>
+export default function Header({ avatar, navigation }) {
+  return (
+    <View style={globalStyles.headerDiv}>
+      <View style={globalStyles.header}>
+        <Image
+          source={require("../../../../assets/images/logo.png")}
+          resizeMode="contain"
+          style={globalStyles.header__logo}
+        />
+        <View style={globalStyles.header__user}>
+          <Feather name="search" size={30} color="black" />
+          {!avatar ? (
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Avatar.Image
+                size={42}
+                source={require("../../../../assets/images/avatar.jpg")}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Avatar.Image size={42} source={{ uri: avatar }} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+      {/* My mood */}
+      {/* <View style={globalStyles.home__userMoods}>
 				<View style={globalStyles.home__userMoods__mood}>
 					<LinearGradient
 						colors={['#FFEFC2', '#FFBE0A']}
@@ -81,7 +92,7 @@ export default function Header() {
 						/>
 					</LinearGradient>
 				</View>
-			</View>
-		</View>
-	)
+			</View> */}
+    </View>
+  );
 }
