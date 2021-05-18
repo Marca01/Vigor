@@ -115,9 +115,9 @@ export default function Artist({ navigation }) {
                 renderItem={({ item }) => (
                   <View style={globalStyles.artists__artist}>
                     <ArtistList
-                      url={{ uri: item.profilePicture }}
+                      url={item.profilePicture}
                       artistName={item.username}
-                      // artistFollowersNumber={item.followers}
+                      artistFollowersNumber={item.followers.length}
                       onPress={
                         () =>
                           navigation.navigate("ArtistDetail", { item: item })

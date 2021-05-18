@@ -23,7 +23,7 @@ import Title from "../../SpecialComponents/Title";
 import COLOR from "../../../../../../constants/color";
 import { getFollowPosts, getUserPosts } from "../../../../../../api";
 
-export default function ArtistDetail({ navigation, route }) {
+export default function ArtistFound({ navigation, route }) {
   const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }, { id: "2" }, { id: "3" }];
 
   const [posts, setPosts] = useState([]);
@@ -232,16 +232,7 @@ export default function ArtistDetail({ navigation, route }) {
     return posts ? (
       <HomePosts posts={posts.posts} navigation={navigation} />
     ) : (
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "red",
-          flex: 1,
-        }}
-      >
-        <Text>No posts available</Text>
-      </View>
+      <Text>No posts available</Text>
     );
   }
 
@@ -280,12 +271,13 @@ export default function ArtistDetail({ navigation, route }) {
       <View style={globalStyles.artistDetail__content}>
         {posts.posts && posts.user && (
           <FlatList
+            // data={[posts.user]}
             data={[route.params?.item]}
             renderItem={({ item }) => (
               <>
                 <ArtistDetailLayoutArtist
                   avatar={posts.user.profilePicture}
-                  artistName={posts.user.username}
+                  artistName={item.username}
                   artistPosts={posts.posts.length}
                   artistListeners={posts.user.following.length}
                   artistFollowers={posts.user.followers.length}

@@ -66,6 +66,14 @@ export const getFollowPosts = () =>
     },
   });
 
+// Create new post
+export const createPost = (newPost) =>
+  axios.post(baseUrl, newPost, {
+    headers: {
+      Authorization: "Bearer " + process.env.TOKEN,
+    },
+  });
+
 // Like posts
 export const likePosts = (postId) =>
   axios.patch(
@@ -130,6 +138,18 @@ export const unFollowOtherUsers = (userId) =>
       },
       body: JSON.stringify({
         unFollowId: userId,
+      }),
+    }
+  );
+
+// Search other users '
+export const searchUsers = (query) =>
+  axios.post(
+    `http://192.168.1.16:5000/searchUser`,
+    { query: query },
+    {
+      body: JSON.stringify({
+        query: query,
       }),
     }
   );

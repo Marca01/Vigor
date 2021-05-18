@@ -78,10 +78,17 @@ export function ArtistDetailLayoutArtist({
   return (
     <View style={globalStyles.artistDetail__artist}>
       <View style={globalStyles.artistDetail__intro}>
-        <Image
-          source={avatar}
-          style={globalStyles.artistDetail__intro_avatar}
-        />
+        {avatar ? (
+          <Image
+            source={{ uri: avatar }}
+            style={globalStyles.artistDetail__intro_avatar}
+          />
+        ) : (
+          <Image
+            source={require("../../../../../../assets/images/noAvatar.png")}
+            style={globalStyles.artistDetail__intro_avatar}
+          />
+        )}
         <View style={globalStyles.artistDetail__intro_username}>
           <Text
             numberOfLines={1}
@@ -99,16 +106,6 @@ export function ArtistDetailLayoutArtist({
               Posts
             </Text>
           </View>
-          <View style={globalStyles.artistDetail__intro_stats_listeners}>
-            <Text
-              style={globalStyles.artistDetail__intro_stats_listenersNumber}
-            >
-              {artistListeners}
-            </Text>
-            <Text style={globalStyles.artistDetail__intro_stats_listenersLabel}>
-              listeners
-            </Text>
-          </View>
           <View style={globalStyles.artistDetail__intro_stats_followers}>
             <Text
               style={globalStyles.artistDetail__intro_stats_followersNumber}
@@ -119,10 +116,21 @@ export function ArtistDetailLayoutArtist({
               followers
             </Text>
           </View>
+          <View style={globalStyles.artistDetail__intro_stats_following}>
+            <Text
+              style={globalStyles.artistDetail__intro_stats_followingNumber}
+            >
+              {artistListeners}
+            </Text>
+            <Text style={globalStyles.artistDetail__intro_stats_followingLabel}>
+              following
+            </Text>
+          </View>
         </View>
       </View>
       <View style={globalStyles.artistDetail__btns}>
-        {userData.following.some((getFollow) => getFollow._id === userId) ? (
+        {userData &&
+        userData.following.some((getFollow) => getFollow._id === userId) ? (
           <TouchableOpacity
             style={globalStyles.artistDetail__followBtn}
             onPress={() => unFollowOtherUser(userId)}

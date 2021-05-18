@@ -21,6 +21,7 @@ export default function Home({ navigation }) {
   const [followUserId, setFollowUserId] = useState(null);
 
   const [userAvatar, setUserAvatar] = useState("");
+  const [username, setUsername] = useState("");
   const [userData, setUserData] = useState();
   const user = async () => {
     try {
@@ -34,6 +35,7 @@ export default function Home({ navigation }) {
   useEffect(() => {
     user().then((userJson) => {
       setUserAvatar(JSON.parse(userJson));
+      setUsername(JSON.parse(userJson));
       setUserData(JSON.parse(userJson));
       console.log(followUserId);
     });
@@ -70,9 +72,8 @@ export default function Home({ navigation }) {
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Save</Text>
       </TouchableOpacity>
-      {/* {userData.following.some(
-        (getFollow) => getFollow._id === followUserId
-      ) ? (
+      {userData &&
+      userData.following.some((getFollow) => getFollow._id === followUserId) ? (
         <TouchableOpacity
           style={globalStyles.bottomSheetContent__btn}
           onPress={() => {
@@ -90,7 +91,7 @@ export default function Home({ navigation }) {
         >
           <Text style={globalStyles.bottomSheetContent__label}>Follow</Text>
         </TouchableOpacity>
-      )} */}
+      )}
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Report</Text>
       </TouchableOpacity>
@@ -122,7 +123,10 @@ export default function Home({ navigation }) {
     // setInterval(() => {
     getFollowPosts()
       // .then((res) => setPosts(JSON.stringify(res.data)))
-      .then((res) => setPosts(res.data))
+      .then((res) => {
+        setPosts(res.data);
+        console.log(posts);
+      })
       .catch((error) => console.log(error));
     // }, 2000);
     // }, [JSON.stringify(posts)]);
@@ -148,7 +152,11 @@ export default function Home({ navigation }) {
         }}
       >
         {/* Header */}
-        <Header avatar={userAvatar.profilePicture} navigation={navigation} />
+        <Header
+          avatar={userAvatar.profilePicture}
+          username={username.username}
+          navigation={navigation}
+        />
         {/* Posts */}
         <View style={globalStyles.posts}>
           <View style={globalStyles.postDiv}>

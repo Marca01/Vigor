@@ -58,11 +58,16 @@ export default function Signup({ navigation }) {
   };
 
   const signup = (event) => {
-    event.preventDefault();
-
+    const uri = image;
+    const uriParts = uri.split(".");
+    const fileType = uriParts[uriParts.length - 1];
     // Avatar
     const data = new FormData();
-    data.append("file", image);
+    data.append("file", {
+      uri,
+      name: `avatar.${fileType}`,
+      type: `avatarT/${fileType}`,
+    });
     data.append("upload_preset", "Vigor-image");
     data.append("cloud_name", "marca");
 

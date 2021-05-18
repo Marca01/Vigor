@@ -73,6 +73,7 @@ export const globalStyles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     // marginBottom: 30,
+    zIndex: 1000,
   },
   header: {
     flex: 1,
@@ -82,6 +83,7 @@ export const globalStyles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 20,
     // marginTop: 25
     paddingHorizontal: 20,
+    height: 50,
   },
   header__logo: {
     width: 120,
@@ -204,37 +206,6 @@ export const globalStyles = StyleSheet.create({
   post__userInfo_time: {
     color: COLOR.gray,
     fontSize: 12,
-  },
-
-  // ===============================================================
-  // new post button - HomeNavigation.js
-  newPostBtn_rout: {
-    width: 56,
-    height: 56,
-    borderRadius: 56 / 2,
-    // borderWidth: 1,
-    // borderColor: '#ffece3',
-    backgroundColor: COLOR.white,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
-    shadowColor: COLOR.gray,
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-
-    // elevation: 15,
-  },
-  newPostBtn_rin: {
-    width: 44,
-    height: 44,
-    borderRadius: 44 / 2,
-    backgroundColor: COLOR.main,
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   // ========================================================================
@@ -678,14 +649,6 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "700",
   },
   artistDetail__intro_stats_postsLabel: {},
-  artistDetail__intro_stats_listeners: {
-    alignItems: "center",
-  },
-  artistDetail__intro_stats_listenersNumber: {
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  artistDetail__intro_stats_listenersLabel: {},
   artistDetail__intro_stats_followers: {
     alignItems: "center",
   },
@@ -694,6 +657,14 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "700",
   },
   artistDetail__intro_stats_followersLabel: {},
+  artistDetail__intro_stats_following: {
+    alignItems: "center",
+  },
+  artistDetail__intro_stats_followingNumber: {
+    fontSize: 18,
+    fontWeight: "700",
+  },
+  artistDetail__intro_stats_followingLabel: {},
   artistDetail__btns: {
     flexDirection: "row",
     alignItems: "center",

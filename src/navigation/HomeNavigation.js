@@ -36,6 +36,10 @@ import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Profile from "../components/screens/Vigor/profile/Profile";
 import UserProfile from "../components/screens/Vigor/profile/UserProfile";
+import AddButton from "../components/screens/Vigor/common/SpecialComponents/AddButton";
+import NewPost from "../components/screens/Vigor/features/CreateNewPost/NewPost";
+import ArtistFound from "../components/screens/Vigor/common/LibraryCommon/Artist/ArtistFound";
+import Comment from "../components/screens/Vigor/features/Comment";
 
 const HomeStack = createStackNavigator();
 const HomeTabs = createBottomTabNavigator();
@@ -62,6 +66,42 @@ const home = ({ navigation }) => {
       <HomeStack.Screen
         name="UserProfile"
         component={userProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="ArtistFound"
+        component={ArtistFound}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="ArtistDetail"
+        component={ArtistDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Comment"
+        component={Comment}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  );
+};
+
+// New navigator
+const newPost = ({ navigation }) => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="NewPost"
+        component={NewPost}
         options={{
           headerShown: false,
         }}
@@ -156,6 +196,13 @@ const artist = ({ navigation }) => {
       <HomeStack.Screen
         name="ArtistDetail"
         component={ArtistDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="Comment"
+        component={Comment}
         options={{
           headerShown: false,
         }}
@@ -366,21 +413,8 @@ const postNavigator = ({ navigation }) => {
                   }}
                 />
               );
-            case "New":
-              return (
-                <View style={globalStyles.newPostBtn_rout}>
-                  <View style={globalStyles.newPostBtn_rin}>
-                    <Image
-                      source={require("../assets/images/new.png")}
-                      resizeMode="contain"
-                      style={{
-                        width: 22,
-                        height: 22,
-                      }}
-                    />
-                  </View>
-                </View>
-              );
+            case "NewPost":
+              return <AddButton navigation={navigation} />;
             case "Notification":
               return (
                 <Image
@@ -430,8 +464,8 @@ const postNavigator = ({ navigation }) => {
         }}
       />
       <HomeTabs.Screen
-        name="New"
-        component={New}
+        name="NewPost"
+        component={newPost}
         options={{
           headerShown: false,
         }}
@@ -476,7 +510,7 @@ export default function HomeNavigation({ navigation }) {
   console.log("render 1");
   console.log("====================================");
   return (
-    <HomeStack.Navigator initialRouteName={!userToken ? "Login" : "Home"}>
+    <HomeStack.Navigator>
       {/* <HomeStack.Screen 
 				name='Splash' 
 				component={SplashScreen} 

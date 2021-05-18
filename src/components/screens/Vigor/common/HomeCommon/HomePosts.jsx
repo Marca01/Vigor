@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { View, Text, FlatList, Image, Button } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Avatar } from "react-native-paper";
@@ -155,19 +162,31 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
               <View style={globalStyles.post__stats}>
                 <Text style={globalStyles.post__stats_like}>
                   {item.likers.length} likes
+                  {getUserFollowId && getUserFollowId(item.creator._id)}
                 </Text>
-                <Text style={globalStyles.post__stats_comment}>
-                  {item.comments.length} comments
-                  {getUserFollowId(item.creator._id)}
-                </Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Comment")}
+                >
+                  <Text style={globalStyles.post__stats_comment}>
+                    {item.comments.length} comments
+                  </Text>
+                </TouchableOpacity>
               </View>
               <View style={globalStyles.post__user}>
                 <View style={globalStyles.post__userInfo}>
-                  <Avatar.Image
-                    size={42}
-                    source={{ uri: item.creator.profilePicture }}
-                    style={globalStyles.post__userInfo_avatar}
-                  />
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ArtistDetail", {
+                        item: item.creator,
+                      })
+                    }
+                  >
+                    <Avatar.Image
+                      size={42}
+                      source={{ uri: item.creator.profilePicture }}
+                      style={globalStyles.post__userInfo_avatar}
+                    />
+                  </TouchableOpacity>
                   <View style={globalStyles.post__userInfo_createdAt}>
                     <Text style={globalStyles.post__userInfo_name}>
                       {item.creator.username}
@@ -180,7 +199,8 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
                     </Text>
                   </View>
                 </View>
-                {item.likers.some(
+                {userData &&
+                item.likers.some(
                   (postLiker) => postLiker._id === userData._id
                 ) ? (
                   <AntDesign
