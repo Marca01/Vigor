@@ -154,6 +154,22 @@ export const searchUsers = (query) =>
     }
   );
 
+// Comment
+export const comment = (text, postId) =>
+  axios.put(
+    baseUrl,
+    { text: text, postId: postId },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+      body: JSON.stringify({
+        text,
+        postId,
+      }),
+    }
+  );
+
 // =============================================================================
 // Store image to cloudinary
 export const createImagePost = (newImagePost) =>

@@ -129,32 +129,51 @@ export function ArtistDetailLayoutArtist({
         </View>
       </View>
       <View style={globalStyles.artistDetail__btns}>
-        {userData &&
-        userData.following.some((getFollow) => getFollow._id === userId) ? (
-          <TouchableOpacity
-            style={globalStyles.artistDetail__followBtn}
-            onPress={() => unFollowOtherUser(userId)}
-          >
-            <SimpleLineIcons name="user-follow" size={21} color="black" />
-            <Text style={globalStyles.artistDetail__followBtn_label}>
-              Following
+        {userData && userId === userData._id ? (
+          <TouchableOpacity style={globalStyles.artistDetail__playBtn_unique}>
+            <Ionicons name="shuffle" size={24} color="white" />
+            <Text style={globalStyles.artistDetail__playBtn_label_unique}>
+              Shuffle
             </Text>
           </TouchableOpacity>
+        ) : userData &&
+          userData.following.some((getFollow) => getFollow._id === userId) ? (
+          <>
+            <TouchableOpacity
+              style={globalStyles.artistDetail__followBtn}
+              onPress={() => unFollowOtherUser(userId)}
+            >
+              <SimpleLineIcons name="user-follow" size={21} color="black" />
+              <Text style={globalStyles.artistDetail__followBtn_label}>
+                Following
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={globalStyles.artistDetail__playBtn}>
+              <Ionicons name="shuffle" size={24} color="white" />
+              <Text style={globalStyles.artistDetail__playBtn_label}>
+                Shuffle
+              </Text>
+            </TouchableOpacity>
+          </>
         ) : (
-          <TouchableOpacity
-            style={globalStyles.artistDetail__followBtn}
-            onPress={() => followOtherUser(userId)}
-          >
-            <SimpleLineIcons name="user-follow" size={21} color="black" />
-            <Text style={globalStyles.artistDetail__followBtn_label}>
-              Follow
-            </Text>
-          </TouchableOpacity>
+          <>
+            <TouchableOpacity
+              style={globalStyles.artistDetail__followBtn}
+              onPress={() => followOtherUser(userId)}
+            >
+              <SimpleLineIcons name="user-follow" size={21} color="black" />
+              <Text style={globalStyles.artistDetail__followBtn_label}>
+                Follow
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={globalStyles.artistDetail__playBtn}>
+              <Ionicons name="shuffle" size={24} color="white" />
+              <Text style={globalStyles.artistDetail__playBtn_label}>
+                Shuffle
+              </Text>
+            </TouchableOpacity>
+          </>
         )}
-        <TouchableOpacity style={globalStyles.artistDetail__playBtn}>
-          <Ionicons name="shuffle" size={24} color="white" />
-          <Text style={globalStyles.artistDetail__playBtn_label}>Shuffle</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );

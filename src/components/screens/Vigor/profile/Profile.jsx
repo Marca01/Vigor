@@ -1,22 +1,178 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { globalStyles } from "../../../../styles/global";
 import * as SecureStore from "expo-secure-store";
+import {
+  ArtistDetailLayoutArtist,
+  ArtistDetailLayoutContent,
+} from "../common/LibraryCommon/Artist/ArtistDetailLayout";
+import { getMyPosts } from "../../../../api";
+import HomePosts from "../common/HomeCommon/HomePosts";
+import { Ionicons } from "@expo/vector-icons";
+import Title from "../common/SpecialComponents/Title";
+import BottomSheet from "reanimated-bottom-sheet";
+import Animated from "react-native-reanimated";
 
 export default function Profile({ navigation }) {
-  const logout = async () => {
+  const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }];
+
+  const [posts, setPosts] = useState([]);
+  const [userData, setUserData] = useState([]);
+
+  const [followUserId, setFollowUserId] = useState(null);
+
+  useEffect(() => {
+    getMyPosts()
+      .then((res) => {
+        setPosts(res.data);
+        console.log(posts);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const user = async () => {
     try {
-      await SecureStore.deleteItemAsync("jwt");
-      console.log("Logout successful");
+      const user = await SecureStore.getItemAsync("user");
+      return user;
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData.following);
+    });
+  }, []);
+
+  // ======================================================================
+
+  // Options button (...)
+  const renderOptionsContent = () => (
+    <View style={globalStyles.bottomSheetContent}>
+      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
+        <Text style={globalStyles.bottomSheetContent__label}>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
+        <Text style={globalStyles.bottomSheetContent__label}>Share</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
+        <Text style={globalStyles.bottomSheetContent__label}>Report</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderOptionsHeader = () => (
+    <View style={globalStyles.bottomSheetHeader}>
+      <View style={globalStyles.bottomSheetHeader__panel}>
+        <View style={globalStyles.bottomSheetHeader__panelHandle}></View>
+      </View>
+    </View>
+  );
+
+  const sheetRef = useRef(null);
+
+  let animatedValue = new Animated.Value(1);
+
+  const animatedShadowOpacity = Animated.interpolateNode(animatedValue, {
+    inputRange: [0, 1],
+    outputRange: [0.5, 1],
+  });
+
+  // ======================================================================
+
+  function ArtistDetailPosts() {
+    return posts ? (
+      <HomePosts
+        posts={posts}
+        navigation={navigation}
+        onPress={() => sheetRef.current.snapTo(0)}
+      />
+    ) : (
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "red",
+          flex: 1,
+        }}
+      >
+        <Text>No posts available</Text>
+      </View>
+    );
+  }
+
+  // ====================================================================
+  // FEATURES
+
   return (
     <View style={globalStyles.container}>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text onPress={() => logout()}>Logout</Text>
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={[360, 260, 0]}
+        initialSnap={2}
+        borderRadius={20}
+        callbackNode={animatedValue}
+        renderContent={renderOptionsContent}
+        renderHeader={renderOptionsHeader}
+      />
+      <View style={globalStyles.artistDetail__title_unique}>
+        <Ionicons
+          name="chevron-back"
+          size={30}
+          color="black"
+          onPress={() => navigation.goBack()}
+          style={globalStyles.artistDetail__backIcon}
+        />
+        <Title title={userData.username} />
+        <TouchableOpacity
+          style={globalStyles.artistDetail__setting}
+          onPress={() => navigation.navigate("ProfileSetting")}
+        >
+          <Ionicons
+            name="settings-outline"
+            size={24}
+            color="black"
+            style={globalStyles.artistDetail__settingIcon}
+          />
+        </TouchableOpacity>
       </View>
+      <Animated.View
+        style={[
+          globalStyles.artistDetail__content,
+          { flex: 1, opacity: animatedShadowOpacity },
+        ]}
+      >
+        {posts && userData.following && userData.followers && (
+          <FlatList
+            data={ARTIST_LAYOUT}
+            renderItem={({ item }) =>
+              item.id === "0" ? (
+                <ArtistDetailLayoutArtist
+                  avatar={userData.profilePicture}
+                  artistName={userData.username}
+                  artistPosts={posts.length}
+                  artistListeners={userData.following.length}
+                  artistFollowers={userData.followers.length}
+                  userId={userData._id}
+                />
+              ) : (
+                <ArtistDetailPosts />
+              )
+            }
+            keyExtractor={(item) => item._id}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </Animated.View>
     </View>
   );
 }

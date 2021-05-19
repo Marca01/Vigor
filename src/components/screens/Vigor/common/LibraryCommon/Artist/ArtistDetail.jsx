@@ -22,11 +22,15 @@ import { Ionicons } from "@expo/vector-icons";
 import Title from "../../SpecialComponents/Title";
 import COLOR from "../../../../../../constants/color";
 import { getFollowPosts, getUserPosts } from "../../../../../../api";
+import BottomSheet from "reanimated-bottom-sheet";
+import Animated from "react-native-reanimated";
+import * as SecureStore from "expo-secure-store";
 
 export default function ArtistDetail({ navigation, route }) {
   const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }, { id: "2" }, { id: "3" }];
 
   const [posts, setPosts] = useState([]);
+  const [userData, setUserData] = useState([]);
 
   const [followUserId, setFollowUserId] = useState(null);
 
@@ -39,6 +43,22 @@ export default function ArtistDetail({ navigation, route }) {
         console.log(posts);
       })
       .catch((error) => console.log(error));
+  }, []);
+
+  const user = async () => {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData.following);
+    });
   }, []);
 
   const ARTIST_SONGS = [
@@ -216,6 +236,64 @@ export default function ArtistDetail({ navigation, route }) {
   //   },
   // ];
 
+  // ======================================================================
+
+  // Options button (...)
+  const renderOptionsContent = () => (
+    <View style={globalStyles.bottomSheetContent}>
+      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
+        <Text style={globalStyles.bottomSheetContent__label}>Save</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
+        <Text style={globalStyles.bottomSheetContent__label}>Share</Text>
+      </TouchableOpacity>
+      {/* {userData.following &&
+      userData.following.some(
+        (getFollow) => getFollow._id === route.params?.item._id
+      ) ? (
+        <TouchableOpacity
+          style={globalStyles.bottomSheetContent__btn}
+          onPress={() => {
+            unFollowOtherUser(route.params?.item._id);
+          }}
+        >
+          <Text style={globalStyles.bottomSheetContent__label}>Following</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={globalStyles.bottomSheetContent__btn}
+          onPress={() => {
+            followOtherUser(route.params?.item._id);
+          }}
+        >
+          <Text style={globalStyles.bottomSheetContent__label}>Follow</Text>
+        </TouchableOpacity>
+      )} */}
+      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
+        <Text style={globalStyles.bottomSheetContent__label}>Report</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderOptionsHeader = () => (
+    <View style={globalStyles.bottomSheetHeader}>
+      <View style={globalStyles.bottomSheetHeader__panel}>
+        <View style={globalStyles.bottomSheetHeader__panelHandle}></View>
+      </View>
+    </View>
+  );
+
+  const sheetRef = useRef(null);
+
+  let animatedValue = new Animated.Value(1);
+
+  const animatedShadowOpacity = Animated.interpolateNode(animatedValue, {
+    inputRange: [0, 1],
+    outputRange: [0.5, 1],
+  });
+
+  // ======================================================================
+
   function ArtistDetailLayoutContentt() {
     return (
       <ArtistDetailLayoutContent
@@ -230,7 +308,11 @@ export default function ArtistDetail({ navigation, route }) {
 
   function ArtistDetailPosts() {
     return posts ? (
-      <HomePosts posts={posts.posts} navigation={navigation} />
+      <HomePosts
+        posts={posts.posts}
+        navigation={navigation}
+        onPress={() => sheetRef.current.snapTo(0)}
+      />
     ) : (
       <View
         style={{
@@ -267,6 +349,15 @@ export default function ArtistDetail({ navigation, route }) {
     // 	playlistData={ARTIST_PLAYLISTS}
     // />
     <View style={globalStyles.container}>
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={[360, 260, 0]}
+        initialSnap={2}
+        borderRadius={20}
+        callbackNode={animatedValue}
+        renderContent={renderOptionsContent}
+        renderHeader={renderOptionsHeader}
+      />
       <View style={globalStyles.artistDetail__title}>
         <Ionicons
           name="chevron-back"
@@ -277,7 +368,12 @@ export default function ArtistDetail({ navigation, route }) {
         />
         <Title title={route.params?.item?.username} />
       </View>
-      <View style={globalStyles.artistDetail__content}>
+      <Animated.View
+        style={[
+          globalStyles.artistDetail__content,
+          { flex: 1, opacity: animatedShadowOpacity },
+        ]}
+      >
         {posts.posts && posts.user && (
           <FlatList
             data={[route.params?.item]}
@@ -343,7 +439,7 @@ export default function ArtistDetail({ navigation, route }) {
             showsVerticalScrollIndicator={false}
           />
         )}
-      </View>
+      </Animated.View>
     </View>
   );
 }

@@ -80,7 +80,7 @@ export default function Home({ navigation }) {
             unFollowOtherUser(followUserId);
           }}
         >
-          <Text style={globalStyles.bottomSheetContent__label}>Following</Text>
+          <Text style={globalStyles.bottomSheetContent__label}>Unfollow</Text>
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
@@ -169,9 +169,12 @@ export default function Home({ navigation }) {
                   <HomePosts
                     posts={posts}
                     onPress={() => sheetRef.current.snapTo(0)}
-                    getUserFollowId={(userFollowId) =>
-                      setFollowUserId(userFollowId)
-                    }
+                    getUserFollowId={(userFollowId) => {
+                      setFollowUserId(userFollowId);
+                      // useEffect(() => {
+                      //   userFollowId && setFollowUserId(userFollowId);
+                      // }, [userFollowId]);
+                    }}
                     navigation={navigation}
                   />
                 )

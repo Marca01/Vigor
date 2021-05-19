@@ -2,6 +2,8 @@ import React from "react";
 import { Dimensions, StatusBar, StyleSheet } from "react-native";
 import COLOR from "../constants/color";
 
+let height = Dimensions.get("window").height;
+
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -594,7 +596,17 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  artistDetail__title_unique: {
+    marginTop: 30,
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   artistDetail__backIcon: {
+    marginRight: 8,
+  },
+  artistDetail__settingIcon: {
     marginRight: 8,
   },
   artistDetail__content: {
@@ -687,12 +699,26 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "700",
     marginLeft: 8,
   },
+  artistDetail__playBtn_unique: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLOR.main,
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 50,
+  },
+  artistDetail__playBtn_label_unique: {
+    color: COLOR.white,
+    fontSize: 18,
+    fontWeight: "700",
+    marginLeft: 8,
+  },
   artistDetail__playBtn: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLOR.main,
-    flex: 0.7,
     paddingVertical: 10,
     borderRadius: 50,
     flex: 0.475,
@@ -1506,5 +1532,93 @@ export const globalStyles = StyleSheet.create({
   },
   playerControl__control_nextIcon: {
     color: COLOR.main,
+  },
+
+  // ================================
+  // Comment.jsx
+  comment: {
+    flex: 88,
+    // justifyContent: "space-between",
+  },
+  comment__comments: {
+    flex: 1,
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    // justifyContent: "space-between",
+    paddingTop: 20,
+    // backgroundColor: "red",
+  },
+  comment__user: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  comment__user_avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 50 / 2,
+    marginRight: 12,
+  },
+  comment__content: {
+    flex: 0.9,
+  },
+  comment__userComment: {
+    flexDirection: "row",
+    // backgroundColor: "red",
+  },
+  comment__userComment_username: {
+    fontWeight: "bold",
+    marginRight: 8,
+    marginBottom: 5,
+    // backgroundColor: "blue",
+  },
+  comment__userComment_text: {
+    flex: 0.9,
+  },
+  comment__stats: {
+    flexDirection: "row",
+  },
+  comment__stats_createdAt: {
+    color: COLOR.gray,
+    fontSize: 14,
+    fontWeight: "500",
+    marginRight: 12,
+  },
+  comment__stats_likes: {
+    color: COLOR.gray,
+    fontSize: 14,
+    fontWeight: "500",
+  },
+  comment__likeComment: {},
+  comment__input: {
+    flexDirection: "row",
+    flex: 12,
+    paddingHorizontal: 20,
+    // backgroundColor: "red",
+  },
+  comment__input_comment: {
+    backgroundColor: COLOR.inputBackground,
+    borderRadius: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+    marginTop: 6,
+    flex: 1,
+  },
+  comment__inputComment: {
+    height: 40,
+    flex: 1,
+    paddingVertical: 10,
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  comment__input_postBtn_disabled: {
+    color: COLOR.grey,
+    fontWeight: "600",
+  },
+  comment__input_postBtn: {
+    color: COLOR.main,
+    fontWeight: "600",
   },
 });

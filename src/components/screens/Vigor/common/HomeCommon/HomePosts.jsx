@@ -89,6 +89,7 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
       />
     );
   };
+
   // =================================================================
   // FEATURES
 
@@ -155,17 +156,24 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
                     name="options"
                     size={16}
                     color="black"
+                    // onPress={() => sheetRef.current.snapTo(0)}
                     onPress={onPress}
                   />
                 </View>
               </View>
               <View style={globalStyles.post__stats}>
-                <Text style={globalStyles.post__stats_like}>
-                  {item.likers.length} likes
-                  {getUserFollowId && getUserFollowId(item.creator._id)}
-                </Text>
+                {getUserFollowId && getUserFollowId(item.creator._id)}
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Comment")}
+                  onPress={() =>
+                    navigation.navigate("ViewLikers", { item: item.likers })
+                  }
+                >
+                  <Text style={globalStyles.post__stats_like}>
+                    {item.likers.length} likes
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Comment", { item: item })}
                 >
                   <Text style={globalStyles.post__stats_comment}>
                     {item.comments.length} comments
@@ -174,19 +182,31 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
               </View>
               <View style={globalStyles.post__user}>
                 <View style={globalStyles.post__userInfo}>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("ArtistDetail", {
-                        item: item.creator,
-                      })
-                    }
-                  >
-                    <Avatar.Image
-                      size={42}
-                      source={{ uri: item.creator.profilePicture }}
-                      style={globalStyles.post__userInfo_avatar}
-                    />
-                  </TouchableOpacity>
+                  {item.creator.profilePicture ? (
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("ArtistDetail", {
+                          item: item.creator,
+                        })
+                      }
+                    >
+                      <Avatar.Image
+                        size={42}
+                        source={{ uri: item.creator.profilePicture }}
+                        style={globalStyles.post__userInfo_avatar}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    userData && (
+                      <TouchableOpacity>
+                        <Avatar.Image
+                          size={42}
+                          source={{ uri: userData.profilePicture }}
+                          style={globalStyles.post__userInfo_avatar}
+                        />
+                      </TouchableOpacity>
+                    )
+                  )}
                   <View style={globalStyles.post__userInfo_createdAt}>
                     <Text style={globalStyles.post__userInfo_name}>
                       {item.creator.username}

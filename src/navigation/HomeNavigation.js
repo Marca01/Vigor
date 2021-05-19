@@ -40,6 +40,8 @@ import AddButton from "../components/screens/Vigor/common/SpecialComponents/AddB
 import NewPost from "../components/screens/Vigor/features/CreateNewPost/NewPost";
 import ArtistFound from "../components/screens/Vigor/common/LibraryCommon/Artist/ArtistFound";
 import Comment from "../components/screens/Vigor/features/Comment";
+import ProfileSetting from "../components/screens/Vigor/profile/ProfileSetting";
+import ViewLikers from "../components/screens/Vigor/features/Like/ViewLikers";
 
 const HomeStack = createStackNavigator();
 const HomeTabs = createBottomTabNavigator();
@@ -88,7 +90,22 @@ const home = ({ navigation }) => {
         name="Comment"
         component={Comment}
         options={{
-          headerShown: false,
+          // headerShown: false,
+          headerBackTitleVisible: false,
+          headerTintColor: "black",
+          headerTitle: "Comments",
+          headerTitleStyle: { fontWeight: "700" },
+        }}
+      />
+      <HomeStack.Screen
+        name="ViewLikers"
+        component={ViewLikers}
+        options={{
+          // headerShown: false,
+          headerBackTitleVisible: false,
+          headerTintColor: "black",
+          headerTitle: "Likes",
+          headerTitleStyle: { fontWeight: "700" },
         }}
       />
     </HomeStack.Navigator>
@@ -204,7 +221,22 @@ const artist = ({ navigation }) => {
         name="Comment"
         component={Comment}
         options={{
-          headerShown: false,
+          // headerShown: false,
+          headerBackTitleVisible: false,
+          headerTintColor: "black",
+          headerTitle: "Comments",
+          headerTitleStyle: { fontWeight: "700" },
+        }}
+      />
+      <HomeStack.Screen
+        name="ViewLikers"
+        component={ViewLikers}
+        options={{
+          // headerShown: false,
+          headerBackTitleVisible: false,
+          headerTintColor: "black",
+          headerTitle: "Likes",
+          headerTitleStyle: { fontWeight: "700" },
         }}
       />
     </HomeStack.Navigator>
@@ -281,10 +313,17 @@ const player = ({ navigation }) => {
 // Profile navigator
 const profile = ({ navigation }) => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator initialRouteName="Profile">
       <HomeStack.Screen
         name="Profile"
         component={Profile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="ProfileSetting"
+        component={ProfileSetting}
         options={{
           headerShown: false,
         }}

@@ -112,20 +112,20 @@ export default function Artist({ navigation }) {
             ) : (
               <FlatList
                 data={userData.following}
-                renderItem={({ item }) => (
-                  <View style={globalStyles.artists__artist}>
-                    <ArtistList
-                      url={item.profilePicture}
-                      artistName={item.username}
-                      artistFollowersNumber={item.followers.length}
-                      onPress={
-                        () =>
+                renderItem={({ item }) =>
+                  item.followers && (
+                    <View style={globalStyles.artists__artist}>
+                      <ArtistList
+                        url={item.profilePicture}
+                        artistName={item.username}
+                        artistFollowersNumber={item.followers.length}
+                        onPress={() =>
                           navigation.navigate("ArtistDetail", { item: item })
-                        // navigation.dispatch(StackActions.push('ArtistDetail', {items: item}))
-                      }
-                    />
-                  </View>
-                )}
+                        }
+                      />
+                    </View>
+                  )
+                }
                 keyExtractor={(item) => item._id}
               />
             )
