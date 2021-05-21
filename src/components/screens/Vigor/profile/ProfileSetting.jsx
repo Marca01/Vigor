@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { globalStyles } from "../../../../styles/global";
 
-export default function ProfileSetting() {
+export default function ProfileSetting({ navigation }) {
   // Logout
   const logout = async () => {
     try {
       await SecureStore.deleteItemAsync("jwt");
       console.log("Logout successful");
+      navigation.navigate("Login");
     } catch (error) {
       console.log(error);
     }

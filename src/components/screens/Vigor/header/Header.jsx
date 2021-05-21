@@ -194,7 +194,7 @@ export default function Header({ avatar, username, navigation }) {
             <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
               <Avatar.Image
                 size={42}
-                source={require("../../../../assets/images/avatar.jpg")}
+                source={require("../../../../assets/images/noAvatar.png")}
               />
             </TouchableOpacity>
           ) : (

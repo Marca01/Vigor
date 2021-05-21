@@ -27,7 +27,10 @@ export default function Comment({ navigation, route }) {
   // comment
   const comments = (text, postId) => {
     comment(text, postId)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setTextComment("");
+      })
       .catch((error) => console.log(error));
   };
 
@@ -48,12 +51,19 @@ export default function Comment({ navigation, route }) {
                   <Text>No comment</Text>
                 </View>
               ) : (
-                <View style={globalStyles.comment__comments}>
+                <View key={item._id} style={globalStyles.comment__comments}>
                   <View style={globalStyles.comment__user}>
-                    <Image
-                      source={{ uri: item.creator.profilePicture }}
-                      style={globalStyles.comment__user_avatar}
-                    />
+                    {item.creator.profilePicture ? (
+                      <Image
+                        source={{ uri: item.creator.profilePicture }}
+                        style={globalStyles.comment__user_avatar}
+                      />
+                    ) : (
+                      <Image
+                        source={require("../../../../../assets/images/noAvatar.png")}
+                        style={globalStyles.comment__user_avatar}
+                      />
+                    )}
                     <View style={globalStyles.comment__content}>
                       <View style={globalStyles.comment__userComment}>
                         <Text
@@ -86,7 +96,6 @@ export default function Comment({ navigation, route }) {
               )
             }
             keyExtractor={(item) => item._id}
-            keyExtractor={(item) => item.id}
           />
         </View>
         <View style={globalStyles.comment__input}>

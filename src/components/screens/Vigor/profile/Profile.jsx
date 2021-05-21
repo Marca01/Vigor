@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  RefreshControl,
 } from "react-native";
 import { globalStyles } from "../../../../styles/global";
 import * as SecureStore from "expo-secure-store";
@@ -13,7 +14,7 @@ import {
   ArtistDetailLayoutArtist,
   ArtistDetailLayoutContent,
 } from "../common/LibraryCommon/Artist/ArtistDetailLayout";
-import { getMyPosts } from "../../../../api";
+import { deletePosts, getMyPosts } from "../../../../api";
 import HomePosts from "../common/HomeCommon/HomePosts";
 import { Ionicons } from "@expo/vector-icons";
 import Title from "../common/SpecialComponents/Title";
@@ -23,16 +24,18 @@ import Animated from "react-native-reanimated";
 export default function Profile({ navigation }) {
   const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }];
 
+  const [refreshing, setRefreshing] = useState(false);
+
   const [posts, setPosts] = useState([]);
   const [userData, setUserData] = useState([]);
 
-  const [followUserId, setFollowUserId] = useState(null);
+  const [deletePostId, setDeletePostId] = useState(null);
 
   useEffect(() => {
     getMyPosts()
       .then((res) => {
         setPosts(res.data);
-        console.log(posts);
+        // console.log(posts.map((postId) => postId._id).map((id) => id));
       })
       .catch((error) => console.log(error));
   }, []);
@@ -53,6 +56,20 @@ export default function Profile({ navigation }) {
     });
   }, []);
 
+  // ====================================================================
+  // FEATURES
+
+  // Delete posts
+  const deletePost = (postId) => {
+    deletePosts(postId)
+      .then((res) => {
+        console.log(res.data);
+        console.log(posts.map((postId) => postId._id));
+        console.log(postId);
+      })
+      .catch((error) => console.log(error));
+  };
+
   // ======================================================================
 
   // Options button (...)
@@ -61,9 +78,17 @@ export default function Profile({ navigation }) {
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Save</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
-        <Text style={globalStyles.bottomSheetContent__label}>Share</Text>
-      </TouchableOpacity>
+      {posts &&
+        posts.some((postDeleteId) => postDeleteId._id === deletePostId) && (
+          <TouchableOpacity
+            style={globalStyles.bottomSheetContent__btn}
+            onPress={() => {
+              deletePost(deletePostId);
+            }}
+          >
+            <Text style={globalStyles.bottomSheetContent__label}>Delete</Text>
+          </TouchableOpacity>
+        )}
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Report</Text>
       </TouchableOpacity>
@@ -87,31 +112,45 @@ export default function Profile({ navigation }) {
     outputRange: [0.5, 1],
   });
 
+  // =====================================================================
+  // Refresh
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    getMyPosts()
+      .then((res) => {
+        setPosts(res.data);
+        setRefreshing(false);
+        console.log("Refreshed" + posts);
+      })
+      .catch((error) => console.log(error));
+  }, [refreshing]);
+
   // ======================================================================
 
   function ArtistDetailPosts() {
-    return posts ? (
+    return (
       <HomePosts
         posts={posts}
+        getPostId={(postDeleteId) => {
+          setDeletePostId(postDeleteId);
+        }}
         navigation={navigation}
         onPress={() => sheetRef.current.snapTo(0)}
       />
-    ) : (
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "red",
-          flex: 1,
-        }}
-      >
-        <Text>No posts available</Text>
-      </View>
+      // ) : (
+      //   <View
+      //     style={{
+      //       alignItems: "center",
+      //       justifyContent: "center",
+      //       backgroundColor: "red",
+      //       flex: 1,
+      //     }}
+      //   >
+      //     <Text>No posts available</Text>
+      //   </View>
+      // );
     );
   }
-
-  // ====================================================================
-  // FEATURES
 
   return (
     <View style={globalStyles.container}>
@@ -170,6 +209,12 @@ export default function Profile({ navigation }) {
             }
             keyExtractor={(item) => item._id}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+              />
+            }
           />
         )}
       </Animated.View>

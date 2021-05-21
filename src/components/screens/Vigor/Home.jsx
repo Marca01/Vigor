@@ -1,5 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, FlatList, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Button,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+  RefreshControl,
+} from "react-native";
 import {
   getPosts,
   getFollowPosts,
@@ -14,11 +21,16 @@ import * as SecureStore from "expo-secure-store";
 import Login from "./features/Login";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
+import BottomTab from "./common/SpecialComponents/Player/BottomTab";
+import Player from "./common/SpecialComponents/Player/Player";
 
 export default function Home({ navigation }) {
   const ORDER = [{ id: "0" }, { id: "1" }];
 
+  const [refreshing, setRefreshing] = useState(false);
+
   const [followUserId, setFollowUserId] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const [userAvatar, setUserAvatar] = useState("");
   const [username, setUsername] = useState("");
@@ -40,6 +52,14 @@ export default function Home({ navigation }) {
       console.log(followUserId);
     });
   }, []);
+
+  // Get user id
+  // const getUserId = (id) => {
+  //   setUserId(id);
+  // };
+  // useEffect(() => {
+  //   userId && setFollowUserId(userId);
+  // }, [userId]);
 
   // =====================================================================
   // FEATURES
@@ -132,6 +152,19 @@ export default function Home({ navigation }) {
     // }, [JSON.stringify(posts)]);
   }, []);
 
+  // =====================================================================
+  // Refresh
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    getFollowPosts()
+      .then((res) => {
+        setPosts(res.data);
+        setRefreshing(false);
+        console.log("Refreshed" + posts);
+      })
+      .catch((error) => console.log(error));
+  }, [refreshing]);
+
   return (
     <View style={globalStyles.container}>
       <BottomSheet
@@ -171,9 +204,6 @@ export default function Home({ navigation }) {
                     onPress={() => sheetRef.current.snapTo(0)}
                     getUserFollowId={(userFollowId) => {
                       setFollowUserId(userFollowId);
-                      // useEffect(() => {
-                      //   userFollowId && setFollowUserId(userFollowId);
-                      // }, [userFollowId]);
                     }}
                     navigation={navigation}
                   />
@@ -181,6 +211,12 @@ export default function Home({ navigation }) {
               }
               keyExtractor={(item) => item.id}
               showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={handleRefresh}
+                />
+              }
             />
           </View>
         </View>

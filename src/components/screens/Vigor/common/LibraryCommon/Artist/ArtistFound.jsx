@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  RefreshControl,
 } from "react-native";
 import { globalStyles } from "../../../../../../styles/global";
 import {
@@ -28,6 +29,8 @@ import * as SecureStore from "expo-secure-store";
 
 export default function ArtistFound({ navigation, route }) {
   const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }, { id: "2" }, { id: "3" }];
+
+  const [refreshing, setRefreshing] = useState(false);
 
   const [posts, setPosts] = useState([]);
 
@@ -274,6 +277,18 @@ export default function ArtistFound({ navigation, route }) {
     inputRange: [0, 1],
     outputRange: [0.5, 1],
   });
+  // =====================================================================
+  // Refresh
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    getUserPosts(route.params?.item._id)
+      .then((res) => {
+        setPosts(res.data);
+        setRefreshing(false);
+        console.log("Refreshed" + posts);
+      })
+      .catch((error) => console.log(error));
+  }, [refreshing]);
 
   // ======================================================================
 
@@ -412,6 +427,12 @@ export default function ArtistFound({ navigation, route }) {
             )}
             keyExtractor={(item) => item._id}
             showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+              />
+            }
           />
         )}
       </Animated.View>

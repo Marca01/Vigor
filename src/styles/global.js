@@ -148,6 +148,31 @@ export const globalStyles = StyleSheet.create({
     height: 370,
     borderRadius: 15,
   },
+  post__contentType__audio: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    height: 80,
+    backgroundColor: "#FFECE3",
+    borderRadius: 20,
+  },
+  post__contentType__audio_playIcon: {
+    backgroundColor: "#ff9f67",
+    width: 55,
+    height: 55,
+    borderRadius: 55 / 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  post__contentType__audio_waveform: {
+    flexDirection: "row",
+  },
+  post__contentType__audio_waveform_img: {
+    width: 55,
+    height: 50,
+  },
   post__contentTitle: {
     flexDirection: "row",
     justifyContent: "space-between",

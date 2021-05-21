@@ -29,7 +29,6 @@ import Album from "../components/screens/Vigor/common/LibraryCommon/Album/Album"
 import AlbumDetail from "../components/screens/Vigor/common/LibraryCommon/Album/AlbumDetail";
 import Video from "../components/screens/Vigor/common/LibraryCommon/Video/Video";
 import Song from "../components/screens/Vigor/common/LibraryCommon/Song/Song";
-import Player from "../components/screens/Vigor/pages/Player";
 import Login from "../components/screens/Vigor/features/Login";
 import Signup from "../components/screens/Vigor/features/Signup";
 import * as SecureStore from "expo-secure-store";
@@ -287,21 +286,6 @@ const song = ({ navigation }) => {
       <HomeStack.Screen
         name="Song"
         component={Song}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </HomeStack.Navigator>
-  );
-};
-
-// Player navigator
-const player = ({ navigation }) => {
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name="Player"
-        component={Player}
         options={{
           headerShown: false,
         }}
@@ -587,14 +571,6 @@ export default function HomeNavigation({ navigation }) {
           <HomeStack.Screen
             name="Home"
             component={postNavigator}
-            options={{
-              headerShown: false,
-              //   gestureEnabled: false,
-            }}
-          />
-          <HomeStack.Screen
-            name="Player"
-            component={player}
             options={{
               headerShown: false,
               //   gestureEnabled: false,

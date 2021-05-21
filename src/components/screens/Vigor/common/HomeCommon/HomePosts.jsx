@@ -13,39 +13,19 @@ import { Avatar } from "react-native-paper";
 import { globalStyles } from "../../../../../styles/global";
 import { Video } from "expo-av";
 import { Audio } from "expo-av";
-import Player from "../../pages/Player";
 import ViewMoreText from "react-native-view-more-text";
 import COLOR from "../../../../../constants/color";
 import { likePosts, disLikePosts } from "../../../../../api";
 import * as SecureStore from "expo-secure-store";
 import { memo } from "react";
 import moment from "moment";
+import BottomTab from "../SpecialComponents/Player/BottomTab";
+import { FontAwesome5 } from "@expo/vector-icons";
 
-function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
+function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
   const video = useRef(null);
 
-  // const [sound, setSound] = useState();
-
-  // async function playSound(aud) {
-  //   console.log("Loading Sound");
-  //   const { sound } = await Audio.Sound.createAsync(
-  //     // require("../../../../../assets/audio/demo.mp3")
-  //     aud
-  //   );
-  //   setSound(sound);
-
-  //   console.log("Playing Sound");
-  //   await sound.playAsync();
-  // }
-
-  // useEffect(() => {
-  //   return sound
-  //     ? () => {
-  //         console.log("Unloading Sound");
-  //         sound.unloadAsync();
-  //       }
-  //     : undefined;
-  // }, [sound]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [userData, setUserData] = useState();
   const [parsed, setParsed] = useState("");
@@ -129,15 +109,15 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
                     />
                   )}
                   {item.selectedAudFile && (
-                    // <View>
-                    <Button
-                      title="Play Sound"
-                      // onPress={() => playSound(item.audContent)}
-                      onPress={() =>
-                        navigation.navigate("Player", { playerData: item })
-                      }
+                    <BottomTab
+                      PLAY_LIST={{
+                        sourceUri: item.selectedAudFile,
+                        name: item.hashtag,
+                        coverImage:
+                          "https://i.pinimg.com/564x/92/d4/39/92d4397cfce1cc12813775b3da352bbe.jpg",
+                        singer: item.creator.username,
+                      }}
                     />
-                    // {/* </View> */}
                   )}
                 </View>
                 <View style={globalStyles.post__contentTitle}>
@@ -152,11 +132,12 @@ function HomePosts({ posts, onPress, getUserFollowId, navigation }) {
                       </Text>
                     </ViewMoreText>
                   </View>
+                  {getPostId && getPostId(item._id)}
                   <SimpleLineIcons
                     name="options"
                     size={16}
                     color="black"
-                    // onPress={() => sheetRef.current.snapTo(0)}
+                    // onPress={() => getPostId(item._id)}
                     onPress={onPress}
                   />
                 </View>

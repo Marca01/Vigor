@@ -200,7 +200,8 @@ export default function NewPost({ navigation }) {
           alignItems: "center",
           marginTop: 40,
         }}
-        behavior="padding"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={5}
       >
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
