@@ -190,18 +190,12 @@ export default function Header({ avatar, username, navigation }) {
               clearButtonMode="always"
             />
           </Animated.View>
-          {!avatar ? (
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Avatar.Image
-                size={42}
-                source={require("../../../../assets/images/noAvatar.png")}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Avatar.Image size={42} source={{ uri: avatar }} />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Profile")}
+            style={{ borderRadius: 100, backgroundColor: "red" }}
+          >
+            <Avatar.Image size={42} source={{ uri: avatar }} />
+          </TouchableOpacity>
           {/* </View> */}
         </View>
         {/* My mood */}

@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
 import { globalStyles } from "../../../../../styles/global";
+import * as SecureStore from "expo-secure-store";
 
 export default function ViewLikers({ navigation, route }) {
+  const [userData, setUserData] = useState();
+
+  const user = async () => {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData._id);
+    });
+  }, []);
+
   return (
     <View style={globalStyles.container}>
       <View style={{ flex: 1 }}>
@@ -33,7 +52,11 @@ export default function ViewLikers({ navigation, route }) {
               ) : (
                 <TouchableOpacity
                   style={globalStyles.artists__list}
-                  // onPress={onPress}
+                  onPress={() => {
+                    item._id === userData._id
+                      ? navigation.push("Profile")
+                      : navigation.push("ArtistDetail", { item: item });
+                  }}
                 >
                   <View style={globalStyles.artists__list_content}>
                     {item.profilePicture ? (

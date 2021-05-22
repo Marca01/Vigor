@@ -14,6 +14,7 @@ import { globalStyles } from "../../../../../styles/global";
 import Title from "../../common/SpecialComponents/Title";
 import { comment } from "../../../../../api/";
 import { AntDesign } from "@expo/vector-icons";
+import moment from "moment";
 
 export default function Comment({ navigation, route }) {
   const CMT_LAYOUT = [{ id: "0" }, { id: "1" }];
@@ -54,10 +55,16 @@ export default function Comment({ navigation, route }) {
                 <View key={item._id} style={globalStyles.comment__comments}>
                   <View style={globalStyles.comment__user}>
                     {item.creator.profilePicture ? (
-                      <Image
-                        source={{ uri: item.creator.profilePicture }}
-                        style={globalStyles.comment__user_avatar}
-                      />
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.push("ArtistDetail", { item: item })
+                        }
+                      >
+                        <Image
+                          source={{ uri: item.creator.profilePicture }}
+                          style={globalStyles.comment__user_avatar}
+                        />
+                      </TouchableOpacity>
                     ) : (
                       <Image
                         source={require("../../../../../assets/images/noAvatar.png")}
@@ -78,7 +85,7 @@ export default function Comment({ navigation, route }) {
                       <View style={globalStyles.comment__stats}>
                         <TouchableOpacity>
                           <Text style={globalStyles.comment__stats_createdAt}>
-                            2h ago
+                            {moment(item.createdAt).fromNow()}
                           </Text>
                         </TouchableOpacity>
                         <TouchableOpacity>

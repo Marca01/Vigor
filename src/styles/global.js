@@ -67,6 +67,77 @@ export const globalStyles = StyleSheet.create({
   },
 
   // =================================================================
+  // Login.jsx
+  image_1: {
+    width: "100%",
+    position: "absolute",
+    top: -20,
+    left: 0,
+    zIndex: -1,
+  },
+  image_1_signup: {
+    width: "100%",
+    position: "absolute",
+    top: -70,
+    left: 0,
+    zIndex: -1,
+  },
+  image_2: {
+    width: "100%",
+    position: "absolute",
+    bottom: -100,
+    left: 0,
+    zIndex: -1,
+  },
+  image_2_signup: {
+    width: "100%",
+    position: "absolute",
+    bottom: -150,
+    left: 0,
+    zIndex: -1,
+  },
+  inputContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    // backgroundColor: "red",
+    flex: 1,
+    width: "100%",
+  },
+  loginTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  input: {
+    marginVertical: 10,
+    marginHorizontal: 10,
+    width: "70%",
+    height: 46,
+    paddingLeft: 20,
+    borderWidth: 1.5,
+    borderColor: "black",
+    borderRadius: 12,
+  },
+  button: {
+    width: "70%",
+    height: 46,
+    marginVertical: 10,
+    marginHorizontal: "auto",
+    backgroundColor: "rgba(255, 159, 103, 0.4)",
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button__title: {
+    marginVertical: "auto",
+    color: "#FF9F67",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  // =================================================================
+  // Signup.jsx
+
+  // =================================================================
   // Header.jsx
   headerDiv: {
     flex: 0.2,
@@ -1606,13 +1677,13 @@ export const globalStyles = StyleSheet.create({
   },
   comment__stats_createdAt: {
     color: COLOR.gray,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "500",
     marginRight: 12,
   },
   comment__stats_likes: {
     color: COLOR.gray,
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: "500",
   },
   comment__likeComment: {},

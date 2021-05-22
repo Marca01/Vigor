@@ -26,6 +26,7 @@ export default function BottomTab({ PLAY_LIST }) {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [playbackObject, setPlaybackObject] = useState(null);
   const [songDuration, setSongDuration] = useState(0);
+  const [isEndSong, setIsEndSong] = useState(0);
 
   //   const PLAY_LIST = [
   //     {
@@ -140,12 +141,11 @@ export default function BottomTab({ PLAY_LIST }) {
   };
 
   const loop = async () => {
-    if (currentPosition === songDuration) {
-      setcurrentPosition(0);
-      await playbackObject.replayAsync();
-    } else {
-      await playbackObject.playAsync();
-    }
+    await playbackObject.setIsLoopingAsync(true);
+  };
+
+  const unLoop = async () => {
+    await playbackObject.setIsLoopingAsync(false);
   };
 
   const stopPlaySong = () => {
@@ -166,6 +166,7 @@ export default function BottomTab({ PLAY_LIST }) {
 
         // Set song duration
         setSongDuration(durationMillis);
+        setIsEndSong(positionMillis);
 
         // Don't update position when user rewinding
         if (!isRewinding) setcurrentPosition(positionMillis || 0);
@@ -245,6 +246,7 @@ export default function BottomTab({ PLAY_LIST }) {
         updatePosition={updatePosition}
         pauseOrResumeSong={pauseOrResumeSong}
         loop={loop}
+        unLoop={unLoop}
         songDuration={songDuration}
       />
     </>

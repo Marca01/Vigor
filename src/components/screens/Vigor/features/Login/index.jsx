@@ -52,54 +52,36 @@ export default function Login({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Text style={globalStyles.loginTitle}>Signup</Text>
-        <View style={{ width: "100%" }}>
-          <TextInput
-            placeholder="Enter email"
-            onChangeText={(text) => handleEmailChange(text)}
-            style={{
-              borderWidth: 2,
-              borderColor: "orange",
-              margin: 20,
-              paddingVertical: 8,
-              paddingHorizontal: 12,
-            }}
-          />
-          <TextInput
-            placeholder="Enter password"
-            onChangeText={(text) => handlePasswordChange(text)}
-            style={{
-              borderWidth: 2,
-              borderColor: "orange",
-              margin: 20,
-              paddingVertical: 8,
-              paddingHorizontal: 12,
-            }}
-            secureTextEntry={true}
-          />
-          {image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 150, height: 150, resizeMode: "contain" }}
-            />
-          )}
-        </View>
-        <View>
-          <TouchableOpacity onPress={signin}>
-            <Text>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-            <Text>Signup</Text>
-          </TouchableOpacity>
-        </View>
+      <Image
+        style={globalStyles.image_1}
+        source={require("../../../../../assets/images/authImage1.png")}
+        resizeMode="cover"
+      />
+      <View style={globalStyles.inputContainer}>
+        <Text style={globalStyles.loginTitle}>Login</Text>
+        <TextInput
+          placeholder="Enter email"
+          onChangeText={(text) => handleEmailChange(text)}
+          style={globalStyles.input}
+        />
+        <TextInput
+          placeholder="Enter password"
+          onChangeText={(text) => handlePasswordChange(text)}
+          style={globalStyles.input}
+          secureTextEntry={true}
+        />
+        <TouchableOpacity onPress={signin} style={globalStyles.button}>
+          <Text style={globalStyles.button__title}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+          <Text>Signup</Text>
+        </TouchableOpacity>
       </View>
+      <Image
+        style={globalStyles.image_2}
+        source={require("../../../../../assets/images/authImage2.png")}
+        resizeMode="cover"
+      />
     </View>
   );
 }

@@ -170,6 +170,50 @@ export const comment = (text, postId) =>
     }
   );
 
+// Get playlist
+export const getPlaylist = () =>
+  axios.get(`http://192.168.1.16:5000/getPlaylist`, {
+    headers: {
+      Authorization: "Bearer " + process.env.TOKEN,
+    },
+  });
+
+// Update avatar
+export const updateAvatar = (avatar) =>
+  axios.put(
+    `http://192.168.1.16:5000/updateAvatar`,
+    { avatar: avatar },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+      body: JSON.stringify({
+        avatar: avatar,
+      }),
+    }
+  );
+
+// Update user info
+export const updateInfo = (email, name, username) =>
+  axios.put(
+    `http://192.168.1.16:5000/updateInfo`,
+    {
+      email: email,
+      name: name,
+      username: username,
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+      body: JSON.stringify({
+        email,
+        name,
+        username,
+      }),
+    }
+  );
+
 // =============================================================================
 // Store image to cloudinary
 export const createImagePost = (newImagePost) =>

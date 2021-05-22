@@ -567,16 +567,14 @@ export default function HomeNavigation({ navigation }) {
           }}
         />
       ) : (
-        <>
-          <HomeStack.Screen
-            name="Home"
-            component={postNavigator}
-            options={{
-              headerShown: false,
-              //   gestureEnabled: false,
-            }}
-          />
-        </>
+        <HomeStack.Screen
+          name="Home"
+          component={postNavigator}
+          options={{
+            headerShown: false,
+            //   gestureEnabled: false,
+          }}
+        />
       )}
     </HomeStack.Navigator>
   );

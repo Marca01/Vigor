@@ -19,6 +19,7 @@ export function ArtistDetailLayoutArtist({
   artistListeners,
   artistFollowers,
   userId,
+  navigation,
 }) {
   //   const [userPosts, setUserPosts] = useState(null);
   //   // Get all my posts from DB
@@ -79,10 +80,30 @@ export function ArtistDetailLayoutArtist({
     <View style={globalStyles.artistDetail__artist}>
       <View style={globalStyles.artistDetail__intro}>
         {avatar ? (
-          <Image
-            source={{ uri: avatar }}
-            style={globalStyles.artistDetail__intro_avatar}
-          />
+          userData && userData._id === userId ? (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ProfileSetting", { item: userData })
+              }
+            >
+              <Image
+                source={{ uri: avatar }}
+                style={globalStyles.artistDetail__intro_avatar}
+              />
+            </TouchableOpacity>
+          ) : (
+            <Image
+              source={{ uri: avatar }}
+              style={globalStyles.artistDetail__intro_avatar}
+            />
+          )
+        ) : userData && userData._id === userId ? (
+          <TouchableOpacity>
+            <Image
+              source={require("../../../../../../assets/images/noAvatar.png")}
+              style={globalStyles.artistDetail__intro_avatar}
+            />
+          </TouchableOpacity>
         ) : (
           <Image
             source={require("../../../../../../assets/images/noAvatar.png")}

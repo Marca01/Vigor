@@ -20,6 +20,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Title from "../common/SpecialComponents/Title";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function Profile({ navigation }) {
   const ARTIST_LAYOUT = [{ id: "0" }, { id: "1" }];
@@ -58,6 +59,17 @@ export default function Profile({ navigation }) {
 
   // ====================================================================
   // FEATURES
+
+  // Logout
+  const logout = async () => {
+    try {
+      await SecureStore.deleteItemAsync("jwt");
+      console.log("Logout successful");
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Delete posts
   const deletePost = (postId) => {
@@ -174,10 +186,10 @@ export default function Profile({ navigation }) {
         <Title title={userData.username} />
         <TouchableOpacity
           style={globalStyles.artistDetail__setting}
-          onPress={() => navigation.navigate("ProfileSetting")}
+          onPress={() => logout()}
         >
-          <Ionicons
-            name="settings-outline"
+          <AntDesign
+            name="logout"
             size={24}
             color="black"
             style={globalStyles.artistDetail__settingIcon}
@@ -202,6 +214,7 @@ export default function Profile({ navigation }) {
                   artistListeners={userData.following.length}
                   artistFollowers={userData.followers.length}
                   userId={userData._id}
+                  navigation={navigation}
                 />
               ) : (
                 <ArtistDetailPosts />

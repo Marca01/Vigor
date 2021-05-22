@@ -307,7 +307,7 @@ export default function NewPost({ navigation }) {
                 flex: 1,
                 // paddingRight: 15,
               }}
-              placeholder="Title"
+              placeholder="E.g. Yo! What's going on #songTitle#hashtags"
               underlineColorAndroid="transparent"
               multiline
               value={title}

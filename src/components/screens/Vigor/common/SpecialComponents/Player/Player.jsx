@@ -29,6 +29,7 @@ export default function Player({
   updatePosition,
   pauseOrResumeSong,
   loop,
+  unLoop,
   songDuration,
 }) {
   const opacity = isBuffering ? 0.5 : 1;
@@ -351,12 +352,9 @@ export default function Player({
                   />
                 </TouchableOpacity>
               </View>
-              <Ionicons
-                name="repeat"
-                size={30}
-                color={COLOR.gray}
-                onPress={() => loop()}
-              />
+              <TouchableOpacity onPress={loop}>
+                <Ionicons name="repeat" size={30} color={COLOR.gray} />
+              </TouchableOpacity>
             </View>
           </View>
         </View>

@@ -112,7 +112,7 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
                     <BottomTab
                       PLAY_LIST={{
                         sourceUri: item.selectedAudFile,
-                        name: item.hashtag,
+                        name: item.hashtag[0].replace("#", ""),
                         coverImage:
                           "https://i.pinimg.com/564x/92/d4/39/92d4397cfce1cc12813775b3da352bbe.jpg",
                         singer: item.creator.username,
@@ -146,7 +146,7 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
                 {getUserFollowId && getUserFollowId(item.creator._id)}
                 <TouchableOpacity
                   onPress={() =>
-                    navigation.navigate("ViewLikers", { item: item.likers })
+                    navigation.push("ViewLikers", { item: item.likers })
                   }
                 >
                   <Text style={globalStyles.post__stats_like}>
