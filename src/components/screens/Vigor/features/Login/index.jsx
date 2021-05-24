@@ -41,7 +41,7 @@ export default function Login({ navigation }) {
         // AsyncStorage.setItem("@user", JSON.stringify(res.data.user));
         saveJwt("jwt", res.data.token);
         saveUserData("user", JSON.stringify(res.data.user));
-        navigation.navigate("Home");
+        // navigation.navigate("Home");
       })
       .catch((err) => console.log(err));
 

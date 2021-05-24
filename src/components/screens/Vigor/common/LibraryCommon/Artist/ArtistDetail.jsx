@@ -22,7 +22,11 @@ import ArtistLayout from "./ArtistLayout";
 import { Ionicons } from "@expo/vector-icons";
 import Title from "../../SpecialComponents/Title";
 import COLOR from "../../../../../../constants/color";
-import { getFollowPosts, getUserPosts } from "../../../../../../api";
+import {
+  getFollowPosts,
+  getPlaylist,
+  getUserPosts,
+} from "../../../../../../api";
 import BottomSheet from "reanimated-bottom-sheet";
 import Animated from "react-native-reanimated";
 import * as SecureStore from "expo-secure-store";
@@ -35,7 +39,8 @@ export default function ArtistDetail({ navigation, route }) {
   const [posts, setPosts] = useState([]);
   const [userData, setUserData] = useState([]);
 
-  const [followUserId, setFollowUserId] = useState(null);
+  // Get all videos
+  const [VIDEOS, setVIDEOS] = useState([]);
 
   //
   useEffect(() => {
@@ -43,10 +48,14 @@ export default function ArtistDetail({ navigation, route }) {
       .then((res) => {
         setPosts(res.data);
         // console.log(posts);
-        console.log(posts);
+        // setVIDEOS(res.data.posts.map((vid) => vid.selectedVidFile));
+        setVIDEOS(res.data);
+        // console.log(posts);
       })
       .catch((error) => console.log(error));
   }, []);
+
+  // console.log(VIDEOS.posts.map((vid) => vid?.selectedVidFile));
 
   const user = async () => {
     try {
@@ -64,116 +73,127 @@ export default function ArtistDetail({ navigation, route }) {
     });
   }, []);
 
-  const ARTIST_SONGS = [
-    {
-      id: "01",
-      title: "Sweat but psycho",
-      artist: route.params?.item?.artist,
-      time: "3:45",
-    },
-    {
-      id: "02",
-      title: "Faded",
-      artist: route.params?.item?.artist,
-      time: "3:25",
-    },
-    {
-      id: "03",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      time: "3:09",
-    },
-    {
-      id: "04",
-      title: "Sing me to sleep",
-      artist: route.params?.item?.artist,
-      time: "2:59",
-    },
-    {
-      id: "05",
-      title: "Treat you better",
-      artist: route.params?.item?.artist,
-      time: "3:09",
-    },
-  ];
+  // const ARTIST_SONGS = [
+  //   {
+  //     id: "01",
+  //     title: "Sweat but psycho",
+  //     artist: route.params?.item?.artist,
+  //     time: "3:45",
+  //   },
+  //   {
+  //     id: "02",
+  //     title: "Faded",
+  //     artist: route.params?.item?.artist,
+  //     time: "3:25",
+  //   },
+  //   {
+  //     id: "03",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     time: "3:09",
+  //   },
+  //   {
+  //     id: "04",
+  //     title: "Sing me to sleep",
+  //     artist: route.params?.item?.artist,
+  //     time: "2:59",
+  //   },
+  //   {
+  //     id: "05",
+  //     title: "Treat you better",
+  //     artist: route.params?.item?.artist,
+  //     time: "3:09",
+  //   },
+  // ];
 
-  const ARTIST_VIDEOS = [
-    {
-      id: "01",
-      title: "Sweat but psycho Video",
-      artist: route.params?.item?.artist,
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-    },
-    {
-      id: "02",
-      title: "Faded Video",
-      artist: route.params?.item?.artist,
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-    },
-    {
-      id: "03",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-    },
-    {
-      id: "04",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-    },
-    {
-      id: "05",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-    },
-  ];
+  // const ARTIST_VIDEOS = [
+  //   {
+  //     id: "01",
+  //     title: "Sweat but psycho Video",
+  //     artist: route.params?.item?.artist,
+  //     url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //   },
+  //   {
+  //     id: "02",
+  //     title: "Faded Video",
+  //     artist: route.params?.item?.artist,
+  //     url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //   },
+  //   {
+  //     id: "03",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //   },
+  //   {
+  //     id: "04",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //   },
+  //   {
+  //     id: "05",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+  //   },
+  // ];
 
-  const ARTIST_PLAYLISTS = [
-    {
-      id: "01",
-      title: "Sweat but psycho Video",
-      artist: route.params?.item?.artist,
-      url:
-        "https://i.pinimg.com/236x/01/07/88/010788f2eef764c1033035b642e3f854.jpg",
-    },
-    {
-      id: "02",
-      title: "Faded Video",
-      artist: route.params?.item?.artist,
-      url:
-        "https://i.pinimg.com/564x/a8/2f/a7/a82fa7d6b863350016ccf88fe5792604.jpg",
-    },
-    {
-      id: "03",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      url:
-        "https://i.pinimg.com/564x/9a/bb/a0/9abba09889d41368a638fa56c7a671da.jpg",
-    },
-    {
-      id: "04",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      url:
-        "https://i.pinimg.com/564x/4c/ec/13/4cec13679cd4993eebe357de2265b7e6.jpg",
-    },
-    {
-      id: "05",
-      title:
-        "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
-      artist: route.params?.item?.artist,
-      url:
-        "https://i.pinimg.com/564x/3c/18/2d/3c182d73d3bd0fda1603fec3e50c82ba.jpg",
-    },
-  ];
+  const [PLAYLISTS, setPLAYLISTS] = useState([]);
+
+  // Get all playlists
+  useEffect(() => {
+    getPlaylist()
+      .then((res) => {
+        setPLAYLISTS(res.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  // const ARTIST_PLAYLISTS = [
+  //   {
+  //     id: "01",
+  //     title: "Sweat but psycho Video",
+  //     artist: route.params?.item?.artist,
+  //     url:
+  //       "https://i.pinimg.com/236x/01/07/88/010788f2eef764c1033035b642e3f854.jpg",
+  //   },
+  //   {
+  //     id: "02",
+  //     title: "Faded Video",
+  //     artist: route.params?.item?.artist,
+  //     url:
+  //       "https://i.pinimg.com/564x/a8/2f/a7/a82fa7d6b863350016ccf88fe5792604.jpg",
+  //   },
+  //   {
+  //     id: "03",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     url:
+  //       "https://i.pinimg.com/564x/9a/bb/a0/9abba09889d41368a638fa56c7a671da.jpg",
+  //   },
+  //   {
+  //     id: "04",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     url:
+  //       "https://i.pinimg.com/564x/4c/ec/13/4cec13679cd4993eebe357de2265b7e6.jpg",
+  //   },
+  //   {
+  //     id: "05",
+  //     title:
+  //       "In my blood fslkf wjkf wjf wkef kwf kwef lwejf kwjfwklefwefklwef wkefj wlf ",
+  //     artist: route.params?.item?.artist,
+  //     url:
+  //       "https://i.pinimg.com/564x/3c/18/2d/3c182d73d3bd0fda1603fec3e50c82ba.jpg",
+  //   },
+  // ];
 
   const ARTIST_ALBUMS = [
     {
@@ -250,28 +270,6 @@ export default function ArtistDetail({ navigation, route }) {
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Share</Text>
       </TouchableOpacity>
-      {/* {userData.following &&
-      userData.following.some(
-        (getFollow) => getFollow._id === route.params?.item._id
-      ) ? (
-        <TouchableOpacity
-          style={globalStyles.bottomSheetContent__btn}
-          onPress={() => {
-            unFollowOtherUser(route.params?.item._id);
-          }}
-        >
-          <Text style={globalStyles.bottomSheetContent__label}>Following</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={globalStyles.bottomSheetContent__btn}
-          onPress={() => {
-            followOtherUser(route.params?.item._id);
-          }}
-        >
-          <Text style={globalStyles.bottomSheetContent__label}>Follow</Text>
-        </TouchableOpacity>
-      )} */}
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Report</Text>
       </TouchableOpacity>
@@ -314,16 +312,25 @@ export default function ArtistDetail({ navigation, route }) {
     return (
       <ArtistDetailLayoutContent
         contentData={ARTIST_LAYOUT}
-        songData={ARTIST_SONGS}
-        videoData={ARTIST_VIDEOS}
-        playlistData={ARTIST_PLAYLISTS}
+        songData={
+          route.params?.item._id === posts.user._id ? posts.posts : null
+        }
+        videoData={
+          route.params?.item._id === posts.user._id ? posts.posts : null
+        }
+        playlistData={
+          route.params?.item._id ===
+          PLAYLISTS.map((playlistId) => playlistId.creator._id)[0]
+            ? PLAYLISTS
+            : null
+        }
         albumData={ARTIST_ALBUMS}
       />
     );
   }
 
   function ArtistDetailPosts() {
-    return posts ? (
+    return posts && posts.posts.length ? (
       <HomePosts
         posts={posts.posts}
         navigation={navigation}

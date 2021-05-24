@@ -5,10 +5,29 @@ import Title from "../../SpecialComponents/Title";
 import PlaylistList from "./PlaylistList";
 import { Ionicons } from "@expo/vector-icons";
 import { getPlaylist } from "../../../../../../api";
+import * as SecureStore from "expo-secure-store";
 
 export default function Playlist({ navigation }) {
   const PLAYLIST_LAYOUT = [{ id: "0" }, { id: "1" }];
   const [PLAYLISTS, setPLAYLISTS] = useState([]);
+
+  const [userData, setUserData] = useState([]);
+
+  const user = async () => {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData.following);
+    });
+  }, []);
 
   // Get all playlists
   useEffect(() => {
@@ -66,7 +85,8 @@ export default function Playlist({ navigation }) {
                   + create new playlist
                 </Text>
               </TouchableOpacity>
-            ) : (
+            ) : userData._id ===
+              PLAYLISTS.map((playlistId) => playlistId.creator._id)[0] ? (
               <FlatList
                 data={PLAYLISTS}
                 renderItem={({ item }) => (
@@ -79,13 +99,17 @@ export default function Playlist({ navigation }) {
                       playlistTitle={item.title}
                       playlistCreator={item.creator.username}
                       onPress={() =>
-                        navigation.navigate("PlaylistDetail", { item: item })
+                        navigation.navigate("PlaylistDetail", {
+                          item: item,
+                        })
                       }
                     />
                   </View>
                 )}
                 keyExtractor={(item) => item._id}
               />
+            ) : (
+              <Text style={globalStyles.noAssetText}>No playlist</Text>
             )
           }
           keyExtractor={(item) => item.id}

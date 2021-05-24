@@ -61,6 +61,10 @@ export default function Home({ navigation }) {
   //   userId && setFollowUserId(userId);
   // }, [userId]);
 
+  const getFollowUserIdCallback = useCallback((userFollowId) => {
+    setFollowUserId(userFollowId);
+  }, []);
+
   // =====================================================================
   // FEATURES
 
@@ -202,9 +206,10 @@ export default function Home({ navigation }) {
                   <HomePosts
                     posts={posts}
                     onPress={() => sheetRef.current.snapTo(0)}
-                    getUserFollowId={(userFollowId) => {
-                      setFollowUserId(userFollowId);
-                    }}
+                    // getUserFollowId={(userFollowId) => {
+                    //   setFollowUserId(userFollowId);
+                    // }}
+                    getUserFollowId={getFollowUserIdCallback}
                     navigation={navigation}
                   />
                 )

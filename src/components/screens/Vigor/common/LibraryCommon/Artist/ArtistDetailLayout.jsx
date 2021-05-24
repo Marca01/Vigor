@@ -11,6 +11,9 @@ import {
   unFollowOtherUsers,
 } from "../../../../../../api";
 import * as SecureStore from "expo-secure-store";
+import { Feather } from "@expo/vector-icons";
+import COLOR from "../../../../../../constants/color";
+import SongsProfile from "../../SpecialComponents/Player/SongsProfile";
 
 export function ArtistDetailLayoutArtist({
   avatar,
@@ -90,6 +93,14 @@ export function ArtistDetailLayoutArtist({
                 source={{ uri: avatar }}
                 style={globalStyles.artistDetail__intro_avatar}
               />
+              <View style={globalStyles.artistDetail__intro_edit}>
+                <Feather
+                  name="edit-2"
+                  size={18}
+                  color={COLOR.white}
+                  style={globalStyles.artistDetail__intro_editIcon}
+                />
+              </View>
             </TouchableOpacity>
           ) : (
             <Image
@@ -241,46 +252,24 @@ export function ArtistDetailLayoutSongs({ label, songData }) {
       <View style={globalStyles.artistDetail__songs}>
         <FlatList
           data={songData}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={globalStyles.artistDetail__list}>
-              <View style={globalStyles.artistDetail__list_song}>
-                <View style={globalStyles.artistDetail__list_ordinalNumber}>
-                  <Text
-                    style={globalStyles.artistDetail__list_ordinalNumber_number}
-                  >
-                    {item.id}
+          renderItem={({ item, index }) =>
+            item.selectedAudFile && index >= 4 ? (
+              <>
+                <SongsProfile PLAY_LIST={item} />
+                <TouchableOpacity
+                  style={globalStyles.artistDetail__song_moreBtn}
+                >
+                  <Text style={globalStyles.artistDetail__song_moreBtn_label}>
+                    More
                   </Text>
-                </View>
-                <View style={globalStyles.artistDetail__list_content}>
-                  <View style={globalStyles.artistDetail__list_info}>
-                    <Text
-                      numberOfLines={1}
-                      style={globalStyles.artistDetail__list_info_title}
-                    >
-                      {item.title}
-                    </Text>
-                    <View style={globalStyles.artistDetail__list_info_time}>
-                      <Text
-                        style={globalStyles.artistDetail__list_info_duration}
-                      >
-                        {item.time}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              <View style={globalStyles.artistDetail__list_options}>
-                <AntDesign name="hearto" size={18} color="#ff9f67" />
-              </View>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
+                </TouchableOpacity>
+              </>
+            ) : (
+              item.selectedAudFile && <SongsProfile PLAY_LIST={item} />
+            )
+          }
+          keyExtractor={(item) => item._id}
         />
-        <TouchableOpacity style={globalStyles.artistDetail__song_moreBtn}>
-          <Text style={globalStyles.artistDetail__song_moreBtn_label}>
-            More
-          </Text>
-        </TouchableOpacity>
       </View>
     </>
   );
@@ -295,35 +284,51 @@ export function ArtistDetailLayoutVideos({ label, videoData }) {
         <FlatList
           data={videoData}
           renderItem={({ item, index }) =>
-            index >= videoData.length - 1 ? (
+            item.selectedVidFile && index >= 4 ? (
               <>
-                <TouchableOpacity style={globalStyles.artistDetail__list_Vid}>
-                  <View style={globalStyles.artistDetail__list_video}>
-                    <Video
-                      ref={video}
-                      style={globalStyles.artistDetail__list_video_thumbVideo}
-                      source={{
-                        uri: item.url,
-                      }}
-                      useNativeControls
-                      isLooping
-                      // onPlaybackStatusUpdate={status => setStatus(() => status)}
-                    />
-                    <View style={globalStyles.artistDetail__list_video_content}>
-                      <View style={globalStyles.artistDetail__list_video_info}>
-                        <Text
-                          numberOfLines={1}
-                          style={globalStyles.artistDetail__list_info_infoTitle}
+                {item.selectedVidFile && (
+                  <TouchableOpacity style={globalStyles.artistDetail__list_Vid}>
+                    <View style={globalStyles.artistDetail__list_video}>
+                      <>
+                        <Video
+                          ref={video}
+                          style={
+                            globalStyles.artistDetail__list_video_thumbVideo
+                          }
+                          source={{
+                            uri: item.selectedVidFile,
+                          }}
+                          useNativeControls
+                          isLooping
+                          // onPlaybackStatusUpdate={status => setStatus(() => status)}
+                        />
+                        <View
+                          style={globalStyles.artistDetail__list_video_content}
                         >
-                          {item.title}
-                        </Text>
-                      </View>
-                      <View style={globalStyles.artistDetail__list_options}>
-                        <AntDesign name="hearto" size={18} color="#ff9f67" />
-                      </View>
+                          <View
+                            style={globalStyles.artistDetail__list_video_info}
+                          >
+                            <Text
+                              numberOfLines={1}
+                              style={
+                                globalStyles.artistDetail__list_info_infoTitle
+                              }
+                            >
+                              {item.hashtag[0].replace("#", "")}
+                            </Text>
+                          </View>
+                          <View style={globalStyles.artistDetail__list_options}>
+                            <AntDesign
+                              name="hearto"
+                              size={18}
+                              color="#ff9f67"
+                            />
+                          </View>
+                        </View>
+                      </>
                     </View>
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                )}
                 <TouchableOpacity
                   style={globalStyles.artistDetail__video_moreBtn}
                 >
@@ -333,36 +338,46 @@ export function ArtistDetailLayoutVideos({ label, videoData }) {
                 </TouchableOpacity>
               </>
             ) : (
-              <TouchableOpacity style={globalStyles.artistDetail__list_Vid}>
-                <View style={globalStyles.artistDetail__list_video}>
-                  <Video
-                    ref={video}
-                    style={globalStyles.artistDetail__list_video_thumbVideo}
-                    source={{
-                      uri: item.url,
-                    }}
-                    useNativeControls
-                    isLooping
-                    // onPlaybackStatusUpdate={status => setStatus(() => status)}
-                  />
-                  <View style={globalStyles.artistDetail__list_video_content}>
-                    <View style={globalStyles.artistDetail__list_video_info}>
-                      <Text
-                        numberOfLines={2}
-                        style={globalStyles.artistDetail__list_info_infoTitle}
+              item.selectedVidFile && (
+                <TouchableOpacity style={globalStyles.artistDetail__list_Vid}>
+                  <View style={globalStyles.artistDetail__list_video}>
+                    <>
+                      <Video
+                        ref={video}
+                        style={globalStyles.artistDetail__list_video_thumbVideo}
+                        source={{
+                          uri: item.selectedVidFile,
+                        }}
+                        useNativeControls
+                        isLooping
+                        // onPlaybackStatusUpdate={status => setStatus(() => status)}
+                      />
+                      <View
+                        style={globalStyles.artistDetail__list_video_content}
                       >
-                        {item.title}
-                      </Text>
-                    </View>
-                    <View style={globalStyles.artistDetail__list_options}>
-                      <AntDesign name="hearto" size={18} color="#ff9f67" />
-                    </View>
+                        <View
+                          style={globalStyles.artistDetail__list_video_info}
+                        >
+                          <Text
+                            numberOfLines={1}
+                            style={
+                              globalStyles.artistDetail__list_info_infoTitle
+                            }
+                          >
+                            {item.hashtag[0].replace("#", "")}
+                          </Text>
+                        </View>
+                        <View style={globalStyles.artistDetail__list_options}>
+                          <AntDesign name="hearto" size={18} color="#ff9f67" />
+                        </View>
+                      </View>
+                    </>
                   </View>
-                </View>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              )
             )
           }
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
@@ -378,33 +393,60 @@ export function ArtistDetailLayoutPlaylists({ label, playlistData }) {
         <FlatList
           data={playlistData}
           renderItem={({ item, index }) =>
-            index >= playlistData.length - 1 ? (
+            index >= 4 ? (
               <>
                 <TouchableOpacity style={globalStyles.artistDetail__list_Pll}>
                   <View style={globalStyles.artistDetail__list_playlist}>
-                    <Image
-                      source={{ uri: item.url }}
-                      style={
-                        globalStyles.artistDetail__list_playlist_thumbPlaylist
-                      }
-                    />
-                    <View
-                      style={globalStyles.artistDetail__list_playlist_content}
-                    >
-                      <View
-                        style={globalStyles.artistDetail__list_playlist_info}
-                      >
-                        <Text
-                          numberOfLines={2}
-                          style={globalStyles.artistDetail__list_info_infoTitle}
+                    {playlistData.length ? (
+                      <>
+                        <Image
+                          source={{
+                            uri:
+                              "https://i.pinimg.com/564x/d3/d3/62/d3d362c198d7483aaf3e5852be209526.jpg",
+                          }}
+                          style={
+                            globalStyles.artistDetail__list_playlist_thumbPlaylist
+                          }
+                        />
+                        <View
+                          style={
+                            globalStyles.artistDetail__list_playlist_content
+                          }
                         >
-                          {item.title}
-                        </Text>
-                      </View>
-                      <View style={globalStyles.artistDetail__list_options}>
-                        <AntDesign name="hearto" size={18} color="#ff9f67" />
-                      </View>
-                    </View>
+                          <View
+                            style={
+                              globalStyles.artistDetail__list_playlist_info
+                            }
+                          >
+                            <Text
+                              numberOfLines={2}
+                              style={
+                                globalStyles.artistDetail__list_info_infoTitle
+                              }
+                            >
+                              {item.title}
+                            </Text>
+                          </View>
+                          <View style={globalStyles.artistDetail__list_options}>
+                            <AntDesign
+                              name="hearto"
+                              size={18}
+                              color="#ff9f67"
+                            />
+                          </View>
+                        </View>
+                      </>
+                    ) : (
+                      <Text
+                        style={{
+                          color: COLOR.gray,
+                          fontSize: 25,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        No playlist
+                      </Text>
+                    )}
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -420,27 +462,48 @@ export function ArtistDetailLayoutPlaylists({ label, playlistData }) {
             ) : (
               <TouchableOpacity style={globalStyles.artistDetail__list_Pll}>
                 <View style={globalStyles.artistDetail__list_playlist}>
-                  <Image
-                    source={{ uri: item.url }}
-                    style={
-                      globalStyles.artistDetail__list_playlist_thumbPlaylist
-                    }
-                  />
-                  <View
-                    style={globalStyles.artistDetail__list_playlist_content}
-                  >
-                    <View style={globalStyles.artistDetail__list_playlist_info}>
-                      <Text
-                        numberOfLines={1}
-                        style={globalStyles.artistDetail__list_info_infoTitle}
+                  {playlistData.length ? (
+                    <>
+                      <Image
+                        source={{
+                          uri:
+                            "https://i.pinimg.com/564x/d3/d3/62/d3d362c198d7483aaf3e5852be209526.jpg",
+                        }}
+                        style={
+                          globalStyles.artistDetail__list_playlist_thumbPlaylist
+                        }
+                      />
+                      <View
+                        style={globalStyles.artistDetail__list_playlist_content}
                       >
-                        {item.title}
-                      </Text>
-                    </View>
-                    <View style={globalStyles.artistDetail__list_options}>
-                      <AntDesign name="hearto" size={18} color="#ff9f67" />
-                    </View>
-                  </View>
+                        <View
+                          style={globalStyles.artistDetail__list_playlist_info}
+                        >
+                          <Text
+                            numberOfLines={2}
+                            style={
+                              globalStyles.artistDetail__list_info_infoTitle
+                            }
+                          >
+                            {item.title}
+                          </Text>
+                        </View>
+                        <View style={globalStyles.artistDetail__list_options}>
+                          <AntDesign name="hearto" size={18} color="#ff9f67" />
+                        </View>
+                      </View>
+                    </>
+                  ) : (
+                    <Text
+                      style={{
+                        color: COLOR.gray,
+                        fontSize: 25,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      No playlist
+                    </Text>
+                  )}
                 </View>
               </TouchableOpacity>
             )

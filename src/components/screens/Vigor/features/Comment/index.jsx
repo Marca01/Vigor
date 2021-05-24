@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,18 +9,45 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from "react-native";
 import { globalStyles } from "../../../../../styles/global";
 import Title from "../../common/SpecialComponents/Title";
-import { comment } from "../../../../../api/";
+import { comment, deleteComments } from "../../../../../api/";
 import { AntDesign } from "@expo/vector-icons";
 import moment from "moment";
+import * as SecureStore from "expo-secure-store";
+import { SwipeListView } from "react-native-swipe-list-view";
+import { MaterialIcons } from "@expo/vector-icons";
+import Animated, { Easing } from "react-native-reanimated";
 
 export default function Comment({ navigation, route }) {
   const CMT_LAYOUT = [{ id: "0" }, { id: "1" }];
 
   const [newComment, setNewComment] = useState([]);
   const [textComment, setTextComment] = useState("");
+
+  const [userData, setUserData] = useState(null);
+
+  const user = async () => {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData._id);
+    });
+  }, []);
+
+  //
+  const rowActionAnimatedValue = new Animated.Value(75);
+  const rowHeightAnimatedValue = new Animated.Value(80);
 
   // ======================================================================
   // FEATURES
@@ -35,6 +62,16 @@ export default function Comment({ navigation, route }) {
       .catch((error) => console.log(error));
   };
 
+  // delete comment
+  const deleteComment = (postId, commentId) => {
+    deleteComments(postId, commentId)
+      .then((res) => {
+        console.log(res.data);
+        console.log("post id " + route.params?.item._id);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <View style={globalStyles.container}>
       <KeyboardAvoidingView
@@ -43,66 +80,99 @@ export default function Comment({ navigation, route }) {
         keyboardVerticalOffset={70}
       >
         <View style={globalStyles.comment}>
-          <FlatList
+          <SwipeListView
             data={route.params?.item.comments}
-            keyboardDismissMode="on-drag"
-            renderItem={({ item }) =>
-              !item.text ? (
-                <View style={{ flex: 1 }}>
-                  <Text>No comment</Text>
-                </View>
-              ) : (
-                <View key={item._id} style={globalStyles.comment__comments}>
-                  <View style={globalStyles.comment__user}>
-                    {item.creator.profilePicture ? (
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.push("ArtistDetail", { item: item })
-                        }
-                      >
-                        <Image
-                          source={{ uri: item.creator.profilePicture }}
-                          style={globalStyles.comment__user_avatar}
-                        />
-                      </TouchableOpacity>
-                    ) : (
+            renderItem={(data) => (
+              <View key={data.item._id} style={globalStyles.comment__comments}>
+                <View style={globalStyles.comment__user}>
+                  {data.item.creator.profilePicture ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        data.item.creator._id === userData._id
+                          ? navigation.push("Profile")
+                          : navigation.push("ArtistDetail", {
+                              item: data.item.creator,
+                            });
+                      }}
+                    >
                       <Image
-                        source={require("../../../../../assets/images/noAvatar.png")}
+                        source={{ uri: data.item.creator.profilePicture }}
                         style={globalStyles.comment__user_avatar}
                       />
-                    )}
-                    <View style={globalStyles.comment__content}>
-                      <View style={globalStyles.comment__userComment}>
-                        <Text
-                          style={globalStyles.comment__userComment_username}
-                        >
-                          {item.creator.username}
+                    </TouchableOpacity>
+                  ) : (
+                    <Image
+                      source={require("../../../../../assets/images/noAvatar.png")}
+                      style={globalStyles.comment__user_avatar}
+                    />
+                  )}
+                  <View style={globalStyles.comment__content}>
+                    <View style={globalStyles.comment__userComment}>
+                      <Text style={globalStyles.comment__userComment_username}>
+                        {data.item.creator.username}
+                      </Text>
+                      <Text style={globalStyles.comment__userComment_text}>
+                        {data.item.text}
+                      </Text>
+                    </View>
+                    <View style={globalStyles.comment__stats}>
+                      <TouchableOpacity>
+                        <Text style={globalStyles.comment__stats_createdAt}>
+                          {moment(data.item.createdAt).fromNow()}
                         </Text>
-                        <Text style={globalStyles.comment__userComment_text}>
-                          {item.text}
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Text style={globalStyles.comment__stats_likes}>
+                          100 likes
                         </Text>
-                      </View>
-                      <View style={globalStyles.comment__stats}>
-                        <TouchableOpacity>
-                          <Text style={globalStyles.comment__stats_createdAt}>
-                            {moment(item.createdAt).fromNow()}
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                          <Text style={globalStyles.comment__stats_likes}>
-                            100 likes
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
+                      </TouchableOpacity>
                     </View>
                   </View>
-                  <TouchableOpacity style={globalStyles.comment__likeComment}>
-                    <AntDesign name="hearto" size={16} color="red" />
+                </View>
+                <TouchableOpacity style={globalStyles.comment__likeComment}>
+                  <AntDesign name="hearto" size={16} color="red" />
+                </TouchableOpacity>
+              </View>
+            )}
+            renderHiddenItem={(data) =>
+              userData &&
+              data.item.creator._id === userData._id && (
+                <View
+                  style={{
+                    alignItems: "center",
+                    backgroundColor: "red",
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      bottom: 0,
+                      justifyContent: "center",
+                      position: "absolute",
+                      top: 0,
+                      width: 75,
+                      backgroundColor: "red",
+                      right: 0,
+                    }}
+                    onPress={() =>
+                      deleteComment(route.params?.item._id, data.item._id)
+                    }
+                  >
+                    <MaterialIcons
+                      name="delete-outline"
+                      size={24}
+                      color="white"
+                    />
                   </TouchableOpacity>
                 </View>
               )
             }
-            keyExtractor={(item) => item._id}
+            rightOpenValue={-80}
+            disableRightSwipe
+            useNativeDriver={true}
           />
         </View>
         <View style={globalStyles.comment__input}>

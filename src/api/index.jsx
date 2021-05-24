@@ -170,6 +170,17 @@ export const comment = (text, postId) =>
     }
   );
 
+// Delete comment
+export const deleteComments = (postId, commentId) =>
+  axios.delete(
+    `http://192.168.1.16:5000/deleteComment/${postId}/${commentId}`,
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    }
+  );
+
 // Get playlist
 export const getPlaylist = () =>
   axios.get(`http://192.168.1.16:5000/getPlaylist`, {

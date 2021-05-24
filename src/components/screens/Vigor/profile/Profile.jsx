@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   RefreshControl,
+  Alert,
 } from "react-native";
 import { globalStyles } from "../../../../styles/global";
 import * as SecureStore from "expo-secure-store";
@@ -65,6 +66,7 @@ export default function Profile({ navigation }) {
     try {
       await SecureStore.deleteItemAsync("jwt");
       console.log("Logout successful");
+      Alert.alert("Logout successful");
       navigation.navigate("Login");
     } catch (error) {
       console.log(error);
@@ -149,18 +151,6 @@ export default function Profile({ navigation }) {
         navigation={navigation}
         onPress={() => sheetRef.current.snapTo(0)}
       />
-      // ) : (
-      //   <View
-      //     style={{
-      //       alignItems: "center",
-      //       justifyContent: "center",
-      //       backgroundColor: "red",
-      //       flex: 1,
-      //     }}
-      //   >
-      //     <Text>No posts available</Text>
-      //   </View>
-      // );
     );
   }
 

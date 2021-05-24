@@ -521,6 +521,8 @@ export default function HomeNavigation({ navigation }) {
       try {
         const token = await SecureStore.getItemAsync("jwt");
         return token;
+        // setUserToken(token);
+        // console.log("token " + userToken);
       } catch (e) {
         console.log(e);
       }
@@ -529,6 +531,8 @@ export default function HomeNavigation({ navigation }) {
       setUserToken(token);
     });
   }, []);
+  console.log("token out " + userToken);
+
   console.log("====================================");
   console.log("render 1");
   console.log("====================================");

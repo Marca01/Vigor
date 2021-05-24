@@ -66,6 +66,12 @@ export const globalStyles = StyleSheet.create({
     marginLeft: 8,
   },
 
+  noAssetText: {
+    color: COLOR.gray,
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+
   // =================================================================
   // Login.jsx
   image_1: {
@@ -730,6 +736,18 @@ export const globalStyles = StyleSheet.create({
     position: "relative",
     bottom: 65,
     marginBottom: -50,
+  },
+  artistDetail__intro_edit: {
+    borderRadius: 50,
+    position: "absolute",
+    // zIndex: 600,
+    right: 15,
+    top: 0,
+    backgroundColor: COLOR.main,
+  },
+  artistDetail__intro_editIcon: {
+    // backgroundColor: "red",
+    padding: 8,
   },
   artistDetail__intro_username: {
     marginBottom: 40,
@@ -1643,7 +1661,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     // justifyContent: "space-between",
     paddingTop: 20,
-    // backgroundColor: "red",
+    backgroundColor: COLOR.white,
   },
   comment__user: {
     flexDirection: "row",
@@ -1661,7 +1679,6 @@ export const globalStyles = StyleSheet.create({
   },
   comment__userComment: {
     flexDirection: "row",
-    // backgroundColor: "red",
   },
   comment__userComment_username: {
     fontWeight: "bold",
