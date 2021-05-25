@@ -189,6 +189,18 @@ export const getPlaylist = () =>
     },
   });
 
+// Create playlist
+export const createPlaylist = (newPlaylist) =>
+  axios.post(
+    `http://192.168.1.16:5000/createPlaylist`,
+    { title: newPlaylist },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    }
+  );
+
 // Update avatar
 export const updateAvatar = (avatar) =>
   axios.put(

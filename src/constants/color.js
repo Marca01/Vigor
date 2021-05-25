@@ -9,5 +9,6 @@ export default COLOR = {
     border: '#fcdede',
     inputBackground: '#e5e5e5',
     inactive: '#acacac',
-    sheetHandle: '#00000040'
+    sheetHandle: '#00000040',
+    backgroundAudPost: '#ffece3'
 }

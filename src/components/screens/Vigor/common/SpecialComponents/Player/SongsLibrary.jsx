@@ -17,8 +17,9 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 // import PlayerModal from "./PlayerModal";
 import PropTypes from "prop-types";
+import SongList from "../../LibraryCommon/Song/SongList";
 
-export default function SongsProfile({ PLAY_LIST }) {
+export default function SongsLibrary({ PLAY_LIST }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [playingSong, setPlayingSong] = useState({});
   const [isBuffering, setBuffering] = useState(false);
@@ -153,40 +154,7 @@ export default function SongsProfile({ PLAY_LIST }) {
       {PLAY_LIST.map(
         (item, index) =>
           item.selectedAudFile && (
-            <TouchableOpacity
-              style={globalStyles.artistDetail__list}
-              onPress={() => playSong(item, index)}
-            >
-              <View style={globalStyles.artistDetail__list_song}>
-                <View style={globalStyles.artistDetail__list_ordinalNumber}>
-                  <Text
-                    style={globalStyles.artistDetail__list_ordinalNumber_number}
-                  >
-                    {(index + 1).toString()}
-                  </Text>
-                </View>
-                <View style={globalStyles.artistDetail__list_content}>
-                  <View style={globalStyles.artistDetail__list_info}>
-                    <Text
-                      numberOfLines={1}
-                      style={globalStyles.artistDetail__list_info_title}
-                    >
-                      {item.hashtag?.[0].replace("#", "")}
-                    </Text>
-                    <View style={globalStyles.artistDetail__list_info_time}>
-                      <Text
-                        style={globalStyles.artistDetail__list_info_duration}
-                      >
-                        {displayTime(songDuration)}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              <View style={globalStyles.artistDetail__list_options}>
-                <AntDesign name="hearto" size={18} color="#ff9f67" />
-              </View>
-            </TouchableOpacity>
+            <SongList songData={item} onPress={() => playSong(item, index)} />
           )
       )}
       <PlayerProfile

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,38 +14,39 @@ import Title from "../../SpecialComponents/Title";
 import { Feather } from "@expo/vector-icons";
 import { globalStyles } from "../../../../../../styles/global";
 import VideoList from "./VideoList";
+import * as SecureStore from "expo-secure-store";
+import { getMyPosts } from "../../../../../../api";
 
 export default function Video({ navigation }) {
   const VIDEO_LAYOUT = [{ id: "0" }, { id: "1" }];
 
-  const VIDEOS = [
-    {
-      id: "1",
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-      title: "Ava Max",
-      artist: "Ava Max",
-      // listeners: '10M',
-      // followers: '10.5k'
-    },
-    {
-      id: "2",
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-      title: "Alan Walker",
-      artist: "Alan Walker",
-      // listeners: '9M',
-      // followers: '1.5k'
-    },
-    {
-      id: "3",
-      url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-      title:
-        "Shawn Mendes wfwefwef folfow efwjf wjf oweikf wefjwefj wejf ;woekfjw ekofjweo foweif jf",
-      artist:
-        "Shawn Mendes lkfsd fkdsf f ưe w kfjwefkwf wkf elf jwf jowefj wijfowjfow jfwe fiwejf flk fiowe of",
-      // listeners: '30M',
-      // followers: '35.8k'
-    },
-  ];
+  const [VIDEOS, setVIDEOS] = useState([]);
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    getMyPosts()
+      .then((res) => {
+        setVIDEOS(res.data);
+        // console.log(VIDEOS.map((postId) => postId._id).map((id) => id));
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const user = async () => {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData.following);
+    });
+  }, []);
 
   const [search, setSearch] = useState("");
 
@@ -84,7 +85,11 @@ export default function Video({ navigation }) {
               </TouchableOpacity>
             ) : (
               <View style={globalStyles.videos__video}>
-                <VideoList videoData={VIDEOS} />
+                <VideoList
+                  videoData={VIDEOS.filter(
+                    (videoPost) => videoPost.selectedVidFile
+                  )}
+                />
               </View>
             )
           }

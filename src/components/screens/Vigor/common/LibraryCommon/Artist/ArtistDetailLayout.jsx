@@ -250,25 +250,8 @@ export function ArtistDetailLayoutSongs({ label, songData }) {
     <>
       <Text style={globalStyles.artistDetail__songs_title}>{label}</Text>
       <View style={globalStyles.artistDetail__songs}>
-        <FlatList
-          data={songData}
-          renderItem={({ item, index }) =>
-            item.selectedAudFile && index >= 4 ? (
-              <>
-                <SongsProfile PLAY_LIST={item} />
-                <TouchableOpacity
-                  style={globalStyles.artistDetail__song_moreBtn}
-                >
-                  <Text style={globalStyles.artistDetail__song_moreBtn_label}>
-                    More
-                  </Text>
-                </TouchableOpacity>
-              </>
-            ) : (
-              item.selectedAudFile && <SongsProfile PLAY_LIST={item} />
-            )
-          }
-          keyExtractor={(item) => item._id}
+        <SongsProfile
+          PLAY_LIST={songData.filter((song) => song.selectedAudFile)}
         />
       </View>
     </>

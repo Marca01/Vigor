@@ -489,6 +489,53 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "500",
     marginRight: 5,
   },
+  // ======
+  // Modal
+  createPlaylist__header: {
+    marginTop: 42,
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  createPlaylist__body: {
+    alignItems: "center",
+    marginTop: 30,
+    paddingHorizontal: 20,
+    flex: 1,
+  },
+  createPlaylist__body_title: {
+    marginBottom: 30,
+  },
+  createPlaylist__body_title_text: {
+    fontSize: 23,
+    fontWeight: "500",
+  },
+  createPlaylist__body_input: {
+    backgroundColor: COLOR.white,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 110,
+    borderBottomWidth: 1,
+    borderBottomColor: COLOR.inputBackground,
+  },
+  createPlaylist__body_nameInput: {
+    color: COLOR.grey,
+    fontSize: 16,
+    fontWeight: "600",
+    flex: 1,
+    paddingVertical: 10,
+  },
+  createPlaylist__body_createBtn: {
+    backgroundColor: COLOR.main,
+    borderRadius: 50,
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+  },
+  createPlaylist__body_createBtn_label: {
+    color: COLOR.white,
+    fontSize: 20,
+    fontWeight: "500",
+  },
 
   // =================================
   // PlaylistDetail.jsx
@@ -1307,6 +1354,9 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 10,
   },
   songs__song: {},
+  songs__detail: {
+    flex: 1,
+  },
   songs__list: {
     flexDirection: "row",
     alignItems: "center",

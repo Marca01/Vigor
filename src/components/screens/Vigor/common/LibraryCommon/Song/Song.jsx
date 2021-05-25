@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,42 +14,39 @@ import { Ionicons } from "@expo/vector-icons";
 import Title from "../../SpecialComponents/Title";
 import { Feather } from "@expo/vector-icons";
 import SongList from "./SongList";
+import * as SecureStore from "expo-secure-store";
+import { getMyPosts } from "../../../../../../api";
+import SongsLibrary from "../../SpecialComponents/Player/SongsLibrary";
 
 export default function Song({ navigation }) {
-  const SONGS = [
-    {
-      id: "0",
-    },
-    {
-      id: "1",
-      url:
-        "https://i.pinimg.com/564x/c9/4f/ea/c94fea83c106aae300adba72a4941051.jpg",
-      title: "Ava Max fowenjfwuof",
-      artist: "Ava Max",
-      // listeners: '10M',
-      // followers: '10.5k'
-    },
-    {
-      id: "2",
-      url:
-        "https://i.pinimg.com/564x/57/88/00/5788002984cabcfff17007b467421140.jpg",
-      title: "Alan Walker wfwefwef",
-      artist: "Alan Walker",
-      // listeners: '9M',
-      // followers: '1.5k'
-    },
-    {
-      id: "3",
-      url:
-        "https://i.pinimg.com/564x/e1/a3/de/e1a3de3ac657755084807f547c12064e.jpg",
-      title:
-        "Shawn Mendes wfwefwef folfow efwjf wjf oweikf wefjwefj wejf ;woekfjw ekofjweo foweif jf",
-      artist:
-        "Shawn Mendes lkfsd fkdsf f ưe w kfjwefkwf wkf elf jwf jowefj wijfowjfow jfwe fiwejf flk fiowe of",
-      // listeners: '30M',
-      // followers: '35.8k'
-    },
-  ];
+  const SONG_LAYOUT = [{ id: "0" }, { id: "1" }];
+
+  const [SONGS, setSONGS] = useState([]);
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    getMyPosts()
+      .then((res) => {
+        setSONGS(res.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const user = async () => {
+    try {
+      const user = await SecureStore.getItemAsync("user");
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    user().then((userJson) => {
+      setUserData(JSON.parse(userJson));
+      console.log(userData.following);
+    });
+  }, []);
 
   const [search, setSearch] = useState("");
 
@@ -74,7 +71,7 @@ export default function Song({ navigation }) {
 
       <View style={globalStyles.songs}>
         <FlatList
-          data={SONGS}
+          data={SONG_LAYOUT}
           renderItem={({ item }) =>
             item.id === "0" ? (
               <TouchableOpacity style={globalStyles.songs__search}>
@@ -88,10 +85,10 @@ export default function Song({ navigation }) {
               </TouchableOpacity>
             ) : (
               <View style={globalStyles.songs__song}>
-                <SongList
-                  url={{ uri: item.url }}
-                  songName={item.title}
-                  songArtist={item.artist}
+                <SongsLibrary
+                  PLAY_LIST={SONGS.filter(
+                    (songPost) => songPost.selectedAudFile
+                  )}
                 />
               </View>
             )

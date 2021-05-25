@@ -6,12 +6,15 @@ import PlaylistList from "./PlaylistList";
 import { Ionicons } from "@expo/vector-icons";
 import { getPlaylist } from "../../../../../../api";
 import * as SecureStore from "expo-secure-store";
+import NewPlaylistModal from "./NewPlaylistModal";
 
 export default function Playlist({ navigation }) {
   const PLAYLIST_LAYOUT = [{ id: "0" }, { id: "1" }];
   const [PLAYLISTS, setPLAYLISTS] = useState([]);
 
   const [userData, setUserData] = useState([]);
+
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const user = async () => {
     try {
@@ -29,6 +32,7 @@ export default function Playlist({ navigation }) {
     });
   }, []);
 
+  // ====================================================================
   // Get all playlists
   useEffect(() => {
     getPlaylist()
@@ -39,29 +43,10 @@ export default function Playlist({ navigation }) {
       .catch((error) => console.log(error));
   }, []);
 
-  // const PLAYLISTS = [
-  // 	{
-  // 		id: '0'
-  // 	},
-  // 	{
-  // 		id: '1',
-  // 		url: 'https://i.pinimg.com/564x/d3/d3/62/d3d362c198d7483aaf3e5852be209526.jpg',
-  // 		title: 'Lofi',
-  // 		creator: 'Marca',
-  // 	},
-  // 	{
-  // 		id: '2',
-  // 		url: 'https://i.pinimg.com/564x/9a/54/fb/9a54fb3f939fbcd3a79bf1783d4aabaf.jpg',
-  // 		title: 'Best of 2018 whfjhweofhjweihijwhejrhweprheo;jik',
-  // 		creator: 'Marca',
-  // 	},
-  // 	{
-  // 		id: '3',
-  // 		url: 'https://i.pinimg.com/564x/64/63/c4/6463c4f1447a1811eef2413de528c226.jpg',
-  // 		title: 'Best of 2019 and to speak of solitude sfsdjfkl aslkdfjlf lhfsd fklgjs gersjf ;lasjdflkjas dfjkw',
-  // 		creator: 'Marca',
-  // 	},
-  // ]
+  // ====================================================================
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   return (
     <View style={globalStyles.container}>
@@ -80,15 +65,19 @@ export default function Playlist({ navigation }) {
           data={PLAYLIST_LAYOUT}
           renderItem={({ item }) =>
             item.id === "0" ? (
-              <TouchableOpacity style={globalStyles.playlists__createBtn}>
+              <TouchableOpacity
+                style={globalStyles.playlists__createBtn}
+                onPress={toggleModal}
+              >
                 <Text style={globalStyles.playlists__createBtn_text}>
                   + create new playlist
                 </Text>
               </TouchableOpacity>
-            ) : userData._id ===
-              PLAYLISTS.map((playlistId) => playlistId.creator._id)[0] ? (
+            ) : (
               <FlatList
-                data={PLAYLISTS}
+                data={PLAYLISTS.filter(
+                  (playlistId) => playlistId.creator._id === userData._id
+                )}
                 renderItem={({ item }) => (
                   <View style={globalStyles.playlists__playlist}>
                     <PlaylistList
@@ -108,14 +97,16 @@ export default function Playlist({ navigation }) {
                 )}
                 keyExtractor={(item) => item._id}
               />
-            ) : (
-              <Text style={globalStyles.noAssetText}>No playlist</Text>
             )
           }
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <NewPlaylistModal
+        isModalVisible={isModalVisible}
+        closeModal={toggleModal}
+      />
     </View>
   );
 }

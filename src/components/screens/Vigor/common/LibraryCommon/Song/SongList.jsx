@@ -1,19 +1,29 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
 import { globalStyles } from "../../../../../../styles/global";
 import { SimpleLineIcons } from "@expo/vector-icons";
 
-export default function SongList({ url, songName, songArtist }) {
+export default function SongList({ songData, onPress }) {
   return (
-    <TouchableOpacity style={globalStyles.songs__list}>
+    <TouchableOpacity
+      style={globalStyles.songs__list}
+      onPress={onPress}
+      key={songData._id}
+    >
       <View style={globalStyles.songs__list_content}>
-        <Image source={url} style={globalStyles.songs__list_avatar} />
+        <Image
+          source={{
+            uri:
+              "https://i.pinimg.com/564x/92/d4/39/92d4397cfce1cc12813775b3da352bbe.jpg",
+          }}
+          style={globalStyles.songs__list_avatar}
+        />
         <View style={globalStyles.songs__list_info}>
           <Text numberOfLines={2} style={globalStyles.songs__list_info_name}>
-            {songName}
+            {songData.hashtag[0].replace("#", "")}
           </Text>
           <Text numberOfLines={1} style={globalStyles.songs__list_info_artist}>
-            {songArtist}
+            {songData.creator.username}
           </Text>
         </View>
       </View>
