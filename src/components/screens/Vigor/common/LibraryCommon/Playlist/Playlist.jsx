@@ -73,7 +73,7 @@ export default function Playlist({ navigation }) {
                   + create new playlist
                 </Text>
               </TouchableOpacity>
-            ) : (
+            ) : PLAYLISTS ? (
               <FlatList
                 data={PLAYLISTS.filter(
                   (playlistId) => playlistId.creator._id === userData._id
@@ -97,6 +97,10 @@ export default function Playlist({ navigation }) {
                 )}
                 keyExtractor={(item) => item._id}
               />
+            ) : (
+              <View style={{ flex: 1, backgroundColor: "red" }}>
+                <Text>No playlist</Text>
+              </View>
             )
           }
           keyExtractor={(item) => item.id}

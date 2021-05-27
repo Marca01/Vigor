@@ -45,9 +45,10 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 10,
   },
   bottomSheetContent: {
-    backgroundColor: COLOR.inputBackground,
+    backgroundColor: COLOR.default,
     padding: 16,
-    height: 450,
+    height: 750,
+    // flex: 1,
   },
   bottomSheetContent__btn: {
     flexDirection: "row",
@@ -64,6 +65,27 @@ export const globalStyles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     marginLeft: 8,
+  },
+
+  bottomSheetContent__newPlaylistBtn: {
+    backgroundColor: COLOR.main,
+    borderRadius: 50,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "65%",
+    alignSelf: "center",
+    marginTop: 10,
+  },
+  bottomSheetContent__newPlaylistBtn_label: {
+    color: COLOR.white,
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  bottomSheetContent__playlists: {
+    marginTop: 30,
+    flex: 1,
   },
 
   noAssetText: {
@@ -527,6 +549,12 @@ export const globalStyles = StyleSheet.create({
   },
   createPlaylist__body_createBtn: {
     backgroundColor: COLOR.main,
+    borderRadius: 50,
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+  },
+  createPlaylist__body_createBtn_disabled: {
+    backgroundColor: COLOR.gray,
     borderRadius: 50,
     paddingHorizontal: 30,
     paddingVertical: 15,

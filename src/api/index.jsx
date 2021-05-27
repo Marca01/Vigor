@@ -142,7 +142,7 @@ export const unFollowOtherUsers = (userId) =>
     }
   );
 
-// Search other users '
+// Search other users
 export const searchUsers = (query) =>
   axios.post(
     `http://192.168.1.16:5000/searchUser`,
@@ -194,6 +194,58 @@ export const createPlaylist = (newPlaylist) =>
   axios.post(
     `http://192.168.1.16:5000/createPlaylist`,
     { title: newPlaylist },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    }
+  );
+
+// Delete playlist
+export const deletePlaylist = (playlistId) =>
+  axios.delete(`http://192.168.1.16:5000/deletePlaylist/${playlistId}`, {
+    headers: {
+      Authorization: "Bearer " + process.env.TOKEN,
+    },
+  });
+
+// Add posts to playlist
+export const addPostToPlaylist = (postId, playlistId) =>
+  axios.patch(
+    `http://192.168.1.16:5000/addPostToPlaylist`,
+    {
+      id_post: postId,
+      id_playlist: playlistId,
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    }
+  );
+
+// View posts from playlist
+export const viewPostsFromPlaylist = (playlistId) =>
+  axios.patch(
+    `http://192.168.1.16:5000/viewPostFromPlaylist`,
+    {
+      id_playlist: playlistId,
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    }
+  );
+
+// Delete posts from playlist
+export const removePostFromPlaylist = (postId, playlistId) =>
+  axios.patch(
+    `http://192.168.1.16:5000/removePostToPlaylist`,
+    {
+      id_post: postId,
+      id_playlist: playlistId,
+    },
     {
       headers: {
         Authorization: "Bearer " + process.env.TOKEN,

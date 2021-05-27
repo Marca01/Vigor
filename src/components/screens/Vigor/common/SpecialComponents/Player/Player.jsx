@@ -81,7 +81,7 @@ export default function Player({
   // // start();
 
   // //state to manage whether track player is initialized or not
-  // const [isTrackPlayerInit, setIsTrackPlayerInit] = useState(false);
+  // const [isTrackPlayerInit, setIsTrackPlayerInit] =e(false)(false);
 
   // //initialize the TrackPlayer when the App component is mounted
   // useEffect(() => {
@@ -97,7 +97,7 @@ export default function Player({
   //   TrackPlayer.play();
   // };
 
-  // const [sound, setSound] = useState();
+  // const [sound, setSound] =e(false)();
 
   // async function playSound(aud) {
   //   console.log("Loading Sound");
@@ -120,8 +120,8 @@ export default function Player({
   //     : undefined;
   // }, [sound]);
 
-  // const [isAlreadyPlay, setIsAlreadyPlay] = useState(false);
-  // const [duration, setDuration] = useState("00:00:00");
+  // const [isAlreadyPlay, setIsAlreadyPlay] =e(false)(false);
+  // const [duration, setDuration] =e(false)("00:00:00");
   // const [timeElapsed, setTimeElapsed] = useState("00:00:00");
   // const [percent, setPercent] = useState(0);
   // const [current_track, setCurrentTrack] = useState(0);
@@ -231,7 +231,7 @@ export default function Player({
   //     await handleStart(audStart);
   //   });
   //   console.log(current_index);
-  // };
+  // }
 
   return (
     <Modal

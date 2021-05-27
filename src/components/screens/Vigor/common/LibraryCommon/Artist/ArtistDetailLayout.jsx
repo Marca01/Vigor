@@ -48,10 +48,6 @@ export function ArtistDetailLayoutArtist({
   useEffect(() => {
     user().then((userJson) => {
       setUserData(JSON.parse(userJson));
-      console.log(
-        "data " +
-          userData.following.some((getFollow) => getFollow._id === userId)
-      );
       //   console.log("data " + userData);
     });
   }, []);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -11,21 +11,23 @@ import {
 import { Audio } from "expo-av";
 import Constants from "expo-constants";
 import PlayerProfile from "./PlayerProfile";
-import { globalStyles } from "../../../../../../styles/global";
 import COLOR from "../../../../../../constants/color";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 // import PlayerModal from "./PlayerModal";
 import PropTypes from "prop-types";
 import SongList from "../../LibraryCommon/Song/SongList";
-import NewPlaylistAddSongModal from "../../LibraryCommon/Playlist/NewPlaylistAddSongModal";
+import { SimpleLineIcons } from "@expo/vector-icons";
+import { globalStyles } from "../../../../../../styles/global";
 
-export default function SongsLibrary({
-  PLAY_LIST,
-  onOptionsPress,
-  songPId,
-  isModalPlaylistVisible,
-  toggleModal,
+export default function SongsPlaylist({
+  playlistId,
+  songName,
+  artistName,
+  onPress,
+  playlistData,
+  playlistIndex,
+  playlistLength,
 }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [playingSong, setPlayingSong] = useState({});
@@ -38,8 +40,6 @@ export default function SongsLibrary({
   const [songDuration, setSongDuration] = useState(0);
 
   const [isSongId, setIsSongId] = useState(null);
-
-  const [playlistAddSongId, setPlaylistAddSongId] = useState("");
 
   const padToTwo = (number) => (number <= 9 ? `0${number}` : number);
 
@@ -119,10 +119,10 @@ export default function SongsLibrary({
   };
 
   const changeSong = (index) => {
-    if (index < 0) index = PLAY_LIST.length - 1;
-    else if (index == PLAY_LIST.length) index = 0;
+    if (index < 0) index = playlistLength.length - 1;
+    else if (index == playlistLength.length) index = 0;
 
-    playSong(PLAY_LIST[index], index);
+    playSong(playlistLength[index], index);
   };
 
   const stopPlaySong = () => {
@@ -162,17 +162,43 @@ export default function SongsLibrary({
 
   return (
     <>
-      {PLAY_LIST.map(
-        (item, index) =>
-          item.selectedAudFile && (
-            <SongList
-              songData={item}
-              onPress={() => playSong(item, index)}
-              onOptionsPress={onOptionsPress}
-              songId={(songId) => setPlaylistAddSongId(songId)}
-            />
-          )
-      )}
+      <TouchableOpacity
+        style={globalStyles.playlistDetail__list}
+        key={playlistId}
+        onPress={() => playSong(playlistData, playlistIndex)}
+      >
+        <View style={globalStyles.playlistDetail__list_content}>
+          <Image
+            source={{
+              uri:
+                "https://i.pinimg.com/564x/92/d4/39/92d4397cfce1cc12813775b3da352bbe.jpg",
+            }}
+            style={globalStyles.playlistDetail__list_thumb}
+          />
+          <View style={globalStyles.playlistDetail__list_info}>
+            <Text
+              numberOfLines={1}
+              style={globalStyles.playlistDetail__list_info_title}
+            >
+              {songName}
+            </Text>
+            <View style={globalStyles.playlistDetail__list_info_user}>
+              <Text style={globalStyles.playlistDetail__list_info_creator}>
+                {artistName}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={globalStyles.playlistDetail__list_options}>
+          <SimpleLineIcons
+            name="options"
+            size={16}
+            color="black"
+            onPress={onPress}
+          />
+        </View>
+      </TouchableOpacity>
+
       <PlayerProfile
         isModalVisible={isModalVisible}
         closeModal={stopPlaySong}
@@ -189,57 +215,6 @@ export default function SongsLibrary({
         changeSong={changeSong}
         songDuration={songDuration}
       />
-      <NewPlaylistAddSongModal
-        isModalVisible={isModalPlaylistVisible}
-        closeModal={toggleModal}
-        postId={playlistAddSongId}
-      />
     </>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     paddingTop: Constants.statusBarHeight,
-//   },
-//   header: {
-//     padding: 15,
-//     marginBottom: 10,
-//   },
-//   headerTitle: {
-//     fontWeight: "bold",
-//     fontSize: 24,
-//     color: "#f39220",
-//   },
-//   listItem: {
-//     flexDirection: "row",
-//     margin: 15,
-//   },
-//   coverImage: {
-//     width: 60,
-//     height: 60,
-//     borderRadius: 6,
-//     marginRight: 15,
-//   },
-//   songName: {
-//     fontWeight: "bold",
-//     fontSize: 16,
-//     lineHeight: 24,
-//     color: "#686868",
-//   },
-//   songInfo: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     flex: 1,
-//     marginTop: 10,
-//   },
-//   singerName: {
-//     fontSize: 14,
-//     color: "#9a9a9a",
-//   },
-//   songDuration: {
-//     fontSize: 14,
-//     color: "#9a9a9a",
-//   },
-// });
