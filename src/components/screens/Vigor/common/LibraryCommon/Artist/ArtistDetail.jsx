@@ -322,6 +322,7 @@ export default function ArtistDetail({ navigation, route }) {
           (playlistId) => playlistId.creator._id === route.params?.item._id
         )}
         albumData={ARTIST_ALBUMS}
+        navigation={navigation}
       />
     );
   }

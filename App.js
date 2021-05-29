@@ -1,11 +1,9 @@
-import { NavigationContainer } from '@react-navigation/native'
-import React, { useEffect } from 'react'
-import HomeNavigation from './src/navigation/HomeNavigation'
-import { StatusBar } from 'expo-status-bar'
-import * as SplashScreen from 'expo-splash-screen'
+import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import HomeNavigation from "./src/navigation/HomeNavigation";
 
 export default function App() {
-
   // SplashScreen.preventAutoHideAsync()
 
   // useEffect(() => {
@@ -14,11 +12,18 @@ export default function App() {
   //   }, 5000)
   // }, [])
 
+  // const rootReducer = combineReducers({
+  //   auth: AuthReducer,
+  // });
+
+  // const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+
   return (
+    // <Provider store={store}>
     <NavigationContainer>
-      <StatusBar style='dark' />
+      <StatusBar style="dark" />
       <HomeNavigation />
     </NavigationContainer>
-  )
+    // </Provider>
+  );
 }
-

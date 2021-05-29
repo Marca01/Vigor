@@ -317,13 +317,11 @@ export default function ArtistFound({ navigation, route }) {
         videoData={
           route.params?.item._id === posts.user._id ? posts.posts : null
         }
-        playlistData={
-          route.params?.item._id ===
-          PLAYLISTS.map((playlistId) => playlistId.creator._id)[0]
-            ? PLAYLISTS
-            : null
-        }
+        playlistData={PLAYLISTS.filter(
+          (playlistId) => playlistId.creator._id === route.params?.item._id
+        )}
         albumData={ARTIST_ALBUMS}
+        navigation={navigation}
       />
     );
   }

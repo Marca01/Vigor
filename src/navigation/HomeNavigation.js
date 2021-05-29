@@ -23,6 +23,7 @@ import ArtistDetail from "../components/screens/Vigor/common/LibraryCommon/Artis
 import {
   ArtistDetailLayoutArtist,
   ArtistDetailLayoutContent,
+  ArtistDetailLayoutPlaylists,
 } from "../components/screens/Vigor/common/LibraryCommon/Artist/ArtistDetailLayout";
 import HomePosts from "../components/screens/Vigor/common/HomeCommon/HomePosts";
 import Album from "../components/screens/Vigor/common/LibraryCommon/Album/Album";
@@ -105,6 +106,13 @@ const home = ({ navigation }) => {
           headerTintColor: "black",
           headerTitle: "Likes",
           headerTitleStyle: { fontWeight: "700" },
+        }}
+      />
+      <HomeStack.Screen
+        name="PlaylistDetail"
+        component={PlaylistDetail}
+        options={{
+          headerShown: false,
         }}
       />
     </HomeStack.Navigator>
@@ -236,6 +244,13 @@ const artist = ({ navigation }) => {
           headerTintColor: "black",
           headerTitle: "Likes",
           headerTitleStyle: { fontWeight: "700" },
+        }}
+      />
+      <HomeStack.Screen
+        name="PlaylistDetail"
+        component={PlaylistDetail}
+        options={{
+          headerShown: false,
         }}
       />
     </HomeStack.Navigator>
@@ -530,7 +545,7 @@ export default function HomeNavigation({ navigation }) {
     getUserToken().then((token) => {
       setUserToken(token);
     });
-  }, []);
+  }, [userToken]);
   console.log("token out " + userToken);
 
   console.log("====================================");
@@ -561,25 +576,25 @@ export default function HomeNavigation({ navigation }) {
           gestureEnabled: false,
         }}
       /> */}
-      {!userToken ? (
-        <HomeStack.Screen
-          name="Login"
-          component={auth}
-          options={{
-            headerShown: false,
-            //   gestureEnabled: false,
-          }}
-        />
-      ) : (
-        <HomeStack.Screen
-          name="Home"
-          component={postNavigator}
-          options={{
-            headerShown: false,
-            //   gestureEnabled: false,
-          }}
-        />
-      )}
+      {/* {!userToken ? ( */}
+      <HomeStack.Screen
+        name="Home"
+        component={postNavigator}
+        options={{
+          headerShown: false,
+          //   gestureEnabled: false,
+        }}
+      />
+      {/* // ) : ( */}
+      <HomeStack.Screen
+        name="Login"
+        component={auth}
+        options={{
+          headerShown: false,
+          //   gestureEnabled: false,
+        }}
+      />
+      {/* )} */}
     </HomeStack.Navigator>
   );
 }

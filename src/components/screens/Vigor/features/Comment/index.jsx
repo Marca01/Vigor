@@ -41,7 +41,6 @@ export default function Comment({ navigation, route }) {
   useEffect(() => {
     user().then((userJson) => {
       setUserData(JSON.parse(userJson));
-      console.log(userData._id);
     });
   }, []);
 
@@ -173,6 +172,7 @@ export default function Comment({ navigation, route }) {
             rightOpenValue={-80}
             disableRightSwipe
             useNativeDriver={true}
+            keyExtractor={(item) => item._id}
           />
         </View>
         <View style={globalStyles.comment__input}>

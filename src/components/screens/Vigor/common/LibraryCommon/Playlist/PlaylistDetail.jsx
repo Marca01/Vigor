@@ -12,6 +12,7 @@ import {
 import Animated from "react-native-reanimated";
 import { deletePlaylist } from "../../../../../../api";
 import BottomSheet from "reanimated-bottom-sheet";
+import Toast from "react-native-toast-message";
 
 export default function PlaylistDetail({ navigation, route }) {
   const [SONGS, setSONGS] = useState([]);
@@ -108,8 +109,16 @@ export default function PlaylistDetail({ navigation, route }) {
     deletePlaylist(playlistId)
       .then((res) => {
         console.log(res.data);
+        Toast.show({
+          type: "success",
+          position: "top",
+          text1: "Playlist deleted",
+          visibilityTime: 5000,
+          autoHide: true,
+          topOffset: 30,
+        });
       })
-      .then((err) => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -119,8 +128,16 @@ export default function PlaylistDetail({ navigation, route }) {
     removePostFromPlaylist(postId, playlistId)
       .then((res) => {
         console.log(res.data);
+        Toast.show({
+          type: "success",
+          position: "top",
+          text1: "Song removed",
+          visibilityTime: 5000,
+          autoHide: true,
+          topOffset: 30,
+        });
       })
-      .then((err) => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -185,6 +202,7 @@ export default function PlaylistDetail({ navigation, route }) {
           />
         </View>
       </Animated.View>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </View>
   );
 }

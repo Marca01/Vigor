@@ -96,8 +96,9 @@ export default function Home({ navigation }) {
       <TouchableOpacity style={globalStyles.bottomSheetContent__btn}>
         <Text style={globalStyles.bottomSheetContent__label}>Save</Text>
       </TouchableOpacity>
-      {userData &&
-      userData.following.some((getFollow) => getFollow._id === followUserId) ? (
+      {userData?.following?.some(
+        (getFollow) => getFollow._id === followUserId
+      ) ? (
         <TouchableOpacity
           style={globalStyles.bottomSheetContent__btn}
           onPress={() => {

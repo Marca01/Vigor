@@ -213,6 +213,7 @@ export function ArtistDetailLayoutContent({
   videoData,
   playlistData,
   albumData,
+  navigation,
 }) {
   return (
     <View style={globalStyles.artistDetail__body}>
@@ -227,6 +228,7 @@ export function ArtistDetailLayoutContent({
             <ArtistDetailLayoutPlaylists
               label="Playlists"
               playlistData={playlistData}
+              navigation={navigation}
             />
           ) : (
             item.id === "3" && (
@@ -364,7 +366,11 @@ export function ArtistDetailLayoutVideos({ label, videoData }) {
     </>
   );
 }
-export function ArtistDetailLayoutPlaylists({ label, playlistData }) {
+export function ArtistDetailLayoutPlaylists({
+  label,
+  playlistData,
+  navigation,
+}) {
   return (
     <>
       <Text style={globalStyles.artistDetail__playlists_title}>{label}</Text>
@@ -374,7 +380,12 @@ export function ArtistDetailLayoutPlaylists({ label, playlistData }) {
           renderItem={({ item, index }) =>
             index >= 4 ? (
               <>
-                <TouchableOpacity style={globalStyles.artistDetail__list_Pll}>
+                <TouchableOpacity
+                  style={globalStyles.artistDetail__list_Pll}
+                  onPress={() =>
+                    navigation.navigate("PlaylistDetail", { item: item })
+                  }
+                >
                   <View style={globalStyles.artistDetail__list_playlist}>
                     {playlistData.length ? (
                       <>
@@ -439,7 +450,12 @@ export function ArtistDetailLayoutPlaylists({ label, playlistData }) {
                 </TouchableOpacity>
               </>
             ) : (
-              <TouchableOpacity style={globalStyles.artistDetail__list_Pll}>
+              <TouchableOpacity
+                style={globalStyles.artistDetail__list_Pll}
+                onPress={() =>
+                  navigation.navigate("PlaylistDetail", { item: item })
+                }
+              >
                 <View style={globalStyles.artistDetail__list_playlist}>
                   {playlistData.length ? (
                     <>
@@ -487,7 +503,7 @@ export function ArtistDetailLayoutPlaylists({ label, playlistData }) {
               </TouchableOpacity>
             )
           }
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           horizontal
           showsHorizontalScrollIndicator={false}
         />

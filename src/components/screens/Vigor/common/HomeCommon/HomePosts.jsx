@@ -233,14 +233,14 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
                     <AntDesign
                       name="heart"
                       size={24}
-                      color="red"
+                      color={COLOR.main}
                       onPress={() => disLikePost(item._id)}
                     />
                   ) : (
                     <AntDesign
                       name="hearto"
                       size={24}
-                      color="red"
+                      color={COLOR.main}
                       onPress={() => likePost(item._id)}
                     />
                   )}

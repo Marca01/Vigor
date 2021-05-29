@@ -25,6 +25,7 @@ import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import PlaylistList from "../Playlist/PlaylistList";
 import NewPlaylistAddSongModal from "../Playlist/NewPlaylistAddSongModal";
+import Toast from "react-native-toast-message";
 
 export default function Song({ navigation }) {
   const SONG_LAYOUT = [{ id: "0" }, { id: "1" }];
@@ -35,6 +36,8 @@ export default function Song({ navigation }) {
   const [userData, setUserData] = useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const includesAll = (arr, values) => values.every((v) => arr.includes(v));
 
   useEffect(() => {
     getMyPosts()
@@ -115,47 +118,66 @@ export default function Song({ navigation }) {
   );
 
   // Playlist to add
-  const renderPlaylistOptionsContent = () => (
-    <View style={globalStyles.bottomSheetContent}>
-      <TouchableOpacity
-        style={globalStyles.bottomSheetContent__newPlaylistBtn}
-        onPress={toggleModal}
-      >
-        <Text style={globalStyles.bottomSheetContent__newPlaylistBtn_label}>
-          NEW PLAYLIST
-        </Text>
-      </TouchableOpacity>
-      <View style={globalStyles.bottomSheetContent__playlists}>
-        {/* {SONGS.filter((songPost) => songPost.selectedAudFile).map(
+  const renderPlaylistOptionsContent = () =>
+    SONGS.filter((songPost) => songPost.selectedAudFile).map((postId) => (
+      <View style={globalStyles.bottomSheetContent}>
+        <TouchableOpacity
+          style={globalStyles.bottomSheetContent__newPlaylistBtn}
+          onPress={toggleModal}
+        >
+          <Text style={globalStyles.bottomSheetContent__newPlaylistBtn_label}>
+            NEW PLAYLIST
+          </Text>
+        </TouchableOpacity>
+        <View style={globalStyles.bottomSheetContent__playlists}>
+          {/* {SONGS.filter((songPost) => songPost.selectedAudFile).map(
           (postId) => postId._id
         )} */}
-        {PLAYLISTS.filter(
-          (playlistId) => playlistId.creator._id === userData._id
-        ).map((item) => (
-          <View style={globalStyles.playlists__playlist}>
-            <PlaylistList
-              url={{
-                uri:
-                  "https://i.pinimg.com/564x/d3/d3/62/d3d362c198d7483aaf3e5852be209526.jpg",
-              }}
-              playlistTitle={item.title}
-              playlistCreator={item.creator.username}
-              onPress={() => {
-                sheetPlaylistRef.current.snapTo(2);
-                addPostsToPlaylist(
-                  SONGS.filter((songPost) => songPost.selectedAudFile).map(
-                    (postId) => postId._id
-                  ),
-                  // songPostId,
-                  item._id
-                );
-              }}
-            />
-          </View>
-        ))}
+          {PLAYLISTS.filter(
+            (playlistId) => playlistId.creator._id === userData._id
+          ).map((item) => (
+            <View style={globalStyles.playlists__playlist}>
+              <PlaylistList
+                url={{
+                  uri:
+                    "https://i.pinimg.com/564x/d3/d3/62/d3d362c198d7483aaf3e5852be209526.jpg",
+                }}
+                playlistTitle={item.title}
+                playlistCreator={item.creator.username}
+                onPress={() => {
+                  // includesAll(
+                  //   JSON.stringify(item.songs),
+                  //   SONGS.filter((songPost) => songPost.selectedAudFile).map(
+                  //     (postId) => postId._id
+                  //   )
+                  // )
+                  item.songs.includes(postId._id)
+                    ? // )
+                      (sheetPlaylistRef.current.snapTo(1),
+                      Toast.show({
+                        type: "error",
+                        position: "top",
+                        text1: "Can't add the same song!",
+                        visibilityTime: 5000,
+                        autoHide: true,
+                        topOffset: 30,
+                      }))
+                    : (sheetPlaylistRef.current.snapTo(2),
+                      addPostsToPlaylist(
+                        // SONGS.filter(
+                        //   (songPost) => songPost.selectedAudFile
+                        // ).map((postId) => postId._id),
+                        // songPostId,
+                        postId._id,
+                        item._id
+                      ));
+                }}
+              />
+            </View>
+          ))}
+        </View>
       </View>
-    </View>
-  );
+    ));
 
   const renderPlaylistOptionsHeader = () => (
     <View style={globalStyles.bottomSheetHeader}>
@@ -181,6 +203,14 @@ export default function Song({ navigation }) {
     addPostToPlaylist(postId, playlistId)
       .then((res) => {
         console.log(res.data);
+        Toast.show({
+          type: "success",
+          position: "top",
+          text1: "Song added",
+          visibilityTime: 5000,
+          autoHide: true,
+          topOffset: 30,
+        });
       })
       .catch((err) => console.log(err));
     sheetPlaylistRef.current.snapTo(0);
@@ -258,6 +288,7 @@ export default function Song({ navigation }) {
           />
         </View>
       </Animated.View>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </View>
   );
 }

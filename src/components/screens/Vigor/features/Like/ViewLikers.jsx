@@ -18,7 +18,6 @@ export default function ViewLikers({ navigation, route }) {
   useEffect(() => {
     user().then((userJson) => {
       setUserData(JSON.parse(userJson));
-      console.log(userData._id);
     });
   }, []);
 

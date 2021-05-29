@@ -4,7 +4,6 @@ import { globalStyles } from "../../../../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import { login } from "../../../../../api";
 import * as SecureStore from "expo-secure-store";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }) {
   const [name, setName] = useState("");
@@ -28,7 +27,10 @@ export default function Login({ navigation }) {
     setPassword(text);
   };
 
-  const signin = (event) => {
+  // dispatch
+  // const dispatch = useDispatch();
+
+  const signin = async () => {
     const oldUser = {
       email,
       password,
@@ -37,17 +39,21 @@ export default function Login({ navigation }) {
     login(oldUser)
       .then((res) => {
         console.log(res.data);
-        // AsyncStorage.setItem("@jwt", res.data.token);
-        // AsyncStorage.setItem("@user", JSON.stringify(res.data.user));
         saveJwt("jwt", res.data.token);
         saveUserData("user", JSON.stringify(res.data.user));
-        // navigation.navigate("Home");
+        console.log(res.data.token);
+        navigation.navigate("Home");
       })
       .catch((err) => console.log(err));
 
     // setUsername('');
     setEmail("");
     setPassword("");
+    // try {
+    //   await dispatch(authActions.signin(email, password));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (

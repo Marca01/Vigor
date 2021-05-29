@@ -165,12 +165,21 @@ export default function SongsLibrary({
       {PLAY_LIST.map(
         (item, index) =>
           item.selectedAudFile && (
-            <SongList
-              songData={item}
-              onPress={() => playSong(item, index)}
-              onOptionsPress={onOptionsPress}
-              songId={(songId) => setPlaylistAddSongId(songId)}
-            />
+            <>
+              <SongList
+                songData={item}
+                onPress={() => playSong(item, index)}
+                onOptionsPress={onOptionsPress}
+                isModalPlaylistVisible={isModalPlaylistVisible}
+                toggleModal={toggleModal}
+                // songId={(songId) => setPlaylistAddSongId(songId)}
+              />
+              {/* <NewPlaylistAddSongModal
+                isModalVisible={isModalPlaylistVisible}
+                closeModal={toggleModal}
+                postId={item._id}
+              /> */}
+            </>
           )
       )}
       <PlayerProfile
@@ -188,11 +197,6 @@ export default function SongsLibrary({
         loop={loop}
         changeSong={changeSong}
         songDuration={songDuration}
-      />
-      <NewPlaylistAddSongModal
-        isModalVisible={isModalPlaylistVisible}
-        closeModal={toggleModal}
-        postId={playlistAddSongId}
       />
     </>
   );

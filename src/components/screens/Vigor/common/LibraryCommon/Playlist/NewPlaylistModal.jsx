@@ -12,6 +12,7 @@ import { globalStyles } from "../../../../../../styles/global";
 import { AntDesign } from "@expo/vector-icons";
 import COLOR from "../../../../../../constants/color";
 import { createPlaylist } from "../../../../../../api";
+import Toast from "react-native-toast-message";
 
 export default function NewPlaylistAddSongModal({
   isModalVisible,
@@ -31,6 +32,14 @@ export default function NewPlaylistAddSongModal({
       .then((res) => {
         console.log(res.data);
         setPlaylistName("");
+        Toast.show({
+          type: "success",
+          position: "top",
+          text1: "Playlist created",
+          visibilityTime: 5000,
+          autoHide: true,
+          topOffset: 30,
+        });
       })
       .catch((err) => console.log(err));
   };
@@ -86,6 +95,7 @@ export default function NewPlaylistAddSongModal({
           </View>
         </View>
       </TouchableWithoutFeedback>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </Modal>
   );
 }

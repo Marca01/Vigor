@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,14 @@ import Modal from "react-native-modal";
 import { globalStyles } from "../../../../../../styles/global";
 import { AntDesign } from "@expo/vector-icons";
 import COLOR from "../../../../../../constants/color";
-import { addPostToPlaylist, createPlaylist } from "../../../../../../api";
+import {
+  addPostToPlaylist,
+  createPlaylist,
+  getMyPosts,
+  getPlaylist,
+} from "../../../../../../api";
+import Toast from "react-native-toast-message";
+import * as SecureStore from "expo-secure-store";
 
 export default function NewPlaylistAddSongModal({
   isModalVisible,
@@ -33,6 +40,14 @@ export default function NewPlaylistAddSongModal({
         addPostToPlaylist(postId, res.data._id)
           .then((res) => {
             console.log("song added" + res.data);
+            Toast.show({
+              type: "success",
+              position: "top",
+              text1: "Saved",
+              visibilityTime: 5000,
+              autoHide: true,
+              topOffset: 30,
+            });
           })
           .catch((err) => console.log(err));
         console.log(res.data);
@@ -91,7 +106,6 @@ export default function NewPlaylistAddSongModal({
             ) : (
               <TouchableOpacity
                 style={globalStyles.createPlaylist__body_createBtn_disabled}
-                onPress={() => createNewPlaylistAddSong(playlistName)}
                 disabled
               >
                 <Text style={globalStyles.createPlaylist__body_createBtn_label}>
@@ -102,6 +116,7 @@ export default function NewPlaylistAddSongModal({
           </View>
         </View>
       </TouchableWithoutFeedback>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
     </Modal>
   );
 }
