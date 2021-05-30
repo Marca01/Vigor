@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-const baseUrl = "http://192.168.1.16:5000/";
+const baseUrl = "http://192.168.1.13:5000/";
 // Cloudinary
 const imgUrl = "https://api.cloudinary.com/v1_1/marca/image/upload";
 const vidUrl = "https://api.cloudinary.com/v1_1/marca/video/upload";
@@ -44,7 +44,7 @@ export const getPosts = () =>
 
 // Get my posts
 export const getMyPosts = () =>
-  axios.get(`http://192.168.1.16:5000/profile/myPosts`, {
+  axios.get(`http://192.168.1.13:5000/profile/myPosts`, {
     headers: {
       Authorization: "Bearer " + process.env.TOKEN,
     },
@@ -52,7 +52,7 @@ export const getMyPosts = () =>
 
 // Get other user posts
 export const getUserPosts = (userId) =>
-  axios.get(`http://192.168.1.16:5000/profile/${userId}/posts/`, {
+  axios.get(`http://192.168.1.13:5000/profile/${userId}/posts/`, {
     headers: {
       Authorization: "Bearer " + process.env.TOKEN,
     },
@@ -60,7 +60,7 @@ export const getUserPosts = (userId) =>
 
 // Get follow posts
 export const getFollowPosts = () =>
-  axios.get(`http://192.168.1.16:5000/followingUser`, {
+  axios.get(`http://192.168.1.13:5000/followingUser`, {
     headers: {
       Authorization: "Bearer " + process.env.TOKEN,
     },
@@ -77,7 +77,7 @@ export const createPost = (newPost) =>
 // Like posts
 export const likePosts = (postId) =>
   axios.patch(
-    `http://192.168.1.16:5000/like`,
+    `http://192.168.1.13:5000/like`,
     { postId: postId },
     {
       headers: {
@@ -92,7 +92,7 @@ export const likePosts = (postId) =>
 // Dislike posts
 export const disLikePosts = (postId) =>
   axios.patch(
-    `http://192.168.1.16:5000/unlike`,
+    `http://192.168.1.13:5000/unlike`,
     { postId: postId },
     {
       headers: {
@@ -106,7 +106,7 @@ export const disLikePosts = (postId) =>
 
 // Delete posts
 export const deletePosts = (postId) =>
-  axios.delete(`http://192.168.1.16:5000/${postId}`, {
+  axios.delete(`http://192.168.1.13:5000/${postId}`, {
     headers: {
       Authorization: "Bearer " + process.env.TOKEN,
     },
@@ -115,7 +115,7 @@ export const deletePosts = (postId) =>
 // Follow other users
 export const followOtherUsers = (userId) =>
   axios.put(
-    `http://192.168.1.16:5000/follow`,
+    `http://192.168.1.13:5000/follow`,
     { followId: userId },
     {
       headers: {
@@ -130,7 +130,7 @@ export const followOtherUsers = (userId) =>
 // UnFollow other users
 export const unFollowOtherUsers = (userId) =>
   axios.put(
-    `http://192.168.1.16:5000/unfollow`,
+    `http://192.168.1.13:5000/unfollow`,
     { unFollowId: userId },
     {
       headers: {
@@ -145,7 +145,7 @@ export const unFollowOtherUsers = (userId) =>
 // Search other users
 export const searchUsers = (query) =>
   axios.post(
-    `http://192.168.1.16:5000/searchUser`,
+    `http://192.168.1.13:5000/searchUser`,
     { query: query },
     {
       body: JSON.stringify({
@@ -173,7 +173,7 @@ export const comment = (text, postId) =>
 // Delete comment
 export const deleteComments = (postId, commentId) =>
   axios.delete(
-    `http://192.168.1.16:5000/deleteComment/${postId}/${commentId}`,
+    `http://192.168.1.13:5000/deleteComment/${postId}/${commentId}`,
     {
       headers: {
         Authorization: "Bearer " + process.env.TOKEN,
@@ -183,7 +183,7 @@ export const deleteComments = (postId, commentId) =>
 
 // Get playlist
 export const getPlaylist = () =>
-  axios.get(`http://192.168.1.16:5000/getPlaylist`, {
+  axios.get(`http://192.168.1.13:5000/getPlaylist`, {
     headers: {
       Authorization: "Bearer " + process.env.TOKEN,
     },
@@ -192,7 +192,7 @@ export const getPlaylist = () =>
 // Create playlist
 export const createPlaylist = (newPlaylist) =>
   axios.post(
-    `http://192.168.1.16:5000/createPlaylist`,
+    `http://192.168.1.13:5000/createPlaylist`,
     { title: newPlaylist },
     {
       headers: {
@@ -203,7 +203,7 @@ export const createPlaylist = (newPlaylist) =>
 
 // Delete playlist
 export const deletePlaylist = (playlistId) =>
-  axios.delete(`http://192.168.1.16:5000/deletePlaylist/${playlistId}`, {
+  axios.delete(`http://192.168.1.13:5000/deletePlaylist/${playlistId}`, {
     headers: {
       Authorization: "Bearer " + process.env.TOKEN,
     },
@@ -212,7 +212,7 @@ export const deletePlaylist = (playlistId) =>
 // Add posts to playlist
 export const addPostToPlaylist = (postId, playlistId) =>
   axios.patch(
-    `http://192.168.1.16:5000/addPostToPlaylist`,
+    `http://192.168.1.13:5000/addPostToPlaylist`,
     {
       id_post: postId,
       id_playlist: playlistId,
@@ -227,7 +227,7 @@ export const addPostToPlaylist = (postId, playlistId) =>
 // View posts from playlist
 export const viewPostsFromPlaylist = (playlistId) =>
   axios.patch(
-    `http://192.168.1.16:5000/viewPostFromPlaylist`,
+    `http://192.168.1.13:5000/viewPostFromPlaylist`,
     {
       id_playlist: playlistId,
     },
@@ -241,7 +241,7 @@ export const viewPostsFromPlaylist = (playlistId) =>
 // Delete posts from playlist
 export const removePostFromPlaylist = (postId, playlistId) =>
   axios.patch(
-    `http://192.168.1.16:5000/removePostToPlaylist`,
+    `http://192.168.1.13:5000/removePostToPlaylist`,
     {
       id_post: postId,
       id_playlist: playlistId,
@@ -256,7 +256,7 @@ export const removePostFromPlaylist = (postId, playlistId) =>
 // Update avatar
 export const updateAvatar = (avatar) =>
   axios.put(
-    `http://192.168.1.16:5000/updateAvatar`,
+    `http://192.168.1.13:5000/updateAvatar`,
     { avatar: avatar },
     {
       headers: {
@@ -271,7 +271,7 @@ export const updateAvatar = (avatar) =>
 // Update user info
 export const updateInfo = (email, name, username) =>
   axios.put(
-    `http://192.168.1.16:5000/updateInfo`,
+    `http://192.168.1.13:5000/updateInfo`,
     {
       email: email,
       name: name,
@@ -301,6 +301,6 @@ export const createSoundPost = (newSoundPost) =>
   axios.post(audUrl, newSoundPost);
 // Auth
 export const signUp = (newUser) =>
-  axios.post(`http://192.168.1.16:5000/register`, newUser);
+  axios.post(`http://192.168.1.13:5000/register`, newUser);
 export const login = (oldUser) =>
-  axios.post(`http://192.168.1.16:5000/login`, oldUser);
+  axios.post(`http://192.168.1.13:5000/login`, oldUser);

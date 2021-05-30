@@ -44,10 +44,6 @@ export default function Comment({ navigation, route }) {
     });
   }, []);
 
-  //
-  const rowActionAnimatedValue = new Animated.Value(75);
-  const rowHeightAnimatedValue = new Animated.Value(80);
-
   // ======================================================================
   // FEATURES
 

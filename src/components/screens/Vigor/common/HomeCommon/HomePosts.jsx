@@ -145,6 +145,7 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
                         }}
                       />
                     )}
+                    {console.log(item._id)}
                   </View>
                   <View style={globalStyles.post__contentTitle}>
                     <View style={globalStyles.post__contentTitleDiv}>
@@ -165,6 +166,7 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
                       color="black"
                       // onPress={() => getPostId(item._id)}
                       onPress={onPress}
+                      // onPress={() => console.log(`fk: ${item.creator._id}`)}
                     />
                   </View>
                 </View>

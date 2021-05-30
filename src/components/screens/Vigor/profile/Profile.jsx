@@ -38,6 +38,7 @@ export default function Profile({ navigation }) {
       .then((res) => {
         setPosts(res.data);
         // console.log(posts.map((postId) => postId._id).map((id) => id));
+        console.log(deletePostId);
       })
       .catch((error) => console.log(error));
   }, []);

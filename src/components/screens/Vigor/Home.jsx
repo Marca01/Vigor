@@ -27,6 +27,15 @@ import Player from "./common/SpecialComponents/Player/Player";
 export default function Home({ navigation }) {
   const ORDER = [{ id: "0" }, { id: "1" }];
 
+  const [posts, setPosts] = useState([]);
+
+  //
+  useEffect(() => {
+    getFollowPosts()
+      .then((res) => setPosts(res.data))
+      .catch((error) => console.log(error));
+  }, []);
+
   const [refreshing, setRefreshing] = useState(false);
 
   const [followUserId, setFollowUserId] = useState(null);
@@ -53,18 +62,9 @@ export default function Home({ navigation }) {
     });
   }, []);
 
-  // Get user id
-  // const getUserId = (id) => {
-  //   setUserId(id);
-  // };
-  // useEffect(() => {
-  //   userId && setFollowUserId(userId);
-  // }, [userId]);
-
   const getFollowUserIdCallback = useCallback((userFollowId) => {
     setFollowUserId(userFollowId);
   }, []);
-
   // =====================================================================
   // FEATURES
 
@@ -139,23 +139,6 @@ export default function Home({ navigation }) {
     inputRange: [0, 1],
     outputRange: [0.5, 1],
   });
-
-  // const [POSTS, setPOSTS] = useState(JSON.stringify([]));
-  const [posts, setPosts] = useState([]);
-
-  //
-  useEffect(() => {
-    // setInterval(() => {
-    getFollowPosts()
-      // .then((res) => setPosts(JSON.stringify(res.data)))
-      .then((res) => {
-        setPosts(res.data);
-        console.log(posts);
-      })
-      .catch((error) => console.log(error));
-    // }, 2000);
-    // }, [JSON.stringify(posts)]);
-  }, []);
 
   // =====================================================================
   // Refresh
