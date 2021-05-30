@@ -56,27 +56,6 @@ export default function NewPost({ navigation }) {
   // ====================================================================
   // FEATURES
 
-  // Create new post with only title
-  const uploadNewPost = (event) => {
-    // setIsLoading(true);
-    console.log(isLoading);
-    const newPosts = {
-      title,
-    };
-
-    createPost(newPosts)
-      .then((res) => {
-        console.log(res.data);
-        setIsLoading(false);
-        navigation.navigate("Home");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    setTitle("");
-  };
-
   // Upload video only
   const uploadVideo = (event) => {
     // setIsLoading(true);
@@ -374,35 +353,6 @@ export default function NewPost({ navigation }) {
                 )}
               </TouchableOpacity>
             )
-          ) : title ? (
-            <TouchableOpacity
-              style={{
-                height: 45,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 20,
-                width: 300,
-                borderRadius: 30,
-                backgroundColor: "transparent",
-                backgroundColor: "#ff9f67",
-                shadowColor: "#808080",
-                shadowOffset: {
-                  width: 0,
-                  height: 9,
-                },
-                shadowOpacity: 0.5,
-                shadowRadius: 12.35,
-                elevation: 10,
-              }}
-              onPress={uploadNewPost}
-            >
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <Text style={{ color: "white" }}>Post</Text>
-              )}
-            </TouchableOpacity>
           ) : (
             <TouchableOpacity
               style={{
