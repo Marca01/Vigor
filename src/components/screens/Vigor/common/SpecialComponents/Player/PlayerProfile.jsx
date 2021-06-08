@@ -21,7 +21,6 @@ export default function Player({
   closeModal,
   playingSong,
   isPlaying,
-  isBuffering,
   currentSongIndex,
   currentPosition,
   setcurrentPosition,
@@ -32,8 +31,6 @@ export default function Player({
   changeSong,
   songDuration,
 }) {
-  const opacity = isBuffering ? 0.5 : 1;
-
   const padToTwo = (number) => (number <= 9 ? `0${number}` : number);
 
   const displayTime = (milliSeconds) => {
@@ -117,7 +114,6 @@ export default function Player({
                 onSlidingStart={() => setRewinding(true)}
                 onSlidingComplete={updatePosition}
                 tapToSeek={true}
-                disabled={isBuffering}
               />
               <View style={globalStyles.playerControl__track_time}>
                 <Text style={globalStyles.playerControl__track_timeElapsed}>
@@ -134,7 +130,6 @@ export default function Player({
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_prev}
                   onPress={() => changeSong(currentSongIndex - 1)}
-                  disabled={isBuffering}
                 >
                   <MaterialIcons
                     name="skip-previous"
@@ -145,7 +140,6 @@ export default function Player({
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_playPause}
                   onPress={pauseOrResumeSong}
-                  disabled={isBuffering}
                 >
                   <FontAwesome5
                     name={isPlaying ? "pause" : "play"}
@@ -156,7 +150,6 @@ export default function Player({
                 <TouchableOpacity
                   style={globalStyles.playerControl__control_next}
                   onPress={() => changeSong(currentSongIndex + 1)}
-                  disabled={isBuffering}
                 >
                   <MaterialIcons
                     name="skip-next"

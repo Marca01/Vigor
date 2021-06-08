@@ -206,6 +206,8 @@ export default function Profile({ navigation }) {
                   artistFollowers={userData.followers.length}
                   userId={userData._id}
                   navigation={navigation}
+                  followers={userData.followers}
+                  following={userData.following}
                 />
               ) : (
                 <ArtistDetailPosts />

@@ -29,7 +29,7 @@ export default function SongsLibrary({
 }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [playingSong, setPlayingSong] = useState({});
-  const [isBuffering, setBuffering] = useState(false);
+  // const [isBuffering, setBuffering] = useState(false);
   const [isPlaying, setPlaying] = useState(false);
   const [isRewinding, setRewinding] = useState(false);
   const [currentPosition, setcurrentPosition] = useState(0);
@@ -53,8 +53,6 @@ export default function SongsLibrary({
 
   const playSong = async (song, index) => {
     setModalVisible(true);
-    setBuffering(true);
-    setPlaying(false);
     setcurrentPosition(0);
     setCurrentSongIndex(index);
     setPlayingSong(song);
@@ -77,25 +75,19 @@ export default function SongsLibrary({
     }
   };
 
-  const onPlaybackStatusUpdate = ({
-    isLoaded,
-    isBuffering,
-    isPlaying,
-    error,
-  }) => {
+  const onPlaybackStatusUpdate = ({ isLoaded, isPlaying, error }) => {
     if (!isLoaded) {
       if (error) {
         alert(`Encountered a fatal error during playback: ${error}`);
       }
     } else {
-      setBuffering(isBuffering);
       setPlaying(isPlaying);
     }
   };
 
-  const updatePosition = async (position) => {
-    await playbackObject.setPositionAsync(position);
-    setcurrentPosition(position);
+  const updatePosition = async (a) => {
+    await playbackObject.setPositionAsync(a);
+    setcurrentPosition(a);
     setRewinding(false);
   };
 
@@ -131,10 +123,8 @@ export default function SongsLibrary({
     playbackObject.unloadAsync();
   };
 
-  // https://reactjs.org/docs/hooks-effect.html
   useEffect(() => {
-    // Run time slider
-    if (isPlaying && !isBuffering) {
+    if (isPlaying) {
       const interval = setInterval(async () => {
         const {
           positionMillis,
@@ -144,10 +134,8 @@ export default function SongsLibrary({
         // Set song duration
         setSongDuration(durationMillis);
 
-        // Don't update position when user rewinding
         if (!isRewinding) setcurrentPosition(positionMillis || 0);
 
-        // Stop sound if positionMillis equals durationMillis or less than 1 second
         if (positionMillis >= durationMillis - 900) {
           await playbackObject.setPositionAsync(durationMillis);
           setcurrentPosition(durationMillis);
@@ -155,10 +143,9 @@ export default function SongsLibrary({
           clearInterval(interval);
         }
       }, 1000);
-
       return () => clearInterval(interval);
     }
-  }, [isPlaying, isBuffering, isRewinding]);
+  }, [isPlaying, isRewinding]);
 
   return (
     <>
@@ -187,7 +174,7 @@ export default function SongsLibrary({
         closeModal={stopPlaySong}
         playingSong={playingSong}
         isPlaying={isPlaying}
-        isBuffering={isBuffering}
+        // isBuffering={isBuffering}
         currentSongIndex={currentSongIndex}
         currentPosition={currentPosition}
         setcurrentPosition={setcurrentPosition}

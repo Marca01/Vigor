@@ -42,6 +42,7 @@ import ArtistFound from "../components/screens/Vigor/common/LibraryCommon/Artist
 import Comment from "../components/screens/Vigor/features/Comment";
 import ProfileSetting from "../components/screens/Vigor/profile/ProfileSetting";
 import ViewLikers from "../components/screens/Vigor/features/Like/ViewLikers";
+import ArtistList from "../components/screens/Vigor/common/LibraryCommon/Artist/ArtistList";
 
 const HomeStack = createStackNavigator();
 const HomeTabs = createBottomTabNavigator();
@@ -82,6 +83,13 @@ const home = ({ navigation }) => {
       <HomeStack.Screen
         name="ArtistDetail"
         component={ArtistDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <HomeStack.Screen
+        name="ArtistList"
+        component={ArtistList}
         options={{
           headerShown: false,
         }}

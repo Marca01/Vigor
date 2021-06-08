@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Platform,
+  Vibration,
+} from "react-native";
 import { globalStyles } from "../../../../../../styles/global";
 import { AntDesign } from "@expo/vector-icons";
 import { Video } from "expo-av";
@@ -8,12 +16,15 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import {
   followOtherUsers,
   getUserPosts,
+  sendPushFollowNotification,
   unFollowOtherUsers,
 } from "../../../../../../api";
 import * as SecureStore from "expo-secure-store";
 import { Feather } from "@expo/vector-icons";
 import COLOR from "../../../../../../constants/color";
 import SongsProfile from "../../SpecialComponents/Player/SongsProfile";
+import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 
 export function ArtistDetailLayoutArtist({
   avatar,
@@ -23,6 +34,9 @@ export function ArtistDetailLayoutArtist({
   artistFollowers,
   userId,
   navigation,
+  followers,
+  following,
+  expoPushToken,
 }) {
   //   const [userPosts, setUserPosts] = useState(null);
   //   // Get all my posts from DB
@@ -34,6 +48,20 @@ export function ArtistDetailLayoutArtist({
   //       })
   //       .catch((error) => console.log(error));
   //   }, []);
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+
+  let _notificationSubscription;
+
+  // const [expoPushToken, setExpoPushToken] = useState("");
+  // const [notification, setNotification] = useState(false);
+  // const notificationListener = useRef();
+  // const responseListener = useRef();
 
   const [userData, setUserData] = useState();
   const user = async () => {
@@ -54,6 +82,34 @@ export function ArtistDetailLayoutArtist({
 
   //   ======================================================================
   // FEATURES
+
+  // useEffect(() => {
+  //   registerForPushNotificationsAsync().then((token) =>
+  //     setExpoPushToken(token)
+  //   );
+
+  //   // This listener is fired whenever a notification is received while the app is foregrounded
+  //   notificationListener.current = Notifications.addNotificationReceivedListener(
+  //     (notification) => {
+  //       setNotification(notification);
+  //     }
+  //   );
+
+  //   // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(
+  //     (response) => {
+  //       console.log(response);
+  //       // navigation.navigate("Notification");
+  //     }
+  //   );
+
+  //   return () => {
+  //     Notifications.removeNotificationSubscription(
+  //       notificationListener.current
+  //     );
+  //     Notifications.removeNotificationSubscription(responseListener.current);
+  //   };
+  // }, []);
   // follow other users
   const followOtherUser = (userId) => {
     followOtherUsers(userId)
@@ -61,6 +117,18 @@ export function ArtistDetailLayoutArtist({
         console.log(res.data.following.map((foll) => foll._id));
         console.log(userId);
         await SecureStore.setItemAsync("user", JSON.stringify(res.data));
+        await sendPushFollowNotification(
+          expoPushToken,
+          userData.username,
+          "started following you"
+        )
+          .then((res) => {
+            console.log(res.data);
+            // _notificationSubscription = Notifications.addListener(
+            //   Vibration.vibrate()
+            // );
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
   };
@@ -75,6 +143,41 @@ export function ArtistDetailLayoutArtist({
       })
       .catch((error) => console.log(error));
   };
+
+  // Register for push notifications async
+  // async function registerForPushNotificationsAsync() {
+  //   let token;
+  //   if (Constants.isDevice) {
+  //     const {
+  //       status: existingStatus,
+  //     } = await Notifications.getPermissionsAsync();
+  //     let finalStatus = existingStatus;
+  //     if (existingStatus !== "granted") {
+  //       const { status } = await Notifications.requestPermissionsAsync();
+  //       finalStatus = status;
+  //     }
+  //     if (finalStatus !== "granted") {
+  //       alert("Failed to get push token for push notification!");
+  //       return;
+  //     }
+  //     token = (await Notifications.getExpoPushTokenAsync()).data;
+  //     console.log(token);
+  //   } else {
+  //     alert("Must use physical device for Push Notifications");
+  //   }
+
+  //   if (Platform.OS === "android") {
+  //     Notifications.setNotificationChannelAsync("default", {
+  //       name: "default",
+  //       importance: Notifications.AndroidImportance.MAX,
+  //       vibrationPattern: [0, 250, 250, 250],
+  //       lightColor: "#FF231F7C",
+  //     });
+  //   }
+
+  //   return token;
+  // }
+
   return (
     <View style={globalStyles.artistDetail__artist}>
       <View style={globalStyles.artistDetail__intro}>
@@ -134,7 +237,12 @@ export function ArtistDetailLayoutArtist({
               Posts
             </Text>
           </View>
-          <View style={globalStyles.artistDetail__intro_stats_followers}>
+          <TouchableOpacity
+            style={globalStyles.artistDetail__intro_stats_followers}
+            onPress={() =>
+              navigation.push("ArtistList", { followers: followers })
+            }
+          >
             <Text
               style={globalStyles.artistDetail__intro_stats_followersNumber}
             >
@@ -143,8 +251,13 @@ export function ArtistDetailLayoutArtist({
             <Text style={globalStyles.artistDetail__intro_stats_followersLabel}>
               followers
             </Text>
-          </View>
-          <View style={globalStyles.artistDetail__intro_stats_following}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyles.artistDetail__intro_stats_following}
+            onPress={() =>
+              navigation.push("ArtistList", { following: following })
+            }
+          >
             <Text
               style={globalStyles.artistDetail__intro_stats_followingNumber}
             >
@@ -153,7 +266,7 @@ export function ArtistDetailLayoutArtist({
             <Text style={globalStyles.artistDetail__intro_stats_followingLabel}>
               following
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={globalStyles.artistDetail__btns}>
@@ -249,7 +362,7 @@ export function ArtistDetailLayoutSongs({ label, songData }) {
       <Text style={globalStyles.artistDetail__songs_title}>{label}</Text>
       <View style={globalStyles.artistDetail__songs}>
         <SongsProfile
-          PLAY_LIST={songData.filter((song) => song.selectedAudFile)}
+          PLAY_LIST={songData?.filter((song) => song.selectedAudFile)}
         />
       </View>
     </>

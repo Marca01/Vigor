@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
 import { globalStyles } from "../../../../../styles/global";
 import * as ImagePicker from "expo-image-picker";
 import { createImagePost, signUp } from "../../../../../api";
+import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 
 export default function Signup({ navigation }) {
   const [name, setName] = useState("");
@@ -13,7 +15,44 @@ export default function Signup({ navigation }) {
   const [image, setImage] = useState(null);
   const [profilePicture, setProfilePicture] = useState("");
 
-  //   const history = useHistory();
+  const [expoPushToken, setExpoPushToken] = useState("");
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+
+    // This listener is fired whenever a notification is received while the app is foregrounded
+    // notificationListener.current = Notifications.addNotificationReceivedListener(
+    //   (notification) => {
+    //     setNotification(notification);
+    //   }
+    // );
+
+    // // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
+    // responseListener.current = Notifications.addNotificationResponseReceivedListener(
+    //   (response) => {
+    //     console.log(response);
+    //     // navigation.navigate("Notification");
+    //   }
+    // );
+
+    // return () => {
+    //   Notifications.removeNotificationSubscription(
+    //     notificationListener.current
+    //   );
+    //   Notifications.removeNotificationSubscription(responseListener.current);
+    // };
+  }, []);
 
   const handleNameChange = (text) => {
     setName(text);
@@ -28,61 +67,13 @@ export default function Signup({ navigation }) {
     setPassword(text);
   };
 
-  // //   Choose avatar
-  // useEffect(() => {
-  //   (async () => {
-  //     if (Platform.OS !== "web") {
-  //       const {
-  //         status,
-  //       } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //       if (status !== "granted") {
-  //         alert("Sorry, we need camera roll permissions to make this work!");
-  //       }
-  //     }
-  //   })();
-  // }, []);
-
-  // const pickImage = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: false,
-  //     aspect: [4, 3],
-  //     quality: 1,
-  //   });
-
-  //   console.log(result);
-
-  //   if (!result.cancelled) {
-  //     setImage(result.uri);
-  //   }
-  // };
-
   const signup = (event) => {
-    // const uri = image;
-    // const uriParts = uri.split(".");
-    // const fileType = uriParts[uriParts.length - 1];
-    // // Avatar
-    // const data = new FormData();
-    // data.append("file", {
-    //   uri,
-    //   name: `avatar.${fileType}`,
-    //   type: `avatarT/${fileType}`,
-    // });
-    // data.append("upload_preset", "Vigor-image");
-    // data.append("cloud_name", "marca");
-
-    // createImagePost(data)
-    //   .then((res) => {
-    //     setProfilePicture(res.data.url);
-    //     setImage(null);
-    //   })
-    //   .catch((err) => console.log(err));
-
     const newUser = {
       name,
       username,
       email,
       password,
+      notificationToken: expoPushToken,
     };
 
     signUp(newUser)
@@ -97,6 +88,40 @@ export default function Signup({ navigation }) {
     setEmail("");
     setPassword("");
   };
+
+  // Register for push notifications async
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const {
+        status: existingStatus,
+      } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
+        return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+      console.log(token);
+      setExpoPushToken(token);
+    } else {
+      alert("Must use physical device for Push Notifications");
+    }
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: "#FF231F7C",
+      });
+    }
+  }
+
   return (
     <View style={globalStyles.container}>
       <Image

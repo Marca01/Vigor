@@ -332,9 +332,12 @@ export default function ArtistFound({ navigation, route }) {
         posts={posts.posts}
         navigation={navigation}
         onPress={() => sheetRef.current.snapTo(0)}
+        likeNotiId={posts.user.notificationToken}
       />
     ) : (
-      <Text>No posts available</Text>
+      <View style={{ alignItems: "center" }}>
+        <Text style={globalStyles.noPostsText}>No posts</Text>
+      </View>
     );
   }
 
@@ -398,6 +401,10 @@ export default function ArtistFound({ navigation, route }) {
                   artistListeners={posts.user.following.length}
                   artistFollowers={posts.user.followers.length}
                   userId={item._id}
+                  navigation={navigation}
+                  followers={posts.user.followers}
+                  following={posts.user.following}
+                  expoPushToken={posts.user.notificationToken}
                 />
                 {/* <ArtistDetailLayoutContent 
 								contentData={ARTIST_LAYOUT}

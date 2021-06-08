@@ -94,6 +94,12 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
   },
 
+  noPostsText: {
+    color: COLOR.gray,
+    fontSize: 40,
+    fontWeight: "bold",
+  },
+
   // =================================================================
   // Login.jsx
   image_1: {
@@ -763,6 +769,34 @@ export const globalStyles = StyleSheet.create({
   artists__list_info_followersNumber: {
     color: COLOR.gray,
     fontWeight: "500",
+  },
+  followersList: {
+    backgroundColor: COLOR.white,
+    paddingHorizontal: 20,
+    flex: 1,
+    paddingTop: 30,
+  },
+  followingList: {
+    backgroundColor: COLOR.white,
+    paddingHorizontal: 20,
+    flex: 1,
+    paddingTop: 30,
+  },
+  followersList__title: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  followersList__backIcon: {
+    marginRight: 8,
+  },
+  followingList__title: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  followingList__backIcon: {
+    marginRight: 8,
   },
 
   // =================================

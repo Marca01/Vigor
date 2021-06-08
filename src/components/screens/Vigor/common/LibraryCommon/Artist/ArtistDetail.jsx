@@ -47,7 +47,7 @@ export default function ArtistDetail({ navigation, route }) {
     getUserPosts(route.params?.item._id)
       .then((res) => {
         setPosts(res.data);
-        // console.log(posts);
+        console.log(posts);
         // setVIDEOS(res.data.posts.map((vid) => vid.selectedVidFile));
         setVIDEOS(res.data);
         // console.log(posts);
@@ -333,17 +333,11 @@ export default function ArtistDetail({ navigation, route }) {
         posts={posts.posts}
         navigation={navigation}
         onPress={() => sheetRef.current.snapTo(0)}
+        likeNotiId={posts.user.notificationToken}
       />
     ) : (
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "red",
-          flex: 1,
-        }}
-      >
-        <Text>No posts available</Text>
+      <View style={{ alignItems: "center" }}>
+        <Text style={globalStyles.noPostsText}>No posts</Text>
       </View>
     );
   }
@@ -407,6 +401,10 @@ export default function ArtistDetail({ navigation, route }) {
                   artistListeners={posts.user.following.length}
                   artistFollowers={posts.user.followers.length}
                   userId={item._id}
+                  navigation={navigation}
+                  followers={posts.user.followers}
+                  following={posts.user.following}
+                  expoPushToken={posts.user.notificationToken}
                 />
                 {/* <ArtistDetailLayoutContent 
 								contentData={ARTIST_LAYOUT}

@@ -15,14 +15,26 @@ import { Video } from "expo-av";
 import { Audio } from "expo-av";
 import ViewMoreText from "react-native-view-more-text";
 import COLOR from "../../../../../constants/color";
-import { likePosts, disLikePosts } from "../../../../../api";
+import {
+  likePosts,
+  disLikePosts,
+  sendPushFollowNotification,
+} from "../../../../../api";
 import * as SecureStore from "expo-secure-store";
 import { memo } from "react";
 import moment from "moment";
 import BottomTab from "../SpecialComponents/Player/BottomTab";
 import { FontAwesome5 } from "@expo/vector-icons";
+import * as Notifications from "expo-notifications";
 
-function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
+function HomePosts({
+  posts,
+  onPress,
+  getUserFollowId,
+  getPostId,
+  navigation,
+  likeNotiId,
+}) {
   const video = useRef(null);
 
   const [refreshing, setRefreshing] = useState(false);
@@ -77,13 +89,32 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
     );
   };
 
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
+
   // =================================================================
   // FEATURES
 
   // Like posts
-  const likePost = (postId) => {
+  const likePost = (postId, expoPushToken) => {
     likePosts(postId)
-      .then((res) => console.log(res.data))
+      .then(async (res) => {
+        console.log(res.data);
+        await sendPushFollowNotification(
+          expoPushToken,
+          userData.username,
+          "liked your post"
+        )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((error) => console.log(error));
+      })
       .catch((error) => console.log(error));
   };
 
@@ -105,15 +136,7 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
               alignItems: "center",
             }}
           >
-            <Text
-              style={{
-                color: COLOR.gray,
-                fontSize: 40,
-                fontWeight: "bold",
-              }}
-            >
-              No post
-            </Text>
+            <Text style={globalStyles.noPostsText}>No post</Text>
           </View>
         ) : (
           <FlatList
@@ -238,12 +261,21 @@ function HomePosts({ posts, onPress, getUserFollowId, getPostId, navigation }) {
                       color={COLOR.main}
                       onPress={() => disLikePost(item._id)}
                     />
+                  ) : likeNotiId ? (
+                    <AntDesign
+                      name="hearto"
+                      size={24}
+                      color={COLOR.main}
+                      onPress={() => likePost(item._id, likeNotiId)}
+                    />
                   ) : (
                     <AntDesign
                       name="hearto"
                       size={24}
                       color={COLOR.main}
-                      onPress={() => likePost(item._id)}
+                      onPress={() =>
+                        likePost(item._id, item.creator.notificationToken)
+                      }
                     />
                   )}
                 </View>

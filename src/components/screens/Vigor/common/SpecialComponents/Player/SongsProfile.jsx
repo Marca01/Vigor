@@ -150,7 +150,7 @@ export default function SongsProfile({ PLAY_LIST }) {
 
   return (
     <>
-      {PLAY_LIST.map(
+      {PLAY_LIST?.map(
         (item, index) =>
           item.selectedAudFile && (
             <TouchableOpacity

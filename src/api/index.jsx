@@ -7,6 +7,8 @@ const baseUrl = "http://192.168.1.13:5000/";
 const imgUrl = "https://api.cloudinary.com/v1_1/marca/image/upload";
 const vidUrl = "https://api.cloudinary.com/v1_1/marca/video/upload";
 const audUrl = "https://api.cloudinary.com/v1_1/marca/video/upload";
+// Expo notification
+const notiUrl = "https://exp.host/--/api/v2/push/send";
 
 // function Api() {
 //   // useEffect(() => {
@@ -286,6 +288,32 @@ export const updateInfo = (email, name, username) =>
         name,
         username,
       }),
+    }
+  );
+
+// ===========================================================================
+// Push notification
+export const sendPushFollowNotification = async (
+  expoPushToken,
+  username,
+  content
+) =>
+  await axios.post(
+    `https://exp.host/--/api/v2/push/send`,
+    {
+      to: expoPushToken,
+      sound: "default",
+      title: "Vigor",
+      body: `${username} ${content}`,
+      data: { data: "goes here" },
+    },
+    {
+      headers: {
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify({}),
     }
   );
 
